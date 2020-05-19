@@ -11,9 +11,10 @@
     "react-scripts": "3.4.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "webpack-dev-server --config webpack.dev.js --inline --open",
+    "clean": "rimraf dist/",
+    "build": "npm run clean && webpack --config webpack.prod.js --progress --profile --bail",
+    "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
