@@ -1,0 +1,101 @@
+.rbc-calendar {
+    height: 100% !important;
+    .rbc-toolbar {
+        button {
+            background: #f8f9fa;
+            border: none;
+            color: #626262;
+            text-transform: capitalize;
+            box-shadow: none !important;
+            border-radius: 3px !important;
+            margin: 0 3px !important;
+            padding: 6px 12px !important;
+            height: auto !important;
+            cursor: pointer;
+            &.rbc-active {
+                background: $theme-color;
+                color: $white;
+                &:hover {
+                    background: $theme-color;
+                    color: $white;
+                }
+            }
+        }
+        .rbc-toolbar-label {
+            font-size: 1.571rem;
+            line-height: 1.858rem;
+            font-weight:$font-medium;
+            color:$dark-gray;
+        }
+    }
+    .rbc-month-view{
+        height: 100vh;
+    }
+    .rbc-off-range-bg {
+        background:$white;
+    }
+    .rbc-today {
+        background: #fcf8e3;
+    }
+    .rbc-event {
+        background: $theme-color;
+    }
+}
+.fc-time-grid-event .fc-content{
+    overflow: visible;  
+}
+.fc-event, .fc-event-dot{
+    background-color: $theme-color;
+}
+.fc-button-primary{
+    background-color: $theme-color;
+    border-color: $theme-color;
+    &:hover, &:disabled{
+        background-color: $theme-color;
+        border-color: $theme-color;
+        opacity: 1;
+    }
+    &.fc-button-active{
+        background-color: $dark-gray !important;
+        border-color: $dark-gray !important;
+        box-shadow: none;
+        &:focus{
+            box-shadow: none;
+        }
+    }
+    &:focus{
+        box-shadow: none;
+    }
+}
+
+.fc-event{
+    padding: 10px;
+    border-color: $theme-color;
+    .fc-content{
+        color: $white;
+    }
+}
+.swal2-popup{
+    width: 50em;
+    height: 320px;
+    max-height: 100%;
+}
+.event-btn{
+    button{
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+        width: 50px;
+        height: 50px;
+        border-color: $theme-color;
+        line-height: 40px;
+        text-align: center;
+        border-radius: 50%;
+        background-color: $theme-color;
+        color: $white;
+        z-index: 1;
+        &:focus{
+            box-shadow: none;
+        }
+    }
+}

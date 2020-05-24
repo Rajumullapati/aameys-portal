@@ -1,0 +1,168 @@
+.pricing-card.pricing-card-style-1{
+	padding:10px 30px;
+	h5 {
+		color: $dark-gray;
+		font-size: 16px;
+		text-align: center;
+		text-transform: uppercase;
+	}
+	.price{
+		padding: 30px 0;
+		text-align: center;
+	}
+	.card-body{
+		padding-left: 0;
+		padding-right: 0;
+	}
+	.pricing-content {
+		
+		h2 {
+			font-size: 42px;
+			color: $theme-color;
+			display: inline-block;
+		}
+		p{
+			color: $theme-color;
+			display: inline-block;
+		}
+		ul {
+			padding-left: 20px;
+			list-style: none;
+			li {
+				line-height: 30px;
+				text-transform: capitalize;
+				letter-spacing: 0.5px;
+				i{
+					color: $theme-color;
+					margin-right: 5px;
+				}
+			}
+		}
+	}
+	.btn-wrap{
+		text-align: center;
+	}
+
+	.card-header{
+		padding: 15px 20px;
+		background-color: transparent;
+	    h5.card-title {
+			font-size: 16px;
+			border-bottom: none;
+	    	padding-bottom: 0;
+			text-align: center;
+			text-transform: uppercase;
+			margin-bottom: 0;
+		}
+	}
+}
+.pricing-card.pricing-card-style-2{
+	.card-header{
+		padding: 15px 20px;
+	    h5.card-title {
+			color: $white;
+			font-size: 16px;
+			border-bottom: none;
+	    	padding-bottom: 0;
+			text-align: center;
+			text-transform: uppercase;
+			margin-bottom: 0;
+		}
+	}
+	
+	.price{
+		padding: 30px 0 20px;
+		text-align: center;
+	}
+	.pricing-content {
+		
+		h2 {
+			font-size: 42px;
+			color: $theme-color;
+		}
+		p{
+			color: $theme-color;
+		}
+		ul {
+			padding-left: 0px;
+			list-style: none;
+			text-align: center;
+			li {
+				line-height: 30px;
+				text-transform: capitalize;
+				letter-spacing: 0.5px;
+				i{
+					display: none;
+					color: $theme-color;
+					margin-right: 5px;
+				}
+			}
+		}
+	}
+	.btn-wrap{
+		text-align: center;
+		padding: 10px 0 10px;
+	}
+}
+
+.pricing-card.pricing-card-style-3{
+	h5 {
+		color: $dark-gray;
+		font-size: 16px;
+		text-align: center;
+		text-transform: uppercase;
+		padding-top: 7px;
+	}
+	.price{
+		padding: 30px 0 20px;
+		text-align: center;
+	}
+	.pricing-content {
+		
+		h2 {
+			font-size: 42px;
+			color: $theme-color;
+			display: inline-block;
+		}
+		p{
+			color: $theme-color;
+			display: inline-block;
+		}
+		ul {
+			padding-left: 0px;
+			list-style: none;
+			text-align: center;
+			li {
+				line-height: 30px;
+				text-transform: capitalize;
+				letter-spacing: 0.5px;
+				i{
+					display: none;
+					color: $theme-color;
+					margin-right: 5px;
+				}
+			}
+		}
+	}
+	.btn-wrap{
+		text-align: center;
+		padding: 10px 0 10px;
+	}
+}
+.pricing-card.theme-bg{
+	h5,
+	.pricing-content h2,
+	.pricing-content p,
+	.pricing-content ul li {
+	    color: $white;
+	}
+	.button.gray,
+	.button.gray:hover {
+	    background:  $white;
+	    color: $dark-gray;;
+	    border-color:  $white;
+	}
+	hr, .card-title{
+		border-color: rgba( 255, 255, 255, 0.4);
+	}
+}

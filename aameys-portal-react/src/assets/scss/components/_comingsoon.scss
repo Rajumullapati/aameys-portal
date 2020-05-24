@@ -1,0 +1,131 @@
+.comingsoon {
+    overflow: inherit;
+    background-color: #fff;
+    position: relative;
+    min-height: 100vh;
+    .comingsoon-wrapper {
+        text-align: center;
+        position: relative;
+        .logo-wraaper{
+            img{
+                max-width: 300px;
+                margin-bottom: 70px;
+            }
+        }
+    }
+    .comingsoon-text {
+        margin-bottom: 40px;
+        h2 {
+            font-size: 38px;
+            line-height: 44px;
+            font-weight: 500;
+        }
+        h6 {
+            font-size: 16px;
+            line-height: 18px;
+            font-weight: 500;
+        }
+        .title{
+            font-size: 36px;
+            color: #ffffff;
+            text-transform: uppercase;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        span {
+            font-size: 20px;
+            line-height: 30px;
+        }
+    }
+    ul.counter{
+        margin-bottom: 70px;
+        margin-top: 40px;
+        li {
+            display: inline-block;
+            position: relative;
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 24px;
+            list-style-type: none;
+            padding: 0.5rem;
+            text-transform: capitalize;
+            text-align: center;
+            color: #fff;
+            padding: 30px;
+            width: 120px;
+            height: 120px;
+            margin: 0 25px;
+            &:before {
+                content: '';
+                width: 120px;
+                height: 120px;
+                border: 5px solid #eeeeee;
+                position: absolute;
+                border-radius: 10px;
+                left: 0;
+                top: 0;
+                transform: rotate(45deg);
+            }
+            p {
+                font-size: 3rem;
+                font-weight: bold;
+                color: #fff;
+                line-height: 3rem;
+                .comingsoon-wrapper .form-control{ 
+                    background: rgba(255, 255, 255, 0.12);
+                    color: #ffffff;
+                    border: none;
+                }
+            }
+        }
+    }
+
+}
+
+.comingsoon-wrapper {
+    .form-control {
+        padding: 15px 165px 15px 20px;
+        &::-webkit-input-placeholder {
+            color: #626262;
+        }
+        &::-moz-placeholder {
+            color: #626262;
+            opacity: 1;
+        }
+        &::-ms-input-placeholder {
+            color: #626262;
+        }
+        &::placeholder {
+            color: #626262;
+        }
+    }
+    .comingsoon-newsletter{
+        position: relative;
+    }
+    .comingsoon-newsletter-text{
+        font-size: 14px;
+        line-height: 20px;
+        margin-bottom: 15px;
+        color: #ffffff;
+        display: inline-block;
+    }
+    .form-btn{
+        position: absolute;
+        right: 0;
+        top: 0;
+        height: 100%;
+        .button{
+            padding: 11px 20px;
+            border-radius: 0 3px 3px 0;
+            display: flex;
+            display: -ms-flexbox;
+            align-items: center;
+            height: 100%;
+            &:hover {
+                background: #323232;
+                color: #ffffff;
+                border-color: #323232;
+            }
+        }
+    }
+}
