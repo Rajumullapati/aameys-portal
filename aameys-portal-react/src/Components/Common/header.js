@@ -83,9 +83,9 @@ class Header extends Component{
                         <Col sm={2} md={2} lg={2}>
                           <a href="#" >TEACHERS</a>
                         </Col>
-                        <Col sm={2} md={2} lg={2}>
+                        <Link to={{pathname:  `/student/10`}}><Col sm={2} md={2} lg={2}>
                           <a href="#" >STUDENTS</a>
-                        </Col>
+                        </Col></Link>
                         <Col sm={2} md={2} lg={2}>
                           <a href="#" >PARENTS</a>
                         </Col>
