@@ -69,7 +69,7 @@ export default class AdminTeacherInfo extends Component{
                     <Col lg={3} md={3} sm={3}>
                     <div style={{margin:"10px"}}>
                         <Button style={{marginBottom:"4px", width:"70%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Edit teacher info</Button>
-                        <Button style={{marginBottom:"4px", width:"70%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-envelope-o"></i>Assign classes</Button>
+                        <Link to={{pathname: `aassignclass`}}><Button style={{marginBottom:"4px", width:"70%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-envelope-o"></i>Assign classes</Button></Link>
                     </div>
                     </Col>
                 </Row>

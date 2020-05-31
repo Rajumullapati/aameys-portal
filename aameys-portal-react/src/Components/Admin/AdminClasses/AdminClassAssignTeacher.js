@@ -4,48 +4,54 @@ import { Link } from 'react-router-dom';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 
 
+
 const teachers = [{
+    "teacher": "Teacher 1",
     "class":"English",
     "Students":"3"
 },
 {
+    "teacher": "Teacher 7",
     "class":"Maths",
     "Students":"3"
 },
 {
+    "teacher": "Teacher 2",
     "class":"kacn",
     "Students":"3"
 },
 {
+    "teacher": "Teacher 5",
     "class":"as",
     "Students":"3"
 }
 ,
 {
+    "teacher": "Teacher 3",
     "class":"sda",
     "Students":"3"
 }]
 
-var selc = [];
-export default class AdminTeacherAssignClasses extends Component {
+
+export default class AdminClassAssignTeacher extends Component {
     constructor(props){
         super(props);
         this.onSelect = this.onSelect.bind(this);
         this.state = {
             teacher:[],
-            teacher_id:"",
-            teacher_name_first:"teacher 1",
-            selected: []
+            selected:[],
+            class:""
         }
     }
 
     componentDidMount(){
-        this.setState(
-            {
-                teacher: teachers
-            }
-        )
+        this.setState({
+            class:"English",
+            teacher: teachers,
+            selected: []
+        })
     }
+
 
     onSelect(row, isSelect, rowIndex, e){
         
@@ -61,6 +67,7 @@ export default class AdminTeacherAssignClasses extends Component {
         }
     }
 
+
     render(){
         const selectRowProp = {
             mode: 'checkbox',
@@ -70,15 +77,15 @@ export default class AdminTeacherAssignClasses extends Component {
         };
         return(
             <div>
-                 <div style={{backgroundColor:"orange",height:"550px", opacity:"0.65"}}> 
+                <div style={{backgroundColor:"orange",height:"550px", opacity:"0.65"}}> 
                  <Row className="page-title">
           
                     <Col style={{margin:"10px"}} sm={6} lg={4} >
                         <Breadcrumb className="float-left float-sm-left">
                         <BreadcrumbItem><a href="#">Administrator</a></BreadcrumbItem>
-                        <BreadcrumbItem><a href="#">Teachers</a></BreadcrumbItem>
-                        <BreadcrumbItem ><a href="#">{this.state.teacher_name_first}</a></BreadcrumbItem>
-                        <BreadcrumbItem actice>Assign class</BreadcrumbItem>
+                        <BreadcrumbItem><a href="#">Class</a></BreadcrumbItem>
+                        <BreadcrumbItem ><a href="#">{this.state.class}</a></BreadcrumbItem>
+                        <BreadcrumbItem actice>Assign Teacher</BreadcrumbItem>
                         </Breadcrumb>
                     </Col>
                 </Row>
@@ -98,9 +105,9 @@ export default class AdminTeacherAssignClasses extends Component {
                                                 <div className="user-detail">
                                                 
                                                     <h2 style={{fontSize:"18px", fontWeight:"bolder"}} className="name">Teacher Info</h2>
-                                                    <p>Name: </p>
-                                                    <p>School term: </p>
-                                                    <p>Classes: </p>
+                                                    <p>Class Name: </p>
+                                                    <p>Term: </p>
+                                                    <p>Teacher: </p>
                                                     <p>Students: </p>
                                                 </div>
                                             </Col>
@@ -112,11 +119,11 @@ export default class AdminTeacherAssignClasses extends Component {
                             </CardBody>
                             <Row>
                             <Col lg={4} md={4} sm={4}>
-                            <Button style={{marginBottom:"4px",marginLeft:"20px", width:"150%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Assign Teacher to class</Button>
+                            <Button style={{marginBottom:"4px",marginLeft:"20px", width:"150%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Assign Teachers to class</Button>
                             </Col>  
                             <Col lg={2} md={2} sm={2}></Col>
                             <Col lg={4} md={4} sm={4}>
-                            <Button style={{marginBottom:"4px",marginLeft:"", width:"150%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Remove teacher from class</Button>
+                            <Button style={{marginBottom:"4px",marginLeft:"", width:"150%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Remove teachers from class</Button>
                             </Col>
                             </Row>
                         </div>
@@ -135,10 +142,11 @@ export default class AdminTeacherAssignClasses extends Component {
                         <BootstrapTable
                                 data={this.state.teacher}
                                 pagination
-                                selectRow={selectRowProp}
+                                selectRow={selectRowProp}   
                                 tableStyle={{height:"100px"}}
                                 >
-                                <TableHeaderColumn width='100' dataField='class' isKey={true}>Class Name</TableHeaderColumn>
+                                <TableHeaderColumn width='100' dataField='teacher' isKey={true}>Teacher</TableHeaderColumn>
+                                <TableHeaderColumn width='100' dataField='class' >Class Name</TableHeaderColumn>
                                 <TableHeaderColumn width='100' dataField="Students">Students</TableHeaderColumn>
                         </BootstrapTable>
                         </CardBody>
@@ -149,5 +157,4 @@ export default class AdminTeacherAssignClasses extends Component {
             </div>
         );
     }
-
 }

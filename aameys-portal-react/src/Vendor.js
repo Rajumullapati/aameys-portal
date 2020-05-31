@@ -8,7 +8,7 @@ import '../node_modules/jquery/dist/jquery.js';
 import './assets/js/reactstrap.min.js';
 
 // //React Date Picker
-// import '!style-loader!css-loader!react-datepicker/dist/react-datepicker.css';
+import '!style-loader!css-loader!react-datepicker/dist/react-datepicker.css';
 
 //Font Awesome 
 import '!style-loader!css-loader!../node_modules/font-awesome/css/font-awesome.min.css';

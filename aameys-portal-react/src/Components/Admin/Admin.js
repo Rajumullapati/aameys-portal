@@ -66,26 +66,26 @@ export default class Admin extends Component {
                 <Row>
                 <Col sm={3} lg={3} md={3} style={{paddingRight:"0px"}}>
                     <CardBody style={{border:"groove", height:"200px" }} className="icon-box">
-                    <div style={{textAlign:"center"}}><Link to={{pathname:  `/student/grades/${this.state.student_id}`}}><i style={{ fontSize:"140px"}} className="fa fa-graduation-cap"></i>
-                        <p style={{textAlign:"center"}}>View my grades.</p></Link></div>
+                    <div style={{textAlign:"center"}}><Link to={{pathname:  `/admin/teacher/`}}><i style={{ fontSize:"140px"}} className="fa fa-graduation-cap"></i>
+                        <p style={{textAlign:"center"}}>Teachers</p></Link></div>
                     </CardBody>
                 </Col>
                 <Col sm={3} lg={3} md={3} style={{padding:"0px"}}>
                     <CardBody style={{border:"groove", height:"200px"}}>
-                    <div style={{textAlign:"center"}}><Link to={{pathname:  `/student/attendance/${this.state.student_id}`}}><i style={{fontSize:"140px"}} className="fa fa-id-card-o"></i>
-                         <p style={{textAlign:"center"}}>Attendance </p></Link></div>
+                    <div style={{textAlign:"center"}}><Link to={{pathname:  `/admin/class`}}><i style={{fontSize:"140px"}} className="fa fa-id-card-o"></i>
+                         <p style={{textAlign:"center"}}>Classes </p></Link></div>
                     </CardBody>
                 </Col>
                 <Col sm={3} lg={3} md={3} style={{padding:"0px"}}>
                     <CardBody style={{border:"groove", height:"200px"}}>
-                    <div style={{textAlign:"center"}}><Link to={{pathname:  `/student/attendance/${this.state.student_id}`}}><i style={{fontSize:"140px"}} className="fa fa-address-book"></i>
+                    <div style={{textAlign:"center"}}><Link to={{pathname:  `/admin/students/${this.state.student_id}`}}><i style={{fontSize:"140px"}} className="fa fa-address-book"></i>
                          <p style={{textAlign:"center"}}>Students </p></Link></div>
                     </CardBody>
                 </Col>
                 <Col sm={3} lg={3} md={3} style={{paddingLeft:"0px"}}>
                     <CardBody style={{border:"groove", height:"200px", flex:"1"}}>
-                    <div style={{ textAlign:"center"}}><Link to={{pathname:  `/student/schedule/${this.state.student_id}`}}><i style={{fontSize:"130px", marginBottom:"10px"}} className="fa fa-calendar-minus-o"></i>
-                         <p style={{textAlign:"center"}}>Class schedule </p></Link></div>
+                    <div style={{ textAlign:"center"}}><Link to={{pathname:  `/admin/schedule/${this.state.student_id}`}}><i style={{fontSize:"130px", marginBottom:"10px"}} className="fa fa-calendar-minus-o"></i>
+                         <p style={{textAlign:"center"}}>Schedule </p></Link></div>
                     </CardBody>
                 </Col>                  
                 </Row>

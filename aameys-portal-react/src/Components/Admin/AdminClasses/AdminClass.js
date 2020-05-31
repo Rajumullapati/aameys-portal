@@ -2,44 +2,40 @@ import React, { Component } from 'react';
 import { Row, Col, Card, CardBody, Button } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
-import './Datatables.css';
 
-const teachers =[ {
-"Teacher": "Teacher 1",
-"Email":"abc@gmail.com",
-"Classes":"2",
-"Students":"2",
-}];
 
-var columns = [];
-export default class AdminTeacher extends Component {
+const classdata = [
+    {
+        "class": "English",
+        "teacher": "Teacher 1",
+        "student": "3",
+
+    }
+]
+
+export default class AdminClass extends Component {
     constructor(props){
         super(props);
+        this.buttonFormatter = this.buttonFormatter.bind(this);
         this.state = {
-            teacher:[],
-            student_id:"10"
+            classes: []
         }
-    this.buttonFormatter = this.buttonFormatter.bind(this);
-    this.teacherFormatter = this.teacherFormatter.bind(this);
     }
 
-    
     componentDidMount(){
-        console.log(teachers)
-        columns = Object.keys(teachers[0])
-        columns.map((value, index) => (console.log(value)))
-        console.log(teachers)
-        this.setState({teacher: teachers});
+        this.setState({
+            classes: classdata
+        })
     }
 
-     buttonFormatter(cell, row){
+    classFormatter(cell,row){
+      return '<a href="#/admin/class/'+cell+'">'+cell+'</div></a>'
+    }
+
+    buttonFormatter(cell, row){
         return '<Button style="background:red"><i style={{fontSize:"100%"}} className="fa fa-times"></i></Button>';
       }
-      teacherFormatter(cell,row){
-        
-        return '<a href="#/admin/teacher/'+'info'+'"><div className="user-dp"><img class="img-fluid rounded-circle" src="assets/images/profile-avatar.jpg" style="margin: 10px; text-align: center; height: 50px;"></img>'+cell+'</div></a>'
-      }
-    //   <img class="img-fluid rounded-circle" src="assets/images/profile-avatar.jpg" style="margin: 10px; text-align: center; height: 100px;"></img>
+
     render(){
         return(
             <div>
@@ -74,10 +70,10 @@ export default class AdminTeacher extends Component {
                                 </div>
                             </CardBody>
                         </div>
-                    </Col>
+                    </Col>  
                     <Col lg={3} md={3} sm={3}>
                     <div style={{margin:"10px"}}>
-                        <Button style={{marginBottom:"4px", width:"70%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Add Teacher</Button>
+                        <Button style={{marginBottom:"4px", width:"70%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Add Class</Button>
                     </div>
                     </Col>
                 </Row>
@@ -90,22 +86,15 @@ export default class AdminTeacher extends Component {
                     <Col xl={12} className="mb-30">
                     <Card style={{margin: "10px"}}>
                         <CardBody>
-                        {/* <BootstrapTable data={ this.state.teacher }>
-                        ( <TableHeaderColumn width='100' dataField= "Teacher\'s Name"  isKey={true}>Teacher's Name</TableHeaderColumn>)
-                            { columns.map((value, index) => 
-                                ( <TableHeaderColumn width='100' dataField= {value} >{ value }</TableHeaderColumn>)
-                            ) }
-                            <TableHeaderColumn width='100' dataField="Remove" dataFormat={this.buttonFormatter}>Remove</TableHeaderColumn>
-                        </BootstrapTable> */}
+              
                         <BootstrapTable
-                                data={this.state.teacher}
+                                data={this.state.classes}
                                 pagination
                                 tableStyle={{height:"150px"}}
                                 >
-                                <TableHeaderColumn width='100' dataField="Teacher" isKey={true} dataFormat={this.teacherFormatter}>Teacher's Name</TableHeaderColumn>
-                                <TableHeaderColumn width='100' dataField='Email'>Subject</TableHeaderColumn>
-                                <TableHeaderColumn width='100' dataField='Classes'>1</TableHeaderColumn>
-                                <TableHeaderColumn width='100' dataField='Students'>Messages</TableHeaderColumn>
+                                <TableHeaderColumn width='100' dataField="class" isKey={true} dataFormat={this.classFormatter}>Class Name</TableHeaderColumn>
+                                <TableHeaderColumn width='100' dataField='teacher'>Teacher</TableHeaderColumn>
+                                <TableHeaderColumn width='100' dataField='student'>Students</TableHeaderColumn>
                                 <TableHeaderColumn width='100' dataField="Remove" dataFormat={this.buttonFormatter}>Remove</TableHeaderColumn>
                         </BootstrapTable>
                         </CardBody>
