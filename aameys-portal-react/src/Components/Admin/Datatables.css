@@ -1,0 +1,39 @@
+
+.react-bs-table-pagination .react-bootstrap-table-page-btns-ul {
+    float:right;
+}
+.table-bordered td:nth-child(1), .table-bordered th:nth-child(1),
+.table-bordered thead td:nth-child(1), .table-bordered thead th:nth-child(1){
+	width: 8%;
+}
+.table-bordered td:nth-child(2), .table-bordered th:nth-child(2),
+.table-bordered thead td:nth-child(2), .table-bordered thead th:nth-child(2){
+	width: 30%;
+}
+.table-bordered td:nth-child(3), .table-bordered th:nth-child(3),
+.table-bordered thead td:nth-child(3), .table-bordered thead th:nth-child(3){
+	width: 20%;
+}
+.table-bordered td:nth-child(4), .table-bordered th:nth-child(4),
+.table-bordered thead td:nth-child(4), .table-bordered thead th:nth-child(4){
+	width: 42%;
+}
+.react-bs-table{
+	display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+.react-bs-table .table{
+	table-layout: fixed;
+}
+.react-bs-table table tr td, .react-bs-table table tr th{
+	white-space: normal;
+}
+@media (max-width:575px){
+	.react-bs-table-pagination .react-bootstrap-table-page-btns-ul{
+		float: none;
+		justify-content: center;
+		margin-top: 15px;
+	}
+}
