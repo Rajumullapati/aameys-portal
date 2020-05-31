@@ -48,8 +48,8 @@ class Header extends Component{
 
                     <Col sm={2} md={4} lg={4}>
                     <div className="text-left navbar-brand-wrapper">
-                      <Link className="navbar-brand brand-logo" to="/"><img src="assets/images/logo-dark.png" alt="" /></Link>
-                      <Link className="navbar-brand brand-logo-mini" to="/"><img src="assets/images/logo-icon-dark.png"  alt="" /></Link>
+                      <Link className="navbar-brand brand-logo" to="/"><img style={{height:"60px"}} src="src/Aameys-assets/ameys-logo.png" alt="" /></Link>
+                      <Link className="navbar-brand brand-logo-mini" to="/"><img src="Aameys-assets/ameys-logo.png"  alt="" /></Link>
                     </div>
                     </Col>
                     {/* <!-- Top bar left --> */}
