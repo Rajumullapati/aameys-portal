@@ -7,11 +7,11 @@ import Grade from "./Components/Student/Grade";
 import Attendance from './Components/Student/Attendance';
 import Schedule from './Components/Student/Schedule';
 import Admin from './Components/Admin/Admin';
-import AdminTeacher from './Components/Admin/AdminTeachers';
-import AdminTeacherInfo from './Components/Admin/AdminTeacherInfo';
-import AdminTeacherEditInfo from './Components/Admin/AdminTeacherEditInfo';
-import AdminTeacherAddTeacher from './Components/Admin/AdminTeacherAddTeacher';
-import AdminTeacherAssignClasses from './Components/Admin/AdminTeacherAssignClasses';
+import AdminTeacher from './Components/Admin/AdminTeacher/AdminTeachers';
+import AdminTeacherInfo from './Components/Admin/AdminTeacher/AdminTeacherInfo';
+import AdminTeacherEditInfo from './Components/Admin/AdminTeacher/AdminTeacherEditInfo';
+import AdminTeacherAddTeacher from './Components/Admin/AdminTeacher/AdminTeacherAddTeacher';
+import AdminTeacherAssignClasses from './Components/Admin/AdminTeacher/AdminTeacherAssignClasses';
 import AdminClass from './Components/Admin/AdminClasses/AdminClass';
 import AdminClassInfo from './Components/Admin/AdminClasses/AdminClassInfo';
 import AdminClassesEditClassInfo from './Components/Admin/AdminClasses/AdminClassesEditClassInfo';
@@ -19,8 +19,15 @@ import AdminClassAssignTeacher from './Components/Admin/AdminClasses/AdminClassA
 import AdminClassAssignStudent from './Components/Admin/AdminClasses/AdminClassAssignStudents';
 import AdminClassAttendance from './Components/Admin/AdminClasses/AdminClassAttendance';
 import AdminClassGrade from './Components/Admin/AdminClasses/AdminClassGrade';
-
-
+import AdminStudent from './Components/Admin/AdminStudent/AdminStudent';
+import AdminStudentAddStudent from './Components/Admin/AdminStudent/AdminStudentAddStudent';
+import AdminStudentEditInfo from './Components/Admin/AdminStudent/AdminStudentEditInfo';
+import AdminStudentAssignClass from './Components/Admin/AdminStudent/AdminStudentAssignClass';
+import AdminSchedule from './Components/Admin/AdminSchedule';
+import AdminEmailTeachers from './Components/Admin/AdminEmailTeachers';
+import AdminEmailStudent from './Components/Admin/AdminEmailStudent';
+import AdminEmailParent from './Components/Admin/AdminEmailParent';
+import AdminEditInfo from './Components/Admin/AdminEditInfo';
 
 const Routers = () => {
 
@@ -46,6 +53,15 @@ const Routers = () => {
 						<Route exact path="/admin/class/:classname/assignstudent" component={AdminClassAssignStudent} />
 						<Route exact path="/admin/class/:classname/attendance" component={AdminClassAttendance} />
 						<Route exact path="/admin/class/:classname/grading" component={AdminClassGrade} />
+						<Route exact path="/admin/student/" component={AdminStudent} />
+						<Route exact path="/admin/student/addstudent" component={AdminStudentAddStudent} />
+						<Route exact path="/admin/student/:id" component={AdminStudentEditInfo} />
+						<Route exact path="/admin/student/:id/assignclass" component={AdminStudentAssignClass} />
+						<Route exact path="/admin/schedule" component={AdminSchedule} />
+						<Route exact path="/admin/emailteacher" component={AdminEmailTeachers} />
+						<Route exact path="/admin/emailstudent" component={AdminEmailStudent} />
+						<Route exact path="/admin/emailparent" component={AdminEmailParent} />
+						<Route exact path="/admin/editinfo" component={AdminEditInfo} />
 						
 					</Switch>
 				</Base>

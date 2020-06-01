@@ -52,10 +52,10 @@ export default class Admin extends Component {
                     </Col>
                     <Col lg={3} md={3} sm={3}>
                     <div style={{margin:"10px"}}>
-                        <Button style={{marginBottom:"4px", width:"70%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>My account</Button>
-                        <Button style={{marginBottom:"4px", width:"70%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-envelope-o"></i>Email teachers</Button>
-                        <Button style={{marginBottom:"4px", width:"70%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-envelope-o"></i>Email students</Button>
-                        <Button style={{marginBottom:"4px", width:"70%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-envelope-o"></i>Email parents</Button>
+                        <Link to={{pathname:"editinfo"}}><Button style={{marginBottom:"4px", width:"70%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>My account</Button></Link>
+                        <Link to={{pathname:"emailteacher"}}><Button style={{marginBottom:"4px", width:"70%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-envelope-o"></i>Email teachers</Button></Link>
+                        <Link to={{pathname:"emailstudent"}}><Button style={{marginBottom:"4px", width:"70%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-envelope-o"></i>Email students</Button></Link>
+                        <Link to={{pathname:"emailparent"}}><Button style={{marginBottom:"4px", width:"70%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-envelope-o"></i>Email parents</Button></Link>
                     </div>
                     </Col>
                 </Row>
@@ -78,13 +78,13 @@ export default class Admin extends Component {
                 </Col>
                 <Col sm={3} lg={3} md={3} style={{padding:"0px"}}>
                     <CardBody style={{border:"groove", height:"200px"}}>
-                    <div style={{textAlign:"center"}}><Link to={{pathname:  `/admin/students/${this.state.student_id}`}}><i style={{fontSize:"140px"}} className="fa fa-address-book"></i>
+                    <div style={{textAlign:"center"}}><Link to={{pathname:  `/admin/student`}}><i style={{fontSize:"140px"}} className="fa fa-address-book"></i>
                          <p style={{textAlign:"center"}}>Students </p></Link></div>
                     </CardBody>
                 </Col>
                 <Col sm={3} lg={3} md={3} style={{paddingLeft:"0px"}}>
                     <CardBody style={{border:"groove", height:"200px", flex:"1"}}>
-                    <div style={{ textAlign:"center"}}><Link to={{pathname:  `/admin/schedule/${this.state.student_id}`}}><i style={{fontSize:"130px", marginBottom:"10px"}} className="fa fa-calendar-minus-o"></i>
+                    <div style={{ textAlign:"center"}}><Link to={{pathname:  `/admin/schedule`}}><i style={{fontSize:"130px", marginBottom:"10px"}} className="fa fa-calendar-minus-o"></i>
                          <p style={{textAlign:"center"}}>Schedule </p></Link></div>
                     </CardBody>
                 </Col>                  
