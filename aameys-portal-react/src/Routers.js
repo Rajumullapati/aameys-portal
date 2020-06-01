@@ -28,6 +28,15 @@ import AdminEmailTeachers from './Components/Admin/AdminEmailTeachers';
 import AdminEmailStudent from './Components/Admin/AdminEmailStudent';
 import AdminEmailParent from './Components/Admin/AdminEmailParent';
 import AdminEditInfo from './Components/Admin/AdminEditInfo';
+import StudentEmail from './Components/Student/StudentEmail';
+import StudentInfo from './Components/Student/StudentInfo';
+import ParentSignUp from './Components/Parent/ParentSignUp';
+import ParentDash from './Components/Parent/ParentDash';
+import ParentGrade from './Components/Parent/ParentGrade';
+import ParentAttendance from './Components/Parent/ParentAttendance';
+import ParentSchedule from './Components/Parent/ParentSchedule';
+import ParentRegChild from './Components/Parent/ParentRegChild';
+
 
 const Routers = () => {
 
@@ -40,12 +49,23 @@ const Routers = () => {
 						<Route exact path="/student/grades/:id" component={Grade} />
 						<Route exact path="/student/attendance/:id" component={Attendance} />
 						<Route exact path="/student/schedule/:id" component={Schedule} />
+						<Route exact path="/student/:id/mailteacher" component={StudentEmail} />
+						<Route exact path="/student/:id/accinfo" component={StudentInfo} />
+
+						<Route exact path="/parent/signup" component={ParentSignUp} />
+						<Route exact path="/parent/dash" component={ParentDash} />
+						<Route exact path="/parent/dash/:id/grade" component={ParentGrade} />
+						<Route exact path="/parent/dash/:id/attendance" component={ParentAttendance} />
+						<Route exact path="/parent/dash/:id/schedule" component={ParentSchedule} />
+						<Route exact path="/parent/dash/regchild" component={ParentRegChild} />
+
+
+						<Route exact path="/admin/teacher/addteach" component={AdminTeacherAddTeacher} />
 						<Route exact path="/admin" component={Admin} />
 						<Route exact path="/admin/teacher" component={AdminTeacher} />
-						<Route exact path="/admin/teacher/info" component={AdminTeacherInfo} />
-						<Route exact path="/admin/teacher/editinfo" component={AdminTeacherEditInfo} />
-						<Route exact path="/admin/teacher/addteacher" component={AdminTeacherAddTeacher} />
-						<Route exact path="/admin/teacher/aassignclass" component={AdminTeacherAssignClasses} />
+						<Route exact path="/admin/teacher/:id" component={AdminTeacherInfo} />
+						<Route exact path="/admin/teacher/:id/editinfo" component={AdminTeacherEditInfo} />
+						<Route exact path="/admin/teacher/:id/assignclass" component={AdminTeacherAssignClasses} />
 						<Route exact path="/admin/class" component={AdminClass} />
 						<Route exact path="/admin/class/:classname" component={AdminClassInfo} />
 						<Route exact path="/admin/class/:classname/editinfo" component={AdminClassesEditClassInfo} />

@@ -6,6 +6,7 @@ import './Datatables.css';
 
 const teachers =[ {
 "Teacher": "Teacher 1",
+"id":"10",
 "Email":"abc@gmail.com",
 "Classes":"2",
 "Students":"2",
@@ -37,7 +38,7 @@ export default class AdminTeacher extends Component {
       }
       teacherFormatter(cell,row){
         
-        return '<a href="#/admin/teacher/'+'info'+'"><div className="user-dp"><img class="img-fluid rounded-circle" src="assets/images/profile-avatar.jpg" style="margin: 10px; text-align: center; height: 50px;"></img>'+cell+'</div></a>'
+        return '<a href="#/admin/teacher/'+row.id+'"><div className="user-dp"><img class="img-fluid rounded-circle" src="assets/images/profile-avatar.jpg" style="margin: 10px; text-align: center; height: 50px;"></img>'+cell+'</div></a>'
       }
     //   <img class="img-fluid rounded-circle" src="assets/images/profile-avatar.jpg" style="margin: 10px; text-align: center; height: 100px;"></img>
     render(){
@@ -77,7 +78,7 @@ export default class AdminTeacher extends Component {
                     </Col>
                     <Col lg={3} md={3} sm={3}>
                     <div style={{margin:"10px"}}>
-                        <Button style={{marginBottom:"4px", width:"70%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Add Teacher</Button>
+                        <Link to={{pathname:"addteach"}}><Button style={{marginBottom:"4px", width:"70%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Add Teacher</Button></Link>
                     </div>
                     </Col>
                 </Row>

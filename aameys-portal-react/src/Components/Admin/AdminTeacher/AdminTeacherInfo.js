@@ -12,13 +12,14 @@ const teachers =[ {
     }];
 
 var columns = [];
-
+var editInfo = "";
+var assignClass = "";
 export default class AdminTeacherInfo extends Component{
 
     constructor(props){
         super(props);
         this.state = {
-            teacher_id:""
+            teacher_id:"10"
         }
     }
 
@@ -29,6 +30,10 @@ export default class AdminTeacherInfo extends Component{
         columns.map((value, index) => (console.log(value)))
         console.log(teachers)
         this.setState({teacher: teachers});
+        editInfo = this.state.teacher_id+"/editinfo";
+        assignClass = this.state.teacher_id+"/assignclass";
+
+
     }
 
 
@@ -68,8 +73,8 @@ export default class AdminTeacherInfo extends Component{
                     </Col>
                     <Col lg={3} md={3} sm={3}>
                     <div style={{margin:"10px"}}>
-                        <Button style={{marginBottom:"4px", width:"70%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Edit teacher info</Button>
-                        <Link to={{pathname: `aassignclass`}}><Button style={{marginBottom:"4px", width:"70%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-envelope-o"></i>Assign classes</Button></Link>
+                    <Link to={{pathname: editInfo}}><Button style={{marginBottom:"4px", width:"70%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Edit teacher info</Button></Link>
+                    <Link to={{pathname: assignClass}}><Button style={{marginBottom:"4px", width:"70%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-envelope-o"></i>Assign classes</Button></Link>
                     </div>
                     </Col>
                 </Row>
