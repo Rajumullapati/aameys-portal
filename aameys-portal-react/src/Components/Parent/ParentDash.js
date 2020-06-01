@@ -20,8 +20,8 @@ export default class ParentDash extends Component {
         
     }
     componentDidMount(){
-        mailPath = this.state.student_id+"/mailteacher";
-        accPath = this.state.student_id+"/accinfo";
+        mailPath = "mailteacher";
+        accPath = "accinfo";
         console.log(mailPath)
     }
     render(){

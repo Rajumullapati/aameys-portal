@@ -52,10 +52,10 @@ export default class Admin extends Component {
                     </Col>
                     <Col lg={3} md={3} sm={3}>
                     <div style={{margin:"10px"}}>
-                        <Link to={{pathname:"editinfo"}}><Button style={{marginBottom:"4px", width:"70%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>My account</Button></Link>
-                        <Link to={{pathname:"emailteacher"}}><Button style={{marginBottom:"4px", width:"70%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-envelope-o"></i>Email teachers</Button></Link>
-                        <Link to={{pathname:"emailstudent"}}><Button style={{marginBottom:"4px", width:"70%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-envelope-o"></i>Email students</Button></Link>
-                        <Link to={{pathname:"emailparent"}}><Button style={{marginBottom:"4px", width:"70%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-envelope-o"></i>Email parents</Button></Link>
+                        <Link to={{pathname:"admin/editinfo"}}><Button style={{marginBottom:"4px", width:"70%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>My account</Button></Link>
+                        <Link to={{pathname:"admin/emailteacher"}}><Button style={{marginBottom:"4px", width:"70%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-envelope-o"></i>Email teachers</Button></Link>
+                        <Link to={{pathname:"admin/emailstudent"}}><Button style={{marginBottom:"4px", width:"70%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-envelope-o"></i>Email students</Button></Link>
+                        <Link to={{pathname:"admin/emailparent"}}><Button style={{marginBottom:"4px", width:"70%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-envelope-o"></i>Email parents</Button></Link>
                     </div>
                     </Col>
                 </Row>

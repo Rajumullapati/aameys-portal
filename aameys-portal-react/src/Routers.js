@@ -36,7 +36,8 @@ import ParentGrade from './Components/Parent/ParentGrade';
 import ParentAttendance from './Components/Parent/ParentAttendance';
 import ParentSchedule from './Components/Parent/ParentSchedule';
 import ParentRegChild from './Components/Parent/ParentRegChild';
-
+import ParentMailTeaher from './Components/Parent/ParentMailTeacher';
+import ParentEditInfo from './Components/Parent/ParentEditInfo';
 
 const Routers = () => {
 
@@ -58,6 +59,8 @@ const Routers = () => {
 						<Route exact path="/parent/dash/:id/attendance" component={ParentAttendance} />
 						<Route exact path="/parent/dash/:id/schedule" component={ParentSchedule} />
 						<Route exact path="/parent/dash/regchild" component={ParentRegChild} />
+						<Route exact path="/parent/mailteacher" component={ParentMailTeaher} />
+						<Route exact path="/parent/accinfo" component={ParentEditInfo} />
 
 
 						<Route exact path="/admin/teacher/addteach" component={AdminTeacherAddTeacher} />
