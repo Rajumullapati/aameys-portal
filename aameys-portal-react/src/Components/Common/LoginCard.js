@@ -1,8 +1,11 @@
 
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import validators from '../../validators';
-import {Container,Row,Col} from 'reactstrap'; 
+import {Container,Row,Col} from 'reactstrap';
+import axios from 'axios';
+
+var status=false;
 class LoginCard extends React.Component{
   constructor(props){
     super(props);
@@ -10,6 +13,8 @@ class LoginCard extends React.Component{
         email: '',
         password: '',
         error: null,
+        waiting: true,
+        redirectTo:""
       };
       this.validators = validators;
       this.onchange=this.onchange.bind(this);
@@ -43,7 +48,7 @@ class LoginCard extends React.Component{
       });
   }
   isFormValid() {
-    let status = true;
+    status = true;
     Object.keys(this.validators).forEach((field) => {
       if(field=='email' || field=='password' ){
         if (!this.validators[field].valid) {
@@ -68,24 +73,62 @@ class LoginCard extends React.Component{
     }
     return result;
   }
+
+  renderRedirect() {
+    if (this.state.redirectTo != "") {
+      return <Redirect to={this.state.redirectTo} />
+    }
+  }
+
   login(event){
     const {
       email,
       password,
     } = this.state;
-    auth.doSignInWithEmailAndPassword(email, password)
-      .then(() => {
-        this.setState(() => ({
-          email:email,
-          password:password,
-        }));
-        this.props.history.push("/");
+
+
+    // auth.doSignInWithEmailAndPassword(email, password)
+    //   .then(() => {
+    //     this.setState(() => ({
+    //       email:email,
+    //       password:password,
+    //     }));
+    //     this.props.history.push("/");
+    //   })
+    //   .catch(error => {
+    //     alert('Invalid login id or password.');
+
+    //   });
+    console.log('pouj');
+    console.log(status)
+    if(status){
+    console.log('p');
+
+      axios.get('http://localhost:5000/login?uname='+email+'&pass='+password)
+      .then(response => {
+        console.log(response.data[0])
+        if(response.data[0]['user_login_status'] == '0')
+          {
+            console.log('tyhjm');
+            console.log(this.props)
+            if(response.data[0]['user_role'] == '1'){
+              axios.get('http://localhost:5000/updatestudentstatus?status=1&id='+response.data[0]['user_id_all']).then( res =>
+              this.setState({redirectTo:'student/'+response.data[0]['user_id_all']}))
+              .catch(err => console.log(err))
+            }
+            if(response.data[0]['user_role'] == '2'){
+              this.setState({redirectTo: 'parent/'+response.data[0]['user_id_all']})
+            }
+            if(response.data[0]['user_role'] == '3'){
+              this.setState({redirectTo: 'teacher/'+response.data[0]['user_id_all']})
+            }
+            if(response.data[0]['user_role'] == '4'){
+              this.setState({redirectTo: 'admin/'+response.data[0]['user_id_all']})
+            }
+        }
       })
-      .catch(error => {
-        alert('Invalid login id or password.');
-
-      });
-
+      .catch(err => console.log(err))
+    }
     event.preventDefault();
   }
     render(){
@@ -98,8 +141,8 @@ class LoginCard extends React.Component{
                     <div className="login-fancy pb-40 clearfix">
                       <h3 className="mb-30">Sign In To AAMEYS</h3>
                       <div className="section-field mb-20">
-                        <label className="mb-10" htmlFor="name">User Name* </label>
-                        <input id="username" className="web form-control" type="text" placeholder="UserName" value={this.state.userName} name="username" onChange={this.onchange}  />
+                        <label className="mb-10" htmlFor="email">User Name* </label>
+                        <input id="email" className="web form-control" type="text" placeholder="Email" value={this.state.email} name="email" onChange={this.onchange}  />
                         {/* { this.displayValidationErrors('email') } */}
                       </div>
                       <div className="section-field mb-20">
@@ -114,6 +157,7 @@ class LoginCard extends React.Component{
                          
                         </div>
                       </div>
+                      {this.renderRedirect()}
                       <a  onClick={this.login} className={`button   ${this.isFormValid() ? '' : 'disabled'}`}>
                         <span className="text-white">Log in</span> 
                          <i className="fa fa-check text-white" />

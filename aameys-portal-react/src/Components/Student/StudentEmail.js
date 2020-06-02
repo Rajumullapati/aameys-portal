@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Row, Col, Card, CardBody, Button, Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
-
+import axios from 'axios';
 
 
 const teacher = [
@@ -21,7 +21,8 @@ export default class StudentEmail extends Component {
             fmail:"abc@ameys.com",
             sub:"",
             message:"",
-            pfile:""
+            pfile:"",
+            student_id:this.props.match.params.id
         }
         this.onChange = this.onChange.bind(this);
         this.onSelect = this.onSelect.bind(this);
@@ -29,9 +30,19 @@ export default class StudentEmail extends Component {
     }
 
     componentDidMount(){
-        this.setState({
-            teachers:teacher
+        console.log('kol');
+        axios.get('http://localhost:5000/teachersbystudentid?id='+this.state.student_id)
+        .then(response => {
+            console.log(response)
+            this.setState({
+                teachers:response['data']
+            })
+        } )
+        .catch(err => {
+            console.log(err);
+            return -1;
         })
+        
     }
 
     
@@ -53,7 +64,7 @@ export default class StudentEmail extends Component {
         this.setState({ [e.target.name]: e.target.value })
     }
     teacherFormatter(cell,row){
-        return '<div className="user-dp"><img class="img-fluid rounded-circle" src="assets/images/profile-avatar.jpg" style="margin: 10px; text-align: center; height: 50px;"></img>'+cell+'</div>'
+        return '<div className="user-dp"><img class="img-fluid rounded-circle" src="assets/images/profile-avatar.jpg" style="margin: 10px; text-align: center; height: 50px;"></img>'+cell+' '+row.last_name+'</div>'
       }
 
     render()
@@ -131,9 +142,9 @@ export default class StudentEmail extends Component {
                                         pagination
                                         selectRow={selectRowProp}
                                         >
-                                        <TableHeaderColumn width='100' dataField='name'  dataFormat={this.teacherFormatter} isKey={true}>Teacher Name</TableHeaderColumn>
-                                        <TableHeaderColumn width='100' dataField="mail">Email</TableHeaderColumn>
-                                        <TableHeaderColumn width='100' dataField="class">Classes</TableHeaderColumn>
+                                        <TableHeaderColumn width='100' dataField='first_name'  dataFormat={this.teacherFormatter} isKey={true}>Teacher Name</TableHeaderColumn>
+                                        <TableHeaderColumn width='100' dataField="email">Email</TableHeaderColumn>
+                                        <TableHeaderColumn width='100' dataField="class_name">Classes</TableHeaderColumn>
                                 </BootstrapTable>
                                 </Row>
                             </CardBody>

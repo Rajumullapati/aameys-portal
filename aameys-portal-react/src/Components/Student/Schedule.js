@@ -3,7 +3,7 @@ import { Row, Col, Breadcrumb, BreadcrumbItem, Card, CardBody } from 'reactstrap
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import './Datatables.css';
 import { Link } from 'react-router-dom';
-
+import axios from 'axios';
 
 
 const sched = [{
@@ -110,11 +110,25 @@ export default class Schedule extends Component {
         super(props);
         this.state = {
             student_id: this.props.match.params.id,
-            schedule: []
+            schedule: [],
+            student_img:""
         };
     }
 
     componentDidMount(){
+        axios.get('http://localhost:5000/studentid?id='+this.state.student_id)
+        .then(response => {
+            this.setState({student_img: response[0]['student_image']})
+        })
+        .catch(err => console.log(err));
+        console.log(columns)
+        axios.get('http://localhost:5000/schedulebyid?id='+this.state.student_id)
+        .then(response => {
+                this.setState({schedule: response['data']});
+                columns = Object.keys(response['data'][0])
+                columns.map((value, index) => (console.log(value)))
+            })
+        .catch(err => console.log(err))
         columns = Object.keys(sched[0])
         this.setState({
             schedule: sched

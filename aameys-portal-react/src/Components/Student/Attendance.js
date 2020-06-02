@@ -3,6 +3,7 @@ import { Row, Col, Breadcrumb, BreadcrumbItem, Card, CardBody } from 'reactstrap
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import './Datatables.css';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 const attend = [{
     "Term":"1",
@@ -25,16 +26,29 @@ export default class Attendance extends Component {
         super(props);
         this.state = {
             attendance: [],
-            student_id: this.props.match.params.id
+            student_id: this.props.match.params.id,
+            student_img:""
         }
+        console.log(this.props);
+        console.log(this.state)
     }
 
     componentDidMount(){
         console.log(attend)
-        columns = Object.keys(attend[0])
-        columns.map((value, index) => (console.log(value)))
+        axios.get('http://localhost:5000/studentid?id='+this.state.student_id)
+        .then(response => {
+            this.setState({student_img: response[0]['student_image']})
+        })
+        .catch(err => console.log(err));
         console.log(columns)
-        this.setState({attendance: attend});
+        axios.get('http://localhost:5000/attendanceById?id='+this.state.student_id)
+        .then(response => {
+                this.setState({attendance: response});
+                columns = Object.keys(response[0])
+                columns.map((value, index) => (console.log(value)))
+            })
+        .catch(err => console.log(err))
+        
     }
 
     render(){

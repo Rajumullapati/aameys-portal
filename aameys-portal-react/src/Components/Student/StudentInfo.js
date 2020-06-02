@@ -3,25 +3,55 @@ import { Row, Col, Card, CardBody, Button, Breadcrumb, BreadcrumbItem } from 're
 import { Link } from 'react-router-dom';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import './Datatables.css';
+import axios from 'axios';
 
 
 export default class StudentInfo extends Component {
     constructor(props){
         super(props);
         this.onChange = this.onChange.bind(this);
+        this.saveChanges = this.saveChanges.bind(this);
+        this.logout = this.logout.bind(this);
         this.state = {
-            student_id:"",
-            student_name_first:"teacher 1",
-            student_name_last:"k",
-            student_mail:"abc@gmail.com",
-            breadcrumb:"teacher 1"
+            student_id:this.props.match.params.id,
+            student_name_first:"",
+            student_name_last:"",
+            student_mail:"",
+            student_img:"assets/images/profile-avatar.jpg",
+            breadcrumb:""
         }
+    }
+
+    logout(){
+        axios.get('http://localhost:5000/updatestudentstatus?status=0&id='+response.data[0]['user_id_all']).then( res =>
+        {
+            // return '<Redirect to='/home' />'
+        }
+        )
     }
 
     onChange(e) {
         this.setState({ [e.target.name]: e.target.value })
     }
 
+    componentDidMount(){
+        let sqlstring = 'http://localhost:5000/studentid?id='+this.state.student_id;
+        console.log(sqlstring)
+        axios.get('http://localhost:5000/studentid?id='+this.state.student_id)
+        .then( response => {
+            console.log(response)
+            this.setState({
+            student_name_first: response['data'][0]['first_name'],
+            student_name_last: response['data'][0]['last_name'],
+            student_mail: response['data'][0]['email'],
+            // student_img: response['data'][0]['img_add']
+        })})
+        .catch(err => console.log(err))
+    }
+
+    saveChanges(){
+
+    }
     render(){
         return(
             <div>
@@ -46,7 +76,7 @@ export default class StudentInfo extends Component {
                                     <div style={{height:"150px"}} className="user-info">
                                         <Row>
                                             <Col  className=" float-right align-self-center">
-                                                <div className="user-dp"><img style={{ margin: "10px", textAlign:"center", height:"100px"}} className="img-fluid rounded-circle" src="assets/images/profile-avatar.jpg" /></div>
+                                                <div className="user-dp"><img style={{ margin: "10px", textAlign:"center", height:"100px"}} className="img-fluid rounded-circle" src={this.state.student_img}/></div>
                                                 <div className="form-group upload-file">
                                                 <Button style={{textAlign:"center", marginLeft:"10px"}}><label htmlFor="pfile">
                                                     Edit image</label></Button>
@@ -62,10 +92,10 @@ export default class StudentInfo extends Component {
                     </Col>
                     <Col lg={3} md={3} sm={3}>
                     <div style={{margin:"10px"}}>
-                        <Button style={{marginBottom:"4px", width:"60%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Save Changes</Button>
+                        <Button onClick={this.saveChanges} style={{marginBottom:"4px", width:"60%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Save Changes</Button>
                         <Button style={{marginBottom:"4px", width:"60%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Change Email</Button>
                         <Button style={{marginBottom:"4px", width:"60%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Change password</Button>
-                        <Button style={{marginBottom:"4px", width:"60%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Sign out</Button>
+                        <Button onClick={this.logout} style={{marginBottom:"4px", width:"60%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Sign out</Button>
                         <Button style={{marginBottom:"4px", width:"60%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Delete Account</Button>
                         <Button style={{marginBottom:"4px", width:"60%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Return</Button>
 

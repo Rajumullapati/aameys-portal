@@ -3,6 +3,7 @@ import { Row, Col, Breadcrumb, BreadcrumbItem, Card, CardBody } from 'reactstrap
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import './Datatables.css';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 
 const assignment = [{
@@ -31,8 +32,16 @@ export default class Grade extends Component {
 
     }
     componentDidMount(){
-       
-        this.setState({assignments: assignment})
+        axios.get('http://localhost:5000/studentid?id='+this.state.student_id)
+        .then(response => {
+            this.setState({student_img: response[0]['student_image']})
+        })
+        .catch(err => console.log(err));
+        axios.get('http://localhost:5000/gradesbyid?id='+this.state.student_id)
+        .then(response => {
+                this.setState({assignments: response['data']});
+            })
+        .catch(err => console.log(err))
     }
     
     

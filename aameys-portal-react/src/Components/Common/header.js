@@ -24,6 +24,7 @@
 import React,{Component} from 'react';
 import { Link } from 'react-router-dom';
 import { Row, Col } from 'reactstrap';
+import './header.css';
 class Header extends Component{
 
     constructor(props) {
@@ -31,7 +32,11 @@ class Header extends Component{
       
         this.state = {
           toggleactive: false,
-          defaultValue: 1
+          defaultValue: 1,
+          student_id:"",
+          admin_id:"",
+          teacher_id:"",
+          parent_id:""
         };
         this.togglebutton = this.togglebutton.bind(this);
         console.log(process.env.PUBLIC_URL);
@@ -68,25 +73,29 @@ class Header extends Component{
                         </li>
                     </ul> */}
                     {/* <Col sm={2}></Col> */}
-                    <Col className="" md={8} lg={6} sm={2}>
+                    <Col className="" md={8} lg={8} sm={2}>
              
                     {/* <!-- top bar right --> */}
                     <ul className="nav navbar-nav ml-auto col-lg-12 col-12">
-                    <Row className="col-lg-12 col-12" md={12} lg={12} sm={12}>
+                    {/* <Row className="col-lg-12 col-12" md={12} lg={12} sm={12}> */}
                     <div className=""></div>
-                    <Col style={{ alignItems:"center"}} sm={2}>
-                          <a href="#" >Home</a>
+                    <Col style={{ visibility:`${this.state.admin_id == "" ? 'hidden' : 'visible'}`}} sm={2} md={2} lg={1}>
+                          <a href="#" >Admin</a>
                         </Col>
-                        <Col sm={2} md={2} lg={2}>
+                        <Col style={{textAlign:"center"}} sm={2} md={2} lg={2}>
                           <a href="#" >About Us</a>
                         </Col>
-                        <Col sm={2} md={2} lg={2}>
+                    <Col style={{textAlign:"center"}} sm={2} md={2} lg={1}>
+                          <a href="#" >Home</a>
+                        </Col>
+                        
+                        <Col style={{textAlign:"right"}} sm={2} md={2} lg={2}>
                           <a href="#" >TEACHERS</a>
                         </Col>
-                        <Link to={{pathname:  `/student/10`}}><Col sm={2} md={2} lg={2}>
+                        <Link className={`${this.state.student_id != ""? 'active' : ''}`} to={{pathname:  `/student/${this.state.user_id}`}}><Col sm={2} md={2} lg={2}>
                           <a href="#" >STUDENTS</a>
                         </Col></Link>
-                        <Col sm={2} md={2} lg={2}>
+                        <Col  sm={2} md={2} lg={2}>
                           <a href="#" >PARENTS</a>
                         </Col>
                         <Col sm={2} md={2} lg={2}>
@@ -95,7 +104,7 @@ class Header extends Component{
                         {/* <Col sm={2}>
                           <a href="#" >New registered user  </a>
                         </Col> */}
-                        </Row>
+                        {/* </Row> */}
                     </ul>
                     </Col>
 
