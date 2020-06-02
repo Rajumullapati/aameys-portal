@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import './Datatables.css';
 import axios from 'axios';
+import Loading from '../Common/Loading';
 
 
 export default class StudentInfo extends Component {
@@ -53,7 +54,13 @@ export default class StudentInfo extends Component {
 
     }
     render(){
+        if(this.state.student_id == ""){
+            return(<div>
+                <Loading></Loading>
+            </div>)
+        }
         return(
+            
             <div>
                 
                 

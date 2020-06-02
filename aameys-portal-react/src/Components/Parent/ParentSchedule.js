@@ -108,7 +108,7 @@ export default class ParentSchedule extends Component {
     constructor(props){
         super(props);
         this.state = {
-            student_id: this.props.match.params.id,
+            student_id: this.props.match.params.sid,
             schedule: []
         };
     }

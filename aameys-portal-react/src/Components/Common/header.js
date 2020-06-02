@@ -57,22 +57,7 @@ class Header extends Component{
                       <Link className="navbar-brand brand-logo-mini" to="/"><img src="Aameys-assets/ameys-logo.png"  alt="" /></Link>
                     </div>
                     </Col>
-                    {/* <!-- Top bar left --> */}
-                    {/* <ul className="nav navbar-nav mr-auto">
-                         <li className="nav-item">
-                            <a className="button-toggle-nav inline-block ml-20 pull-left"  onClick={this.togglebutton} href="javascript:void(0);"  ><i className="zmdi zmdi-menu ti-align-right"></i></a>
-                        </li>
-                        <li className="nav-item">
-                            <div className="search">
-                            <a className="search-btn not_click" href="javascript:void(0);"></a>
-                            <div className="search-box not-click">
-                                <input type="text" className="not-click form-control" placeholder="Search" name="search" />
-                                <button className="search-button" type="submit"> <i className="fa fa-search not-click"></i></button>
-                            </div>
-                            </div>
-                        </li>
-                    </ul> */}
-                    {/* <Col sm={2}></Col> */}
+                   
                     <Col className="" md={8} lg={8} sm={2}>
              
                     {/* <!-- top bar right --> */}
@@ -96,7 +81,7 @@ class Header extends Component{
                           <a href="#" >STUDENTS</a>
                         </Col></Link>
                         <Col  sm={2} md={2} lg={2}>
-                          <a href="#" >PARENTS</a>
+                          <a href="#/parent/signup" >PARENTS</a>
                         </Col>
                         <Col sm={2} md={2} lg={2}>
                           <a href="#" >CAREERS</a>

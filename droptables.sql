@@ -34,3 +34,8 @@ IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[admin
 DROP TABLE [dbo].[admin]
 GO
 
+/****** Object:  Table [dbo].[users]    Script Date: 02-06-2020 01:18:39 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[users]') AND type in (N'U'))
+DROP TABLE [dbo].[users]
+GO
+

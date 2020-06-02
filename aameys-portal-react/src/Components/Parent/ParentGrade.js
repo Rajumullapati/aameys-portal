@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Row, Col, Breadcrumb, BreadcrumbItem, Card, CardBody } from 'reactstrap';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { Link } from 'react-router-dom';
-
+import axios from 'axios';
 
 const assignment = [{
     "Term":"1",
@@ -25,13 +25,21 @@ export default class ParentGrade extends Component {
         super(props);
         this.state = {
             assignments: [],
-            student_id: this.props.match.params.id
+            student_id: this.props.match.params.sid
         };
 
     }
     componentDidMount(){
-       console.log(this.props)
-        this.setState({assignments: assignment})
+        axios.get('http://localhost:5000/studentid?id='+this.state.student_id)
+        .then(response => {
+            this.setState({student_img: response[0]['student_image']})
+        })
+        .catch(err => console.log(err));
+        axios.get('http://localhost:5000/gradesbyid?id='+this.state.student_id)
+        .then(response => {
+                this.setState({assignments: response['data']});
+            })
+        .catch(err => console.log(err))
     }
     
     
