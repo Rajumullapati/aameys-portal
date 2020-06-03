@@ -12,6 +12,7 @@ export default class ParentRegChild extends Component {
             email:"",
             password:"",
             bday:"",
+            term:"",
             gender:"",
             simpleDate:  new Date()
         }
@@ -56,13 +57,34 @@ export default class ParentRegChild extends Component {
                       <input type="text" className="form-control" id="phone" placeholder="Mobile Number" />
                     </div>
                   </div>
+
+                  <div className="form-row">
+                  <div className="form-group col-md-6">
+                      <label htmlFor="term">Term</label>
+                      <input type="text" className="form-control" id="term" placeholder="Term" />
+                    </div>
+                    <Col lg={4} sm={4} md={4} >
+                    <div className="form-group col-md-6">
+                      <label htmlFor="bday">Date of Birth</label>
+                    </div>
+                        
+                                <DatePicker
+                                    id="bday"
+                                    className="form-control"
+                                    selected={this.state.simpleDate}
+                                    onChange={this.handleChange}
+                                />
+                            
+                    </Col>
+                  </div>
+
                   <Col lg={4} md={4} sm={4} />
                     
                     <Col lg={4} md={4} sm={4} />
                     <div  style={{margin:"10px"}} id="grade" onChange={this.onChange}>
                     <label htmlFor="grade">Grade</label>
                     <Row>
-                        <input style={{margin:"10px"}} type="radio" value="Kindergarten " name="grade"/>Kindergarten 
+                        <input style={{margin:"10px"}} type="radio" value="0" name="grade"/>Kindergarten 
                         <input style={{margin:"10px"}} type="radio" value="1" name="grade" /> Grade1
                         <input style={{margin:"10px"}} type="radio" value="2" name="grade" /> Grade2
                     
@@ -80,6 +102,15 @@ export default class ParentRegChild extends Component {
                         <input style={{margin:"10px"}} type="radio" value="11" name="grade" /> Grade 11
                     
                         <input style={{margin:"10px"}} type="radio" value="12" name="grade"/>Grade 12 
+                    </Row>
+                    </div>
+
+                    <div id="gender" style={{margin:"10px"}} onChange={this.onChange}>
+                    <label htmlFor="class">Gender</label>
+                    <Row>
+                        <input style={{margin:"10px"}} type="radio" value="0" name="class"/>Male 
+                        <input style={{margin:"10px"}} type="radio" value="1" name="class" /> Female
+                        <input style={{margin:"10px"}} type="radio" value="2" name="class" /> Other
                     </Row>
                     </div>
 

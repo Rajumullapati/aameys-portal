@@ -35,9 +35,13 @@ def getStudentById():
 def getStudentAttendanceById():
     id = request.args['id']
     con = connDB()
-    data = pandas.read_sql('select * from attendance where student_id = '+id,con).to_json(orient='records')
+    data = pandas.read_sql('select top(5) * from attendance where student_id = '+id+' order by dateattendance',con)
+    data.index = data['dateattendance']
+    data = data.drop(['dateattendance','student_id'], axis=1)
+    data = data.T
+    print(data)
     con.close()
-    return data
+    return data.to_json(orient='records')
 
 @app.route('/attendanceByDate')
 def getAttendanceByDate():
@@ -51,7 +55,9 @@ def getAttendanceByDate():
 def getStudentGradesById():
     id = request.args['id']
     con = connDB()
-    data = pandas.read_sql('select * from grades where student_id = '+id,con).to_json(orient='records')
+    sqlstr = """select s.term, c.class_name, g.one, g.two, g.three, g.four, g.five, g.six, g.seven, g.eight, g.nine, g.ten, g.msg, (g.one+g.two+g.three+g.four+g.five+g.six+g.seven+g.eight+g.nine+g.ten)/10 as per from ((student s 
+inner join class c on s.class_id = c.class_id) inner join grades g on g.student_id = s.student_id) where s.student_id = """+id
+    data = pandas.read_sql(sqlstr,con).to_json(orient='records')
     con.close()
     return data
 

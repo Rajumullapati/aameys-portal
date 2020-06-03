@@ -36,6 +36,7 @@ create table student (
 	first_name varchar(40) not null,
 	last_name varchar(40) not null,
 	email varchar(50) not null,
+	term int not null,
 	gender int not null,   ---1 : male 0: female
 	birthday date not null,
 	mobile varchar(20) not null,

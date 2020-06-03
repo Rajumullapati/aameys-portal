@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Row, Col, Breadcrumb, BreadcrumbItem, Card, CardBody } from 'reactstrap';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 const attend = [{
     "Term":"1",
@@ -18,22 +19,43 @@ const attend = [{
     "#":"10",
     "%":"100%"
 }];
-var columns = [];
+// var columns = [];
 export default class ParentAttendance extends Component {
     constructor(props){
         super(props);
         this.state = {
             attendance: [],
-            student_id: this.props.match.params.id
+            student_id: this.props.match.params.sid,
+            term:"",
+            columns:[]
         }
+
+        this.convert = this.convert.bind(this);
     }
 
     componentDidMount(){
-        console.log(attend)
-        columns = Object.keys(attend[0])
-        columns.map((value, index) => (console.log(value)))
-        console.log(columns)
-        this.setState({attendance: attend});
+        axios.get('http://localhost:5000/studentid?id='+this.state.student_id)
+        .then(response => {
+            console.log(response)
+            this.setState({student_img: response.data[0]['student_image'], term:response.data[0]['term']})
+        })
+        axios.get('http://localhost:5000/attendancebyid?id='+this.state.student_id)
+        .then(response => {
+            console.log(response)
+            response.data[0]['term'] = this.state.term;
+            this.setState({attendance: response.data})
+            this.setState({columns: Object.keys(response.data[0])})
+            // columns = this.state.columns;
+            this.state.columns.map((value, index) => 
+                                console.log(value)
+                            )
+        })
+        
+    }
+
+    convert(value){
+        console.log('ojknbj')
+        console.log(value)
     }
 
     render(){
@@ -54,9 +76,17 @@ export default class ParentAttendance extends Component {
                 <Col xl={12} className="mb-30">
                     <Card style={{margin: "10px"}}>
                         <CardBody>
-                        <BootstrapTable data={ this.state.attendance } keyField='Term'>
-                            { columns.map((value, index) => 
-                                ( <TableHeaderColumn width='100' dataField= {value} >{ value }</TableHeaderColumn>)
+                        <BootstrapTable data={ this.state.attendance } keyField='term'>
+                        <TableHeaderColumn width='100' dataField= 'term' >Term</TableHeaderColumn>
+                        <TableHeaderColumn width='100' dataField= "1591142400000" >1591142400000</TableHeaderColumn>
+                        <TableHeaderColumn width='100' dataField= "1591228800000" >1591228800000</TableHeaderColumn>
+                        <TableHeaderColumn width='100' dataField= "1591315200000" >1591315200000</TableHeaderColumn>
+                        
+                            { this.state.columns.map((value, index) => 
+                                { 
+                                    console.log('pimi')
+                                    return(<TableHeaderColumn width='100' dataField= {value} >{ this.convert(value) }</TableHeaderColumn>)
+                                }
                             ) }
                         </BootstrapTable>
                         </CardBody>
