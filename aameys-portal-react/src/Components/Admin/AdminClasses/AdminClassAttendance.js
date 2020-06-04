@@ -3,7 +3,8 @@ import { Row, Col, Card,CardTitle, CardBody, Button, Breadcrumb, BreadcrumbItem 
 import { Link } from 'react-router-dom';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import DatePicker from 'react-datepicker';
-
+import Header from '../../Common/header';
+import axios from 'axios';
 
 
 const attend = [
@@ -26,15 +27,25 @@ export default class AdminClassAttendance extends Component {
         this.notesFormatter = this.notesFormatter.bind(this);
         this.state = {
             simpleDate:  new Date(),
-            attendance: []
+            attendance: [],
+            class_id:this.props.match.params.cid,
+            class_name:"",
+            first_name:"",
+            last_name:"",
+            student_count:"",
+            term:"",
+            getdate:"",
         }
+        this.getattendance = this.getattendance.bind(this);
+        this.genderFormatter = this.genderFormatter.bind(this);
+        
     }
 
     notesFormatter(cell,row){
 
     }
     buttonFormatter(cell, row){
-        if(cell==="false")
+        if(cell==="1")
         return '<i class="fa fa-check" aria-hidden="true"></i>';
         else
         return '<i class="fa fa-times"></i>';
@@ -49,19 +60,70 @@ export default class AdminClassAttendance extends Component {
             simpleDate: date
 
         });
+        console.log(this.state.sampleDate+" jhgbjnm")
+        this.getattendance()
     }
+
+    getattendance(){
+
+        console.log(this.state.simpleDate.getDate()+"-"+this.state.simpleDate.getMonth()+"-"+this.state.simpleDate.getFullYear())
+        axios.get('http://localhost:5000/attendanceByDate?date='+this.state.getdate)
+        .then(res => {
+            console.log(res)
+            this.setState({
+                attendance: res.data
+            })
+        })
+        .catch(err => console.log(err))
+    }
+
+
     componentDidMount(){
-        this.setState(
-            {
-                attendance: attend
-            }
-        );
+        axios.get('http://localhost:5000/getclassbyid?id='+this.state.class_id)
+        .then(res => {
+            this.setState({
+                class_name: res.data[0]['class_name'],
+                first_name: res.data[0]['first_name'],
+                last_name: res.data[0]['last_name'],
+                student_count: res.data[0]['student_count'],
+                term: res.data[0]['term']
+            })
+        } )
+        .catch(err => console.log(err))
+
+        this.setState({
+            
+        })
+        
+    }
+
+    genderFormatter(cell, row){
+        if (cell === '1'){
+            return 'Male'
+        }
+        else {
+            return 'Female'
+        }
     }
 
     render(){
         return(
             <div>
+            <Header />
                 <div style={{backgroundColor:"orange",height:"580px", opacity:"0.65"}}> 
+                <Row className="page-title">
+          
+                    <Col style={{margin:"10px"}} sm={6} lg={4} >
+                        <Breadcrumb className="float-left float-sm-left">
+                        <BreadcrumbItem>Administrator</BreadcrumbItem>
+                        <BreadcrumbItem >Classes</BreadcrumbItem>
+                        <BreadcrumbItem >{this.state.class_name}</BreadcrumbItem>
+                        <BreadcrumbItem active>Attendance</BreadcrumbItem>
+                        </Breadcrumb>
+                    </Col>
+                </Row>
+                
+                
                 <Row>
                 <Col lg={3} md={3} sm={3} ></Col>
                     <Col lg={6} md={6} sm={6} >
@@ -78,10 +140,12 @@ export default class AdminClassAttendance extends Component {
                                                 <div className="user-detail">
                                                 
                                                     <h2 style={{fontSize:"18px", fontWeight:"bolder"}} className="name">Class Info</h2>
-                                                    <p>Class Name: </p>
-                                                    <p>Term: </p>
-                                                    <p>Teacher: </p>
-                                                    <p>Students: </p>
+                                                    <p>Class Name: <span style={{fontSize:"100%", fontWeight:"bolder", marginRight:"10%"}} className="float-right">{ this.state.class_name} </span></p>
+                                                    <p>Term: <span style={{fontSize:"100%", fontWeight:"bolder", marginRight:"10%"}} className="float-right">{ this.state.term}</span> </p>
+                                                    
+                                                    <p>Classes: <span style={{fontSize:"100%", fontWeight:"bolder", marginRight:"10%"}} className="float-right">{ this.state.first_name} {this.state.last_name} </span> </p>
+                                                    <p>Students: <span style={{fontSize:"100%", fontWeight:"bolder", marginRight:"10%"}} className="float-right">{ this.state.student_count   } </span> </p>
+                                                  
                                                 </div>
                                             </Col>
                                            
@@ -122,7 +186,7 @@ export default class AdminClassAttendance extends Component {
                                 tableStyle={{height:"150px"}}
                                 >
                                 <TableHeaderColumn width='100' dataField="student" isKey={true} dataFormat={this.studentFormatter}>Student's Name</TableHeaderColumn>
-                                <TableHeaderColumn width='100' dataField='gender'>Gender</TableHeaderColumn>
+                                <TableHeaderColumn width='100' dataField='gender' dataFormat={this.genderFormatter}>Gender</TableHeaderColumn>
                                 <TableHeaderColumn width='100' dataField='age'>Age</TableHeaderColumn>
                                 <TableHeaderColumn width='100' dataField='studentid'>Student ID</TableHeaderColumn>
                                 <TableHeaderColumn width='100' dataField="status" dataFormat={this.buttonFormatter}>Status</TableHeaderColumn>

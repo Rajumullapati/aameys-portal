@@ -112,13 +112,13 @@ class LoginCard extends React.Component{
             console.log('tyhjm');
             console.log(this.props)
             if(response.data[0]['user_role'] == '1'){
-              axios.get('http://localhost:5000/updatestudentstatus?status=1&id='+response.data[0]['user_id_all']).then( res =>
-              this.setState({redirectTo:'student/'+response.data[0]['user_id_all']}))
-              .catch(err => console.log(err))
+              //axios.get('http://localhost:5000/updatestudentstatus?status=1&id='+response.data[0]['user_id_all']).then( res =>
+              this.setState({redirectTo:'student/'+response.data[0]['user_id_all']})//)
+            //  .catch(err => console.log(err))
             }
             if(response.data[0]['user_role'] == '2'){
-              axios.get('http://localhost:5000/updateparentstatus?status=1&id='+response.data[0]['user_id_all']).then( res =>
-              this.setState({redirectTo: 'parent/dash/'+response.data[0]['user_id_all']})).catch(err => console.log(err))
+           //   axios.get('http://localhost:5000/updateparentstatus?status=1&id='+response.data[0]['user_id_all']).then( res =>
+              this.setState({redirectTo: 'parent/dash/'+response.data[0]['user_id_all']})//).catch(err => console.log(err))
             }
             if(response.data[0]['user_role'] == '3'){
               this.setState({redirectTo: 'teacher/'+response.data[0]['user_id_all']})

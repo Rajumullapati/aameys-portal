@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Row, Col, Card, CardBody, Button } from 'reactstrap';
+import { Row, Col, Card, CardBody, Button, BreadcrumbItem, Breadcrumb } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
-
+import Header from '../../Common/header';
+import axios from 'axios';
 
 
 const classdata=[
@@ -19,14 +20,27 @@ export default class AdminStudent extends Component{
         this.buttonFormatter = this.buttonFormatter.bind(this);
         this.studentFormatter = this.studentFormatter.bind(this);
         this.state = {
-            classes: []
+            students: [],
+            admin_id:this.props.match.params.aid,
+            admin:[{"admin_id":"","first_name":"","last_name":"","email":"","img_add":"","teacher_count":"","student_count":"", "class_count":""}]
+     
         }
     }
 
     componentDidMount(){
-        this.setState({
-            classes: classdata
+        
+        axios.get('http://localhost:5000/adminById?id='+this.state.admin_id)
+        .then(res => {
+            this.setState({admin: res.data})
         })
+        .catch(err => console.log(err))
+
+        axios.get('http://localhost:5000/studentsandclass')
+        .then(res => {
+            console.log(res)
+            this.setState({students: res.data})
+        })
+        .catch(err => console.log(err))
     }
 
     buttonFormatter(cell, row){
@@ -35,12 +49,22 @@ export default class AdminStudent extends Component{
 
       studentFormatter(cell,row){
           console.log(cell)
-        return '<a href="#/admin/student/'+row.id+'"><div class="user-dp"><img class="img-fluid rounded-circle" src="assets/images/profile-avatar.jpg" style="margin: 10px; text-align: center; height: 50px;"></img>'+cell+'</div></a>'
+        return '<a href="#/admin/'+this.state.admin_id+'/student/'+row['student_id']+'"><div class="user-dp"><img class="img-fluid rounded-circle" src="assets/images/profile-avatar.jpg" style="margin: 10px; text-align: center; height: 50px;"></img>'+row['first_name']+' '+row['last_name']+'</div></a>'
       }
     render(){
         return(
             <div>
-            <div style={{backgroundColor:"orange", marginTop:"150px",height:"500px", opacity:"0.65"}}> 
+            <Header />
+            <div style={{backgroundColor:"orange" ,height:"550px", opacity:"0.65"}}> 
+            <Row className="page-title">
+          
+          <Col style={{margin:"10px"}} sm={6} lg={4} >
+              <Breadcrumb className="float-left float-sm-left">
+              <BreadcrumbItem >Administrator</BreadcrumbItem>
+              <BreadcrumbItem active>Students</BreadcrumbItem>
+              </Breadcrumb>
+          </Col>
+      </Row>
             <Row>
             <Col lg={3} md={3} sm={3} className="mb-30"></Col>
                 <Col lg={6} md={6} sm={6} className="mb-30">
@@ -54,17 +78,16 @@ export default class AdminStudent extends Component{
                                         </Col>
                                         
                                         <Col>
-                                            <div className="user-detail">
-                                            
-                                                <h2 style={{fontSize:"18px", fontWeight:"bolder"}} className="name">Administrator Info</h2>
-                                                <p>Name: </p>
-                                                <p>Teacher: </p>
-                                                <p>Classes: </p>
-                                                <p>Students: </p>
-                                                <p>Term: </p>
-                                            </div>
-                                        </Col>
-                                       
+                                                <div className="user-detail">
+                                                
+                                                    <h2 style={{fontSize:"18px", fontWeight:"bolder"}} className="name">Administrator Info</h2>
+                                                    <p>Name: <span style={{fontSize:"100%", fontWeight:"bolder", marginRight:"50%"}} className="float-right">{ this.state.admin[0]['first_name']} { this.state.admin[0]['last_name']    } </span></p>
+                                                    <p>Teacher: <span style={{fontSize:"100%", fontWeight:"bolder", marginRight:"50%"}} className="float-right">{ this.state.admin[0]['teacher_count']     } </span> </p>
+                                                    <p>Classes: <span style={{fontSize:"100%", fontWeight:"bolder", marginRight:"50%"}} className="float-right">{ this.state.admin[0]['class_count']     } </span> </p>
+                                                    <p>Students: <span style={{fontSize:"100%", fontWeight:"bolder", marginRight:"50%"}} className="float-right">{ this.state.admin[0]['student_count']     } </span> </p>
+                                                  
+                                                </div>
+                                            </Col>
                                     </Row>
                                     
                                 </div>
@@ -84,12 +107,12 @@ export default class AdminStudent extends Component{
                     <CardBody>
           
                     <BootstrapTable
-                            data={this.state.classes}
+                            data={this.state.students}
                             pagination
                             tableStyle={{height:"150px"}}
                             >
-                            <TableHeaderColumn width='100' dataField="student" isKey={true} dataFormat={this.studentFormatter}>Class Name</TableHeaderColumn>
-                            <TableHeaderColumn width='100' dataField='class'>Teacher</TableHeaderColumn>
+                            <TableHeaderColumn width='100' dataField="first_name" isKey={true} dataFormat={this.studentFormatter}>Student</TableHeaderColumn>
+                            <TableHeaderColumn width='100' dataField='class_name'>Class</TableHeaderColumn>
                             <TableHeaderColumn width='100' dataField="Remove" dataFormat={this.buttonFormatter}>Remove</TableHeaderColumn>
                     </BootstrapTable>
                     </CardBody>

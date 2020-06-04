@@ -3,8 +3,8 @@ import { Row, Col, Card, CardBody, Button, Breadcrumb, BreadcrumbItem } from 're
 import { Link } from 'react-router-dom';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import DatePicker from 'react-datepicker';
-
-
+import Header from '../Common/header';
+import axios from 'axios';
 
 const sched = [{
     "Time":"8:00-9:00",
@@ -111,7 +111,11 @@ export default class AdminSchedule extends Component {
         super(props);
         this.state = {
             simpleDate:  new Date(),
-            schedule: []
+            schedule: [],
+            columns: [],
+            
+            student:[],
+            student_id:this.props.match.params.id
         }
         this.handleChange = this.handleChange.bind(this);   
     }
@@ -125,15 +129,17 @@ export default class AdminSchedule extends Component {
     }
 
     componentDidMount(){
-        columns = Object.keys(sched[0])
-        this.setState({
-            schedule: sched
-        });
+
+        
+
     }
 
     render(){
         return(
+            <div>
+            <Header />
             <div style={{backgroundColor:"orange", height:"500px", opacity:"0.65"}}>
+            
             <Row style={{marginBottom:"25px"}}>
                 <Col sm={2} lg={4} md = {5} >
                 <Breadcrumb style={{marginTop:"5px", marginLeft:"5px"}} className="float-left float-sm-left">
@@ -176,6 +182,7 @@ export default class AdminSchedule extends Component {
                     </Card>
                 </Col>
             </Row>
+        </div>
         </div>
         );
     }

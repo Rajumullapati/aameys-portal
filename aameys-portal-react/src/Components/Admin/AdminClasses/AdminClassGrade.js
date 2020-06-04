@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import { Row, Col, Card,CardTitle, CardBody, Button, Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
+import Header from '../../Common/header';
+import axios from 'axios';
 
-
+var fileDownload = require('js-file-download'); 
 const grades = [
     {
         "name":"student 1",
@@ -29,20 +31,72 @@ export default class AdminClassGrade extends Component {
     constructor(props){
         super(props);
         this.state = {
-            grade:[]
+            grade:[],
+            class_id:this.props.match.params.cid,
+            class_name:"",
+            first_name:"",
+            last_name:"",
+            student_count:"",
+            term:""
         }
+        this.download = this.download.bind(this);
+        this.studentFormatter = this.studentFormatter.bind(this);
     }
 
+
+
     componentDidMount(){
-        columns = Object.keys(grades[0])
-        columns.map((value, index) => (console.log(value)))
-        this.setState({grade:grades})
+
+        axios.get('http://localhost:5000/getclassbyid?id='+this.state.class_id)
+        .then(res => {
+            this.setState({
+                class_name: res.data[0]['class_name'],
+                first_name: res.data[0]['first_name'],
+                last_name: res.data[0]['last_name'],
+                student_count: res.data[0]['student_count'],
+                term: res.data[0]['term']
+            })
+        } )
+        .catch(err => console.log(err))
+
+        axios.get('http://localhost:5000/grades')
+        .then(res => {
+            console.log(res)
+            this.setState({
+                grade: res.data
+            })
+        })
+        .catch(err => console.log(err))
     }
+
+    download(){
+        axios.get('http://localhost:5000/downloadgrades')
+        .then(res => {
+            fileDownload(res.data,'report.csv')
+        })
+    }
+
+    studentFormatter(cell, row){
+        return row['first_name']+" "+row['last_name']
+    }
+
 
     render(){
         return(
             <div>
+            <Header />
                 <div style={{backgroundColor:"orange",height:"580px", opacity:"0.65"}}> 
+                <Row className="page-title">
+          
+          <Col style={{margin:"10px"}} sm={6} lg={4} >
+              <Breadcrumb className="float-left float-sm-left">
+              <BreadcrumbItem >Administrator</BreadcrumbItem>
+              <BreadcrumbItem >Classes</BreadcrumbItem>
+              <BreadcrumbItem >{this.state.class_name}</BreadcrumbItem>
+              <BreadcrumbItem active>Grading</BreadcrumbItem>
+              </Breadcrumb>
+          </Col>
+      </Row>
                 <Row>
                 <Col lg={3} md={3} sm={3} ></Col>
                     <Col lg={6} md={6} sm={6} >
@@ -59,10 +113,12 @@ export default class AdminClassGrade extends Component {
                                                 <div className="user-detail">
                                                 
                                                     <h2 style={{fontSize:"18px", fontWeight:"bolder"}} className="name">Class Info</h2>
-                                                    <p>Class Name: </p>
-                                                    <p>Term: </p>
-                                                    <p>Teacher: </p>
-                                                    <p>Students: </p>
+                                                    <p>Class Name: <span style={{fontSize:"100%", fontWeight:"bolder", marginRight:"10%"}} className="float-right">{ this.state.class_name} </span></p>
+                                                    <p>Term: <span style={{fontSize:"100%", fontWeight:"bolder", marginRight:"10%"}} className="float-right">{ this.state.term}</span> </p>
+                                                    
+                                                    <p>Classes: <span style={{fontSize:"100%", fontWeight:"bolder", marginRight:"10%"}} className="float-right">{ this.state.first_name} {this.state.last_name} </span> </p>
+                                                    <p>Students: <span style={{fontSize:"100%", fontWeight:"bolder", marginRight:"10%"}} className="float-right">{ this.state.student_count   } </span> </p>
+                                                  
                                                 </div>
                                             </Col>
                                            
@@ -75,7 +131,7 @@ export default class AdminClassGrade extends Component {
                     </Col>
                     <Col lg={3} md={3} sm={3}>
                     <div style={{margin:"10px"}}>
-                        <Button style={{marginBottom:"4px", width:"70%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Download grades data</Button>
+                        <Button onClick={this.download} style={{marginBottom:"4px", width:"70%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Download grades data</Button>
                     </div>
                     </Col>
                 </Row>
@@ -89,18 +145,18 @@ export default class AdminClassGrade extends Component {
                                 tableStyle={{height:"150px"}}
                                 pagination
                                 >
-                                <TableHeaderColumn width='100' dataField='name' isKey={true}>Name</TableHeaderColumn>
-                                <TableHeaderColumn width='100' dataField='id'>Student ID</TableHeaderColumn>
-                                <TableHeaderColumn width='100' dataField='1'>1</TableHeaderColumn>
-                                <TableHeaderColumn width='100' dataField='2'>2</TableHeaderColumn>
-                                <TableHeaderColumn width='100' dataField='3'>3</TableHeaderColumn>
-                                <TableHeaderColumn width='100' dataField='4'>4</TableHeaderColumn>
-                                <TableHeaderColumn width='100' dataField='5'>5</TableHeaderColumn>
-                                <TableHeaderColumn width='100' dataField='6'>6</TableHeaderColumn>
-                                <TableHeaderColumn width='100' dataField='7'>7</TableHeaderColumn>
-                                <TableHeaderColumn width='100' dataField='8'>8</TableHeaderColumn>
-                                <TableHeaderColumn width='100' dataField='9'>9</TableHeaderColumn>
-                                <TableHeaderColumn width='100' dataField='10'>10</TableHeaderColumn>
+                                <TableHeaderColumn width='100' dataField='first_name' dataFormat={this.studentFormatter} isKey={true}>Name</TableHeaderColumn>
+                                <TableHeaderColumn width='100' dataField='student_id'>Student ID</TableHeaderColumn>
+                                <TableHeaderColumn width='100' dataField='one'>1</TableHeaderColumn>
+                                <TableHeaderColumn width='100' dataField='two'>2</TableHeaderColumn>
+                                <TableHeaderColumn width='100' dataField='three'>3</TableHeaderColumn>
+                                <TableHeaderColumn width='100' dataField='four'>4</TableHeaderColumn>
+                                <TableHeaderColumn width='100' dataField='five'>5</TableHeaderColumn>
+                                <TableHeaderColumn width='100' dataField='six'>6</TableHeaderColumn>
+                                <TableHeaderColumn width='100' dataField='seven'>7</TableHeaderColumn>
+                                <TableHeaderColumn width='100' dataField='eight'>8</TableHeaderColumn>
+                                <TableHeaderColumn width='100' dataField='nine'>9</TableHeaderColumn>
+                                <TableHeaderColumn width='100' dataField='ten'>10</TableHeaderColumn>
                                 <TableHeaderColumn width='100' dataField='count'>#</TableHeaderColumn>
                                 <TableHeaderColumn width='100' dataField='notes'>Notes</TableHeaderColumn>
                             </BootstrapTable>

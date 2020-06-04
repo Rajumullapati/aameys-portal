@@ -3,6 +3,8 @@ import { Row, Col, Card, CardBody, Button, Breadcrumb, BreadcrumbItem } from 're
 import { Link } from 'react-router-dom';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import './Datatables.css';
+import axios from 'axios';
+import Header from '../../Common/header';
 
 
 export default class AdminTeacherEditInfo extends Component {
@@ -10,34 +12,67 @@ export default class AdminTeacherEditInfo extends Component {
         super(props);
         this.onChange = this.onChange.bind(this);
         this.state = {
-            teacher_id:"",
+            teacher_id:this.props.match.params.id,
             teacher_name_first:"teacher 1",
             teacher_name_last:"k",
             teacher_mail:"abc@gmail.com",
-            breadcrumb:"teacher 1"
+            breadcrumb:"teacher 1",
+            teacher:{"teacher_id": "", "first_name": "", "last_name": "", "email": "", "img_add": "", "student_count":"","class_count":"", "classdetail": [{"class_name": "", "student_count": "", "updated": ""}]}
         }
+
+        this.save = this.save.bind(this)
     }
+
+    save(){
+        console.log('ojn ');
+        let body = {
+            teacher_id: this.state.teacher_id,
+            first_name: this.state.teacher_name_first,
+            last_name: this.state.teacher_name_last
+        }
+
+        console.log(body);
+    }
+
 
     onChange(e) {
         this.setState({ [e.target.name]: e.target.value })
     }
 
+    componentDidMount(){
+        axios.get('http://localhost:5000/teachersbyid?id='+this.state.teacher_id)
+        .then(res => {
+            console.log(res)
+            this.setState({teacher: res.data[0]})
+            console.log(this.state.teacher['first_name'])
+            console.log(this.state.teacher['classdetail'])
+            this.setState({
+                teacher_name_first: this.state.teacher['first_name'],
+                teacher_name_last: this.state.teacher['last_name'],
+                teacher_mail: this.state.teacher['email']
+            })
+    })
+        .catch(err => console.log(err))
+    }
+
     render(){
         return(
             <div>
-                
+                <Header />
                 
                 <div style={{backgroundColor:"orange",height:"550px",opacity:"0.65"}}> 
                 <Row className="page-title">
           
-                    <Col style={{margin:"10px"}} sm={6} lg={4} >
-                        <Breadcrumb className="float-left float-sm-left">
-                        <BreadcrumbItem><a href="#">Administrator</a></BreadcrumbItem>
-                        <BreadcrumbItem><a href="#">Teachers</a></BreadcrumbItem>
-                        <BreadcrumbItem><a href="#">{this.state.breadcrumb}</a></BreadcrumbItem>
-                        <BreadcrumbItem active>Edit Info</BreadcrumbItem>
-                        </Breadcrumb>
-                    </Col>
+                <Col style={{margin:"10px"}} sm={6} lg={4} >
+              <Breadcrumb className="float-left float-sm-left">
+              <BreadcrumbItem>Administrator</BreadcrumbItem>
+              <BreadcrumbItem>Teachers</BreadcrumbItem>
+              <BreadcrumbItem >{this.state.teacher['first_name']} {this.state.teacher['last_name']}</BreadcrumbItem>
+              <BreadcrumbItem active>Edit Info</BreadcrumbItem>
+
+              </Breadcrumb>
+          </Col>
+                   
                 </Row>
 
                 <Row>
@@ -64,7 +99,7 @@ export default class AdminTeacherEditInfo extends Component {
                     </Col>
                     <Col lg={3} md={3} sm={3}>
                     <div style={{margin:"10px"}}>
-                        <Button style={{marginBottom:"4px", width:"60%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Save</Button>
+                        <Button onClick={this.save}   style={{marginBottom:"4px", width:"60%", textAlign: "left", backgroundColor:"grey"}}  className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Save</Button>
                     </div>
                     </Col>
                 </Row>

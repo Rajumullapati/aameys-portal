@@ -56,6 +56,12 @@ export default class ParentAttendance extends Component {
     convert(value){
         console.log('ojknbj')
         console.log(value)
+        let date = new Date(value*1000);
+        let year = date.getFullYear();
+        let month = date.getMonth();
+        let day = date.getDate();
+        let full_date = day+"-"+month+"-"+year;
+        return full_date; 
     }
 
     render(){

@@ -38,12 +38,15 @@ import ParentSchedule from './Components/Parent/ParentSchedule';
 import ParentRegChild from './Components/Parent/ParentRegChild';
 import ParentMailTeaher from './Components/Parent/ParentMailTeacher';
 import ParentEditInfo from './Components/Parent/ParentEditInfo';
+import AdminClassAddClass from './Components/Admin/AdminClasses/AdminClassAddClass';
+
+
 
 const Routers = () => {
 
     
 		return(
-				<Base>
+				<Base >
 					<Switch>
 						<Route exact path="/" component={Home}/>
 						<Route exact path="/student/:id/" component={Student} />
@@ -63,28 +66,29 @@ const Routers = () => {
 						<Route exact path="/parent/:pid/accinfo" component={ParentEditInfo} />
 
 
-						<Route exact path="/admin/teacher/addteach" component={AdminTeacherAddTeacher} />
-						<Route exact path="/admin" component={Admin} />
-						<Route exact path="/admin/teacher" component={AdminTeacher} />
-						<Route exact path="/admin/teacher/:id" component={AdminTeacherInfo} />
-						<Route exact path="/admin/teacher/:id/editinfo" component={AdminTeacherEditInfo} />
-						<Route exact path="/admin/teacher/:id/assignclass" component={AdminTeacherAssignClasses} />
-						<Route exact path="/admin/class" component={AdminClass} />
-						<Route exact path="/admin/class/:classname" component={AdminClassInfo} />
-						<Route exact path="/admin/class/:classname/editinfo" component={AdminClassesEditClassInfo} />
-						<Route exact path="/admin/class/:classname/assignteacher" component={AdminClassAssignTeacher} />
-						<Route exact path="/admin/class/:classname/assignstudent" component={AdminClassAssignStudent} />
-						<Route exact path="/admin/class/:classname/attendance" component={AdminClassAttendance} />
-						<Route exact path="/admin/class/:classname/grading" component={AdminClassGrade} />
-						<Route exact path="/admin/student/" component={AdminStudent} />
-						<Route exact path="/admin/student/addstudent" component={AdminStudentAddStudent} />
-						<Route exact path="/admin/student/:id" component={AdminStudentEditInfo} />
-						<Route exact path="/admin/student/:id/assignclass" component={AdminStudentAssignClass} />
-						<Route exact path="/admin/schedule" component={AdminSchedule} />
-						<Route exact path="/admin/emailteacher" component={AdminEmailTeachers} />
-						<Route exact path="/admin/emailstudent" component={AdminEmailStudent} />
-						<Route exact path="/admin/emailparent" component={AdminEmailParent} />
-						<Route exact path="/admin/editinfo" component={AdminEditInfo} />
+						<Route exact path="/admin/:aid/teacher/addteach" component={AdminTeacherAddTeacher} />
+						<Route exact path="/admin/:aid" component={Admin} />
+						<Route exact path="/admin/:aid/teacher" component={AdminTeacher} />
+						<Route exact path="/admin/:aid/teacher/:id" component={AdminTeacherInfo} />
+						<Route exact path="/admin/:aid/teacher/:id/editinfo" component={AdminTeacherEditInfo} />
+						<Route exact path="/admin/:aid/teacher/:id/assignclass" component={AdminTeacherAssignClasses} />
+						<Route exact path="/admin/:aid/class" component={AdminClass} />
+						<Route exact path="/admin/:aid/class/addclass" component={AdminClassAddClass} />
+						<Route exact path="/admin/:aid/class/:cid" component={AdminClassInfo} />
+						<Route exact path="/admin/:aid/class/:cid/editinfo" component={AdminClassesEditClassInfo} />
+						<Route exact path="/admin/:aid/class/:cid/assignteacher" component={AdminClassAssignTeacher} />
+						<Route exact path="/admin/:aid/class/:cid/assignstudent" component={AdminClassAssignStudent} />
+						<Route exact path="/admin/:aid/class/:cid/attendance" component={AdminClassAttendance} />
+						<Route exact path="/admin/:aid/class/:cid/grading" component={AdminClassGrade} />
+						<Route exact path="/admin/:aid/student/" component={AdminStudent} />
+						<Route exact path="/admin/:aid/student/addstudent" component={AdminStudentAddStudent} />
+						<Route exact path="/admin/:aid/student/:id" component={AdminStudentEditInfo} />
+						<Route exact path="/admin/:aid/student/:id/assignclass" component={AdminStudentAssignClass} />
+						<Route exact path="/admin/:aid/schedule" component={AdminSchedule} />
+						<Route exact path="/admin/:aid/emailteacher" component={AdminEmailTeachers} />
+						<Route exact path="/admin/:aid/emailstudent" component={AdminEmailStudent} />
+						<Route exact path="/admin/:aid/emailparent" component={AdminEmailParent} />
+						<Route exact path="/admin/:aid/editinfo" component={AdminEditInfo} />
 						
 					</Switch>
 				</Base>

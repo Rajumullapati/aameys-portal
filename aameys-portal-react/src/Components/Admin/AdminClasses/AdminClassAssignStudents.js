@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { Row, Col, Card, CardBody, Button, Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
-
+import Header from '../../Common/header'
+import axios from 'axios';
 
 
 const student = [{
@@ -15,17 +16,28 @@ export default class AdminClassAssignStudent extends Component {
         this.onSelect = this.onSelect.bind(this);
         this.state = {
             class:"",
-            students:[],
+            admin_id:this.props.match.params.aid,
+            students:[{'first_name':"",'last_name':""}],
             selected:[]
         }
+        this.studentFormatter = this.studentFormatter.bind(this);
     }
 
     componentDidMount(){
-        this.setState({
-            class:"English",
-            students: student,
-            selected: []
+        axios.get('http://localhost:5000/adminById?id='+this.state.admin_id)
+        .then(res => {
+            this.setState({admin: res.data})
         })
+        .catch(err => console.log(err))
+
+        axios.get('http://localhost:5000/students')
+        .then(res =>{
+            console.log(res)
+            this.setState({
+                students:res.data
+            })
+        })
+
     }
 
 
@@ -41,6 +53,10 @@ export default class AdminClassAssignStudent extends Component {
             })
             console.log(this.state.selected)
         }
+    }
+
+    studentFormatter(cell, row){
+        return row['first_name']+' '+row['last_name']
     }
 
     render(){
@@ -123,7 +139,7 @@ export default class AdminClassAssignStudent extends Component {
                                 selectRow={selectRowProp}   
                                 tableStyle={{height:"100px"}}
                                 >
-                                <TableHeaderColumn width='100' dataField='student' isKey={true}>Student</TableHeaderColumn>
+                                <TableHeaderColumn width='100' dataFormat={this.studentFormatter} dataField='first_name' isKey={true}>Student</TableHeaderColumn>
                         </BootstrapTable>
                         </CardBody>
                     </Card>

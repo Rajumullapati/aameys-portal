@@ -3,6 +3,7 @@ import { Row, Col, Card, CardBody, Button, Breadcrumb, BreadcrumbItem } from 're
 import { Link } from 'react-router-dom';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import './Datatables.css';
+import Header from '../../Common/header'
 
 
 export default class AdminTeacherAddTeacher extends Component {
@@ -27,15 +28,15 @@ export default class AdminTeacherAddTeacher extends Component {
         return(
             <div>
                 
-                
+                <Header />
                 <div style={{backgroundColor:"orange",height:"550px",opacity:"0.65"}}> 
                 <Row className="page-title">
           
                     <Col style={{margin:"10px"}} sm={6} lg={4} >
                         <Breadcrumb className="float-left float-sm-left">
-                        <BreadcrumbItem><a href="#">Administrator</a></BreadcrumbItem>
-                        <BreadcrumbItem><a href="#">Teachers</a></BreadcrumbItem>
-                        <BreadcrumbItem actice>{this.state.breadcrumb}</BreadcrumbItem>
+                        <BreadcrumbItem>Administrator</BreadcrumbItem>
+                        <BreadcrumbItem>Teachers</BreadcrumbItem>
+                        <BreadcrumbItem active>{this.state.breadcrumb}</BreadcrumbItem>
                         </Breadcrumb>
                     </Col>
                 </Row>

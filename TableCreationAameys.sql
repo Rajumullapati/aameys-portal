@@ -28,6 +28,9 @@ create table teacher (
 create table class(
 	class_id int IDENTITY(10001,1) PRIMARY KEY,
 	class_name varchar(40) not null,
+	updated date not null,
+	term int not null,
+	school varchar(40) not null,
 	teacher_id int
 );
 
@@ -36,7 +39,6 @@ create table student (
 	first_name varchar(40) not null,
 	last_name varchar(40) not null,
 	email varchar(50) not null,
-	term int not null,
 	gender int not null,   ---1 : male 0: female
 	birthday date not null,
 	mobile varchar(20) not null,

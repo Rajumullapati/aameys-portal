@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Row, Col, Card, CardBody, Button, Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import { Link } from 'react-router-dom';
-
+import Header from '../../Common/header'; 
 
 export default class AdminStudentAddStudent extends Component {
     constructor(props){
@@ -18,7 +18,7 @@ export default class AdminStudentAddStudent extends Component {
             pmail:"",
             pphone:""
         }
-
+        this.save = this.save.bind(this);
         this.onChange = this.onChange.bind(this);
     }
 
@@ -26,10 +26,27 @@ export default class AdminStudentAddStudent extends Component {
         this.setState({ [e.target.name]: e.target.value })
     }
 
+    save(){
+        let body = {
+            student_first_name: this.state.fname,
+            student_last_name: this.state.lname,
+            student_mail: this.state.mail,
+            class: this.state.class,
+            phone: this.state.phone,
+            id: this.state.id,
+            parent_first_name: this.state.pfname,
+            parent_last_name: this.state.plname,
+            parent_mail: this.state.pmail,
+            parent_phone: this.state.pphone
+        }
+
+        console.log(body)
+    }
 
     render(){
         return(
             <div>
+            <Header />
             <div style={{backgroundColor:"orange",height:"500px",opacity:"0.65"}}> 
                 <Row className="page-title">
           
@@ -63,7 +80,7 @@ export default class AdminStudentAddStudent extends Component {
                     </Col>
                     <Col lg={2} md={2} sm={2}>
                     <div style={{margin:"10px"}}>
-                        <Button style={{marginBottom:"4px", width:"60%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Save</Button>
+                        <Button onClick={this.save} style={{marginBottom:"4px", width:"60%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Save</Button>
                     </div>
                     </Col>
                 </Row>

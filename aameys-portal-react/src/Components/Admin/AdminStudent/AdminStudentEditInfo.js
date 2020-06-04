@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Row, Col, Card, CardBody, Button, Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import Header from '../../Common/header';
+import axios from 'axios';
 
 
 var path="";
@@ -9,6 +11,7 @@ export default class AdminStudentAddStudent extends Component {
     constructor(props){
         super(props);
         this.state = {
+            student_id:this.props.match.params.id,
             class:"",
             fname:"",
             lname:"",
@@ -20,13 +23,30 @@ export default class AdminStudentAddStudent extends Component {
             pmail:"",
             pphone:""
         }
-        
+        this.save = this.save.bind(this);
         this.onChange = this.onChange.bind(this);
     }
 
 
     componentDidMount(){
         path = this.state.id+"/assignclass";
+        axios.get('http://localhost:5000/getalldetailbysid?id='+this.state.student_id)
+        .then(res =>{
+            console.log(res)
+            this.setState({
+                class: res.data[0]['class_name'],
+                fname:res.data[0]['student_first_name'],
+                lname: res.data[0]['student_last_name'],
+                mail: res.data[0]['student_email'],
+                phone: res.data[0]['student_mobile'],
+                id: res.data[0]['student_id'],
+                pfname: res.data[0]['first_name'],
+                plname: res.data[0]['last_name'],
+                pmail:res.data[0]['email'],
+                pphone: res.data[0]['student_mobile']
+            })
+        })
+        
     }
 
 
@@ -34,18 +54,34 @@ export default class AdminStudentAddStudent extends Component {
         this.setState({ [e.target.name]: e.target.value })
     }
 
+    save(){
+        let body = {
+            student_first_name: this.state.fname,
+            student_last_name: this.state.lname,
+            student_mail: this.state.mail,
+            class: this.state.class,
+            phone: this.state.phone,
+            id: this.state.id,
+            parent_first_name: this.state.pfname,
+            parent_last_name: this.state.plname,
+            parent_mail: this.state.pmail,
+            parent_phone: this.state.pphone
+        }
+        console.log(body)   
+    }
 
     render(){
         return(
             <div>
+            <Header />
             <div style={{backgroundColor:"orange",height:"500px",opacity:"0.65"}}> 
                 <Row className="page-title">
           
                     <Col style={{marginTop:"10px", marginLeft:"10px"}} sm={6} lg={4} >
                         <Breadcrumb className="float-left float-sm-left">
-                        <BreadcrumbItem><a href="#">Administrator</a></BreadcrumbItem>
-                        <BreadcrumbItem><a href="#">Students</a></BreadcrumbItem>
-                        <BreadcrumbItem active>Add Student</BreadcrumbItem>
+                        <BreadcrumbItem>Administrator</BreadcrumbItem>
+                        <BreadcrumbItem>Students </BreadcrumbItem>
+                        <BreadcrumbItem active>{this.state.fname} {this.state.lname}</BreadcrumbItem>
                         </Breadcrumb>
                     </Col>
                 <Col lg={1} md={1} sm={1} className="mb-30"></Col>
@@ -72,10 +108,10 @@ export default class AdminStudentAddStudent extends Component {
                     <Col lg={2} md={2} sm={2}>
                     
                     <div style={{margin:"10px"}}>
-                        <Button style={{marginBottom:"4px", width:"130%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Save Changes</Button>
+                        <Button onClick={this.save} style={{marginBottom:"4px", width:"130%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Save Changes</Button>
                         <Button style={{marginBottom:"4px", width:"130%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Save Changes and edit next</Button>
                         <Button style={{marginBottom:"4px", width:"130%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Donot save and edit next</Button>
-                        <Link to={{pathname:path}}><Button style={{marginBottom:"4px", width:"130%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Assign classes</Button></Link>
+                        <Link to={{pathname:`${this.state.student_id}/assignclass`}}><Button style={{marginBottom:"4px", width:"130%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Assign classes</Button></Link>
 
                     </div>
                     </Col>

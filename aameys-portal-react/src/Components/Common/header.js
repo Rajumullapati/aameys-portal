@@ -22,9 +22,42 @@
 
 
 import React,{Component} from 'react';
-import { Link } from 'react-router-dom';
+import { Link, matchPath } from 'react-router-dom';
 import { Row, Col } from 'reactstrap';
 import './header.css';
+
+
+
+
+const isStudent = pathname => {
+  const matchProfile = matchPath(pathname, {
+    path: `/student`,
+  });
+  return (matchProfile && matchProfile.params) || {};
+};
+
+const isParent = pathname => {
+  const matchProfile = matchPath(pathname, {
+    path: `/parent`,
+  });
+  return (matchProfile && matchProfile.params) || {};
+};
+
+const isAdmin = pathname => {
+  const matchProfile = matchPath(pathname, {
+    path: `/admin`,
+  });
+  return (matchProfile && matchProfile.params) || {};
+};
+
+const isTeacher = pathname => {
+  const matchProfile = matchPath(pathname, {
+    path: `/teacher`,
+  });
+  return (matchProfile && matchProfile.params) || {};
+};
+
+
 class Header extends Component{
 
     constructor(props) {
@@ -38,14 +71,18 @@ class Header extends Component{
           teacher_id:"",
           parent_id:""
         };
-        this.togglebutton = this.togglebutton.bind(this);
         console.log(process.env.PUBLIC_URL);
         console.log(process.env.NODE_ENV);
       }
-      togglebutton(toggleactive) {
-        this.props.updateParent();
-      };
- 
+      
+
+      componentDidUpdate(){
+        console.log(this.props)
+      }
+      
+      componentDidMount(){
+        console.log(this.props)
+      }
     render(){
         return(
             <div style={{marginBottom:"90px"}}>

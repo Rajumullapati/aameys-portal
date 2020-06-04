@@ -16,11 +16,12 @@ class Base extends Component{
             toggleactive:!prevState.toggleactive
         }))
       }
+
     render(){
-       
+        console.log(this.props)
         return(
             <div className="cover-full container-fluid" style={{width:"100%"}}>
-                <Header updateParent={this.updateValue} />
+                {/* <Header updateParent={this.updateValue} /> */}
                 <div >
                     <div >
                         <div >

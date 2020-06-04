@@ -2,13 +2,12 @@ import React, { Component } from 'react';
 import { Row, Col, Card, CardBody, Button, Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import Header from '../../Common/header';
-import axios from 'axios';
 
-export default class AdminClassesEditClassInfo extends Component {
+
+export default class AdminClassAddClass extends Component {
     constructor(props){
         super(props);
         this.state = {
-            class_id: this.props.match.params.cid,
             class:"",
             term:"",
             school:"",
@@ -18,37 +17,28 @@ export default class AdminClassesEditClassInfo extends Component {
 
     }
 
-    componentDidMount(){
-        axios.get('http://localhost:5000/getclassbyid?id='+this.state.class_id)
-        .then(res => {
-            this.setState({
-                class:res.data[0]['class_name'],
-                term:res.data[0]['term'],
-                school:res.data[0]['school']
-            })
-        })
-        .catch(err => console.log(err))
-    }   
-
     onChange(e) {
         this.setState({ [e.target.name]: e.target.value })
     }
 
 
+    componentDidMount(){
+
+    }
+
     render(){
         return(
             <div>
-    <Header />
-                 
+
+                 <Header />
 <div style={{backgroundColor:"orange",height:"550px",opacity:"0.65"}}> 
                 <Row className="page-title">
           
                     <Col style={{margin:"10px"}} sm={6} lg={4} >
                         <Breadcrumb className="float-left float-sm-left">
-                        <BreadcrumbItem><a href="#">Administrator</a></BreadcrumbItem>
-                        <BreadcrumbItem><a href="#">Classes</a></BreadcrumbItem>
-                        <BreadcrumbItem><a href="#">{this.state.class}</a></BreadcrumbItem>
-                        <BreadcrumbItem active>Edit Info</BreadcrumbItem>
+                        <BreadcrumbItem>Administrator</BreadcrumbItem>
+                        <BreadcrumbItem>Classes</BreadcrumbItem>
+                        <BreadcrumbItem active>Add class</BreadcrumbItem>
                         </Breadcrumb>
                     </Col>
                 </Row>
@@ -92,7 +82,7 @@ export default class AdminClassesEditClassInfo extends Component {
                             <label htmlFor="term" className="col-sm-2 col-form-label" ><span style={{color:"black", fontSize:"100%", marginRight:"3px"}}>Term</span></label>
                         </Col>
                             <Col lg={10} md={10} sm={10}>
-                                <input type="text" className="form-control" id="term" placeholder="Term" onChange={this.onChange} name="term" value={this.state.term}  />
+                                <input type="text" onChange={this.onChange} className="form-control" id="term" placeholder="Term" onChange={this.onChange} name="term" value={this.state.term}  />
                             </Col>
                         </Row>
                         <Row className="form-group">
@@ -100,15 +90,15 @@ export default class AdminClassesEditClassInfo extends Component {
                             <label htmlFor="class" className="col-sm-2 col-form-label"><span style={{color:"black", fontSize:"100%", marginRight:"3px"}}>Class Name</span></label>
                             </Col>
                             <Col lg={10} md={10} sm={10} >
-                                <input type="text" className="form-control" id="class" placeholder="Class Name" onChange={this.onChange} name="class" value={this.state.class} />
+                                <input type="text" onChange={this.onChange} className="form-control" id="class" placeholder="Class Name" onChange={this.onChange} name="class" value={this.state.class} />
                             </Col>
                         </Row>
                         <Row className="form-group">
                         <Col lg={2} md={2} sm={2} style={{marginRight:"0px"}}>
-                            <label htmlFor="school" className="col-sm-2 col-form-label"><span style={{color:"black", fontSize:"100%", marginRight:"3px"}}>School</span></label>
+                            <label htmlFor="school" className="col-sm-2 col-form-label"><span style={{color:"black", fontSize:"100%", marginRight:"3px"}}>AAMEYS</span></label>
                             </Col>
                             <Col lg={10} md={10} sm={10} >
-                                <input type="text" className="form-control" id="school" placeholder="School" onChange={this.onChange} name="school" value={this.state.school} />
+                                <input type="text" onChange={this.onChange} className="form-control" id="school" placeholder="School" onChange={this.onChange} name="school" value={this.state.school} />
                             </Col>
                         </Row>
                         

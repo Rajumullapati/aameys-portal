@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { Row, Col, Card, CardBody, Button, Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
-
+import Header from '../../Common/header';
+import axios from 'axios';
 
 
 const teachers = [{
@@ -40,16 +41,39 @@ export default class AdminClassAssignTeacher extends Component {
         this.state = {
             teacher:[],
             selected:[],
-            class:""
+            class:"",
+            term:"",
+            school:"",
+            class_id:this.props.match.params.cid,
+            class_name:"",
+            first_name:"",
+            last_name:"",
+            student_count:""
         }
+        this.teacherFormatter = this.teacherFormatter.bind(this)
     }
 
     componentDidMount(){
-        this.setState({
-            class:"English",
-            teacher: teachers,
-            selected: []
-        })
+        axios.get('http://localhost:5000/getclassbyid?id='+this.state.class_id)
+        .then(res => {
+            this.setState({
+                class_name: res.data[0]['class_name'],
+                first_name: res.data[0]['first_name'],
+                last_name: res.data[0]['last_name'],
+                student_count: res.data[0]['student_count'],
+                term: res.data[0]['term']
+            })
+        } )
+        .catch(err => console.log(err))
+
+        axios.get('http://localhost:5000/teachers').
+        then( res =>
+        {
+            console.log(res)
+            this.setState({teacher: res.data})
+        }
+        )
+        .catch(err => console.log(err))
     }
 
 
@@ -67,6 +91,9 @@ export default class AdminClassAssignTeacher extends Component {
         }
     }
 
+    teacherFormatter(){
+        return this.state.first_name+" "+this.state.last_name
+    }
 
     render(){
         const selectRowProp = {
@@ -77,15 +104,16 @@ export default class AdminClassAssignTeacher extends Component {
         };
         return(
             <div>
+            <Header />
                 <div style={{backgroundColor:"orange",height:"550px", opacity:"0.65"}}> 
                  <Row className="page-title">
           
                     <Col style={{margin:"10px"}} sm={6} lg={4} >
                         <Breadcrumb className="float-left float-sm-left">
-                        <BreadcrumbItem><a href="#">Administrator</a></BreadcrumbItem>
-                        <BreadcrumbItem><a href="#">Class</a></BreadcrumbItem>
-                        <BreadcrumbItem ><a href="#">{this.state.class}</a></BreadcrumbItem>
-                        <BreadcrumbItem actice>Assign Teacher</BreadcrumbItem>
+                        <BreadcrumbItem>Administrator</BreadcrumbItem>
+                        <BreadcrumbItem>Class</BreadcrumbItem>
+                        <BreadcrumbItem >{this.state.class_name}</BreadcrumbItem>
+                        <BreadcrumbItem active>Assign Teacher</BreadcrumbItem>
                         </Breadcrumb>
                     </Col>
                 </Row>
@@ -104,11 +132,13 @@ export default class AdminClassAssignTeacher extends Component {
                                             <Col>
                                                 <div className="user-detail">
                                                 
-                                                    <h2 style={{fontSize:"18px", fontWeight:"bolder"}} className="name">Teacher Info</h2>
-                                                    <p>Class Name: </p>
-                                                    <p>Term: </p>
-                                                    <p>Teacher: </p>
-                                                    <p>Students: </p>
+                                                    <h2 style={{fontSize:"18px", fontWeight:"bolder"}} className="name">Class Info</h2>
+                                                    <p>Class Name: <span style={{fontSize:"100%", fontWeight:"bolder", marginRight:"10%"}} className="float-right">{ this.state.class_name} </span></p>
+                                                    <p>Term: <span style={{fontSize:"100%", fontWeight:"bolder", marginRight:"10%"}} className="float-right">{ this.state.term}</span> </p>
+                                                    
+                                                    <p>Classes: <span style={{fontSize:"100%", fontWeight:"bolder", marginRight:"10%"}} className="float-right">{ this.state.first_name} {this.state.last_name} </span> </p>
+                                                    <p>Students: <span style={{fontSize:"100%", fontWeight:"bolder", marginRight:"10%"}} className="float-right">{ this.state.student_count   } </span> </p>
+                                                  
                                                 </div>
                                             </Col>
                                            
@@ -145,9 +175,9 @@ export default class AdminClassAssignTeacher extends Component {
                                 selectRow={selectRowProp}   
                                 tableStyle={{height:"100px"}}
                                 >
-                                <TableHeaderColumn width='100' dataField='teacher' isKey={true}>Teacher</TableHeaderColumn>
-                                <TableHeaderColumn width='100' dataField='class' >Class Name</TableHeaderColumn>
-                                <TableHeaderColumn width='100' dataField="Students">Students</TableHeaderColumn>
+                                <TableHeaderColumn width='100' dataField='first_name' dataFormat={this.teacherFormatter} isKey={true}>Teacher</TableHeaderColumn>
+                                <TableHeaderColumn width='100' dataField='class_num' >Class</TableHeaderColumn>
+                                <TableHeaderColumn width='100' dataField="student_num">Students</TableHeaderColumn>
                         </BootstrapTable>
                         </CardBody>
                     </Card>
