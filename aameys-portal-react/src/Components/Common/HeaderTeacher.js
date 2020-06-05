@@ -50,15 +50,10 @@ const isAdmin = pathname => {
   return (matchProfile && matchProfile.params) || {};
 };
 
-const isTeacher = pathname => {
-  const matchProfile = matchPath(pathname, {
-    path: `/teacher`,
-  });
-  return (matchProfile && matchProfile.params) || {};
-};
 
 
-class Header extends Component{
+
+class HeaderTeacher extends Component{
 
     constructor(props) {
         super(props);
@@ -101,7 +96,7 @@ class Header extends Component{
                     <ul className="nav navbar-nav ml-auto col-lg-12 col-12">
                     {/* <Row className="col-lg-12 col-12" md={12} lg={12} sm={12}> */}
                     <div className=""></div>
-                    <Col  sm={2} md={2} lg={1}>
+                    <Col style={{ visibility:`${this.state.admin_id == "" ? 'hidden' : 'visible'}`}} sm={2} md={2} lg={1}>
                           <a href="#" >Admin</a>
                         </Col>
                         <Col style={{textAlign:"center"}} sm={2} md={2} lg={2}>
@@ -111,14 +106,14 @@ class Header extends Component{
                           <a href="#" >Home</a>
                         </Col>
                         
-                        <Col style={{textAlign:"right"}} sm={2} md={2} lg={2}>
+                        <Col className="active" style={{textAlign:"right"}} sm={2} md={2} lg={2}>
                           <a href="#" >TEACHERS</a>
                         </Col>
                         <Link className={`${this.state.student_id != ""? 'active' : ''}`} to={{pathname:  `/student/${this.state.user_id}`}}><Col sm={2} md={2} lg={2}>
                           <a href="#" >STUDENTS</a>
                         </Col></Link>
                         <Col  sm={2} md={2} lg={2}>
-                          <a href="#/parent/signup" >PARENTS</a>
+                          <a href="#" >PARENTS</a>
                         </Col>
                         <Col sm={2} md={2} lg={2}>
                           <a href="#" >CAREERS</a>
@@ -137,5 +132,5 @@ class Header extends Component{
         );
     }
 }
-export default Header;
+export default HeaderTeacher;
 

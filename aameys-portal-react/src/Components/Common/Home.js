@@ -2,6 +2,7 @@ import React,{Component} from 'react';
 import { Row, CardBody, Card, Col,Breadcrumb,BreadcrumbItem } from 'reactstrap';
 import './Home.css';
 import LoginCard from './LoginCard';
+import HeaderCommon from './HeaderCommon';
 
 
 export default class Home extends Component {
@@ -18,7 +19,7 @@ export default class Home extends Component {
         return(
             <div >
                 {/* <Row > */}
-           
+                            <HeaderCommon />
                             <LoginCard></LoginCard>
                  
                 {/* </Row> */}

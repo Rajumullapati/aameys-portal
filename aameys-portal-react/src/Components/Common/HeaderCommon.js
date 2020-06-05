@@ -101,9 +101,6 @@ class Header extends Component{
                     <ul className="nav navbar-nav ml-auto col-lg-12 col-12">
                     {/* <Row className="col-lg-12 col-12" md={12} lg={12} sm={12}> */}
                     <div className=""></div>
-                    <Col  sm={2} md={2} lg={1}>
-                          <a href="#" >Admin</a>
-                        </Col>
                         <Col style={{textAlign:"center"}} sm={2} md={2} lg={2}>
                           <a href="#" >About Us</a>
                         </Col>
@@ -114,14 +111,14 @@ class Header extends Component{
                         <Col style={{textAlign:"right"}} sm={2} md={2} lg={2}>
                           <a href="#" >TEACHERS</a>
                         </Col>
-                        <Link className={`${this.state.student_id != ""? 'active' : ''}`} to={{pathname:  `/student/${this.state.user_id}`}}><Col sm={2} md={2} lg={2}>
+                        <Col sm={2} md={2} lg={2}>
                           <a href="#" >STUDENTS</a>
-                        </Col></Link>
+                        </Col>
                         <Col  sm={2} md={2} lg={2}>
                           <a href="#/parent/signup" >PARENTS</a>
                         </Col>
                         <Col sm={2} md={2} lg={2}>
-                          <a href="#" >CAREERS</a>
+                          <a href="#/careers" >CAREERS</a>
                         </Col>
                         {/* <Col sm={2}>
                           <a href="#" >New registered user  </a>

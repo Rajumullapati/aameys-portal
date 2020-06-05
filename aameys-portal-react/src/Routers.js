@@ -39,7 +39,7 @@ import ParentRegChild from './Components/Parent/ParentRegChild';
 import ParentMailTeaher from './Components/Parent/ParentMailTeacher';
 import ParentEditInfo from './Components/Parent/ParentEditInfo';
 import AdminClassAddClass from './Components/Admin/AdminClasses/AdminClassAddClass';
-
+import Career from './Components/Common/Career';
 
 
 const Routers = () => {
@@ -89,6 +89,10 @@ const Routers = () => {
 						<Route exact path="/admin/:aid/emailstudent" component={AdminEmailStudent} />
 						<Route exact path="/admin/:aid/emailparent" component={AdminEmailParent} />
 						<Route exact path="/admin/:aid/editinfo" component={AdminEditInfo} />
+
+
+						<Route exact path="/careers" component={Career} />
+
 						
 					</Switch>
 				</Base>
