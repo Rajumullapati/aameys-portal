@@ -75,13 +75,17 @@ def getStudentById():
     con.close()
     return data
 
-@app.route('/attendancebyid')
+@app.route('/attendancebysid')
 def getStudentAttendanceById():
+    print('bvbnm')
     id = request.args['id']
     con = connDB()
+
     data = pandas.read_sql('select top(5) * from attendance where student_id = '+id+' order by dateattendance',con)
+    print(data)
     data.index = data['dateattendance']
     data = data.drop(['dateattendance','student_id'], axis=1)
+    #print
     data = data.T
     print(data)
     con.close()

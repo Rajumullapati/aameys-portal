@@ -7,7 +7,7 @@ create table parent (
 	last_name varchar(40) not null,
 	email varchar(50) not null,
 	img_add varchar(100) not null,
-	birthday date not null,
+	birthday date,
 	gender int not null ---1 : male 0: female
 )
 
@@ -52,7 +52,7 @@ create table student (
 create table attendance (
 	student_id int,
 	dateattendance date,
-	absence int
+	absence int  ---1 present 0 absent
 )
 
 create table schedule(

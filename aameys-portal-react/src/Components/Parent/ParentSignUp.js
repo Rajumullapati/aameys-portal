@@ -3,16 +3,17 @@ import { Row, Col, Card, CardBody, Button, Breadcrumb, BreadcrumbItem } from 're
 import { Link } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import axios from 'axios';
+import HeaderCommon from '../Common/HeaderCommon';
 
 export default class ParentSignUp extends Component {
     constructor(props){
         super(props);
         this.state={
-            fname:"jim",
-            sname:"holms",
-            email:"abc@bakerstreet.com",
-            password:"parent",
-            gender:"1",
+            fname:"",
+            sname:"",
+            email:"",
+            password:"",
+            gender:"",
             gridCheck:"",
             simpleDate:  new Date()
         }
@@ -42,7 +43,7 @@ export default class ParentSignUp extends Component {
           lname: this.state.sname,
           email: this.state.email,
           pass: this.state.password,
-          bday: this.state.simpleDate,
+          bday: '',
           gender: this.state.gender
         }
 
@@ -68,28 +69,28 @@ export default class ParentSignUp extends Component {
       console.log('yjm')
       let flag =true;
       console.log(this.state)
-      if(flag && this.state.password.length < 6){
-        flag = false;
-      }
-      if(flag && this.state.simpleDate.length ==0){
-        flag = false;
-      }
-      if(flag && this.state.gender.length ==0){
-        flag = false;
-      }
-      if(flag && this.state.email.length ==0){
-        flag = false;
-      }
-      if(flag && this.state.sname.length ==0){
-        flag = false;
-      }
-      if(flag && this.state.fname.length ==0){
-        flag = false;
-      }
-      console.log(this.state.gridCheck)
-      if(flag && this.state.gridCheck.length ==0){
-        flag = false;
-      }
+      // if(flag && this.state.password.length < 6){
+      //   flag = false;
+      // }
+      // if(flag && this.state.simpleDate.length ==0){
+      //   flag = false;
+      // }
+      // if(flag && this.state.gender.length ==0){
+      //   flag = false;
+      // }
+      // if(flag && this.state.email.length ==0){
+      //   flag = false;
+      // }
+      // if(flag && this.state.sname.length ==0){
+      //   flag = false;
+      // }
+      // if(flag && this.state.fname.length ==0){
+      //   flag = false;
+      // }
+      // console.log(this.state.gridCheck)
+      // if(flag && this.state.gridCheck.length ==0){
+      //   flag = false;
+      // }
       return flag
     }
 
@@ -106,26 +107,27 @@ export default class ParentSignUp extends Component {
     render(){
         return(
             <div>
+            <HeaderCommon />
             <div style={{backgroundColor:"orange",height:"500px", opacity:"0.65", padding:"10px"}}> 
                 <Card style={{margin:"30px"}} >
               <CardBody >
                 <form>
                   <div className="form-row">
                     <Col>
-                      <input type="text" id="fname" onChange={this.onChange} value={this.state.fname} className="form-control" placeholder="First name" />
+                      <input type="text" id="fname" name="fname" onChange={this.onChange} value={this.state.fname} className="form-control" placeholder="First name" />
                     </Col>
                     <Col>
-                      <input type="text" id="lname" onChange={this.onChange} value={this.state.sname} className="form-control" placeholder="Surname" />
+                      <input type="text" id="lname" name="sname" onChange={this.onChange} value={this.state.sname} className="form-control" placeholder="Surname" />
                     </Col>
                   </div>
                   <div className="form-row">
                     <div className="form-group col-md-6">
                       <label htmlFor="inputEmail4">Email</label>
-                      <input type="email" className="form-control" value={this.state.email} id="email" placeholder="Email" />
+                      <input type="email" className="form-control" onChange={this.onChange} value={this.state.email} name="email" placeholder="Email" />
                     </div>
                     <div className="form-group col-md-6">
                       <label htmlFor="inputPassword4">Password</label>
-                      <input type="password" className="form-control" id="password" value={this.state.password} placeholder="Password" />
+                      <input type="password" name="password" onChange={this.onChange} className="form-control" id="password" value={this.state.password} placeholder="Password" />
                     </div>
                   </div>
                   <Col lg={4} md={4} sm={4} />
