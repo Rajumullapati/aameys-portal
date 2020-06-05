@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import { Row, Col, Card, CardBody, Button, Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
-import Header from '../Common/header';
+import HeaderTeacher from '../Common/HeaderTeacher';
 import axios from 'axios';
-
 
 const teacher = [
     {
@@ -12,32 +11,37 @@ const teacher = [
         mail:"abc@gmail.com"
     }
 ]
-export default class AdminEmailStudent extends Component {
+export default class TeacherEmailParent extends Component {
     constructor(props){
         super(props);
         this.state = {
             teachers:[],
             selected: [],
             fmail:"abc@ameys.com",
+            teacher_id: this.props.match.params.id,
             sub:"",
             message:"",
             pfile:""
         }
         this.onChange = this.onChange.bind(this);
         this.onSelect = this.onSelect.bind(this);
-        this.studentFormatter = this.studentFormatter.bind(this);
+        this.parentFormatter = this.parentFormatter.bind(this);
+        // this.studentFormatter = this.studentFormatter.bind(this); 
     }
 
     componentDidMount(){
-        axios.get('http://localhost:5000/students')
-        .then(
-            res =>
-            {
-                this.setState({
-                    teachers: res.data
-                })
-            }
-        )
+        axios.get('http://localhost:5000/teachersbyid?id='+this.state.teacher_id)
+        .then(res => {
+            console.log(res)
+            this.setState({fmail:res.data[0]['email']})
+        })
+        .catch(err=> console.log(err))
+        axios.get('http://localhost:5000/parentsbyteacherid?id='+this.state.teacher_id)
+        .then(res => {
+            console.log(res)
+            this.setState({teachers:res.data})
+        })
+        .catch(err => console.log(err))
     }
 
     
@@ -65,7 +69,7 @@ export default class AdminEmailStudent extends Component {
     onChange(e) {
         this.setState({ [e.target.name]: e.target.value })
     }
-    studentFormatter(cell,row){
+    parentFormatter(cell,row){
         return '<div className="user-dp"><img class="img-fluid rounded-circle" src="assets/images/profile-avatar.jpg" style="margin: 10px; text-align: center; height: 50px;"></img>'+row['first_name']+' '+row['last_name']+'</div>'
 
       }
@@ -80,15 +84,14 @@ export default class AdminEmailStudent extends Component {
         };
         return(
             <div>
-            <Header />
-
+            <HeaderTeacher />
                 <div style={{backgroundColor:"orange",height:"550px", opacity:"0.65"}}> 
                  <Row className="page-title">
           
                     <Col style={{margin:"10px"}} sm={6} lg={4} >
                         <Breadcrumb className="float-left float-sm-left">
-                        <BreadcrumbItem><a href="#">Administrator</a></BreadcrumbItem>
-                        <BreadcrumbItem actice>Email Student</BreadcrumbItem>
+                        <BreadcrumbItem><a href="#">Teacher</a></BreadcrumbItem>
+                        <BreadcrumbItem active>Email Parent</BreadcrumbItem>
                         </Breadcrumb>
                     </Col>
                 </Row>
@@ -147,7 +150,7 @@ export default class AdminEmailStudent extends Component {
                                         pagination
                                         selectRow={selectRowProp}
                                         >
-                                        <TableHeaderColumn width='100' dataField='first_name'  dataFormat={this.studentFormatter} isKey={true}>Student Name</TableHeaderColumn>
+                                        <TableHeaderColumn width='100' dataField='first_name'  dataFormat={this.parentFormatter} isKey={true}>Parent Name</TableHeaderColumn>
                                         <TableHeaderColumn width='100' dataField="email">Email</TableHeaderColumn>
                                 </BootstrapTable>
                                 </Row>

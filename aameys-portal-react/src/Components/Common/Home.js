@@ -19,7 +19,7 @@ export default class Home extends Component {
         return(
             <div >
                 {/* <Row > */}
-                            <HeaderCommon />
+                            <HeaderCommon id="0" />
                             <LoginCard></LoginCard>
                  
                 {/* </Row> */}

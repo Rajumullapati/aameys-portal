@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Row, Col, Card, CardBody, CardTitle, Button, Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import HeaderCommon from '../Common/header';
+import HeaderCareer from '../Common/HeaderCareer';
 import axios from 'axios';
 
 
@@ -17,7 +17,7 @@ export default class Career extends Component{
     render(){
         return (
             <div>
-                <HeaderCommon />
+                <HeaderCareer />
                 <div style={{backgroundColor:"orange",height:"550px",opacity:"0.65"}} className="mt-10">
                 <Row>
                 <Col xl={8} className="mb-30 mt-10 ml-10">
@@ -44,7 +44,7 @@ export default class Career extends Component{
                     </Col>
                     <Col >
                     <div style={{margin:"10px"}}>
-                        <Link to={{pathname:"editinfo"}}><Button style={{marginBottom:"40px", height:"100px", borderRadius:"10px",width:"70%", textAlign: "center", backgroundColor:"grey", fontSize:"30px"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Apply</Button></Link>
+                        <Link to={{pathname:"careers/careerapply"}}><Button  style={{marginBottom:"40px", height:"100px", borderRadius:"10px",width:"70%", textAlign: "center", backgroundColor:"grey", fontSize:"30px"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Apply</Button></Link>
                         <p style={{fontSize:"20px", marginBottom:"40px"}}>Contact details</p>
                         <Row>
                         <Col sm={1} lg={1} md={1}><i className="fa fa-id-card-o"></i></Col><Col><p  style={{fontSize:"20px",marginBottom:"40px"}}>harmony@aameys.com.au</p></Col>

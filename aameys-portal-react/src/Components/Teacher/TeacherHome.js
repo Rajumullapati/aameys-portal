@@ -1,41 +1,23 @@
-import React, { Component } from 'react';
+import React,{Component} from 'react';
 import { Row, Col, Card, CardBody, Button, Breadcrumb, BreadcrumbItem } from 'reactstrap';
-import { Link } from 'react-router-dom';
-import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
-import './Datatables.css';
-import Header from '../../Common/header';
+import { Link } from 'react-router-dom';    
+import HeaderTeacher from '../Common/HeaderTeacher'
 import axios from 'axios';
+import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 
-const teachers =[ {
-    "class": "English",
-    "updated":"01-10-2010",
-    "Students":"2",
-    }];
 
-var columns = [];
-var editInfo = "";
-var assignClass = "";
-export default class AdminTeacherInfo extends Component{
-
+export default class TeacherHome extends Component {
     constructor(props){
         super(props);
-        this.state = {
-            teacher_id:this.props.match.params.id,
+        this.state={
+            teacherid: this.props.match.params.id,
             teacher:{"teacher_id": "", "first_name": "", "last_name": "", "email": "", "img_add": "", "student_count":"","class_count":"", "classdetail": [{"class_name": "", "student_count": "", "updated": ""}]}
         }
+        this.classFormat = this.classFormat.bind(this);
     }
 
-
     componentDidMount(){
-        console.log(teachers)
-        columns = Object.keys(teachers[0])
-        columns.map((value, index) => (console.log(value)))
-        console.log(teachers)
-        // this.setState({teacher: teachers});
-        editInfo = this.state.teacher_id+"/editinfo";
-        assignClass = this.state.teacher_id+"/assignclass";
-
-        axios.get('http://localhost:5000/teachersbyid?id='+this.state.teacher_id)
+        axios.get('http://localhost:5000/teachersbyid?id='+this.state.teacherid)
         .then(res => {
             console.log(res)
             this.setState({teacher: res.data[0]})
@@ -45,25 +27,25 @@ export default class AdminTeacherInfo extends Component{
         .catch(err => console.log(err))
     }
 
+    classFormat(cell,row){
+        return '<a href="#/teacher/'+this.state.teacherid+'/class/'+row['class_id']+'"><div className="user-dp"><img class="img-fluid rounded-circle" src="assets/images/profile-avatar.jpg" style="margin: 10px; text-align: center; height: 50px;"></img>'+cell+'</div></a>'
+
+    }
 
     render(){
         return(
             <div>
-            <Header></Header>
-                 <div style={{backgroundColor:"orange", marginTop:"150px",height:"500px", opacity:"0.65"}}> 
+            <HeaderTeacher />
+                <div style={{backgroundColor:"orange",height:"600px", opacity:"0.65"}}> 
                  <Row className="page-title">
           
           <Col style={{margin:"10px"}} sm={6} lg={4} >
               <Breadcrumb className="float-left float-sm-left">
-              <BreadcrumbItem>Administrator</BreadcrumbItem>
-              <BreadcrumbItem>Teachers</BreadcrumbItem>
-              <BreadcrumbItem active>{this.state.teacher['first_name']} {this.state.teacher['last_name']}</BreadcrumbItem>
-
+              <BreadcrumbItem active>Teachers</BreadcrumbItem>
               </Breadcrumb>
           </Col>
-      </Row>
-                
-                <Row>
+          </Row>
+          <Row>
                 <Col lg={3} md={3} sm={3} className="mb-30"></Col>
                     <Col lg={6} md={6} sm={6} className="mb-30">
                         <div style={{width:"80%"}}>
@@ -81,6 +63,7 @@ export default class AdminTeacherInfo extends Component{
                                                 
                                                     <h2 style={{fontSize:"18px", fontWeight:"bolder"}} className="name">Teacher Info</h2>
                                                     <p>Name: <span style={{fontSize:"100%", fontWeight:"bolder", marginRight:"20%"}} className="float-right">{ this.state.teacher['first_name']} { this.state.teacher['last_name']    } </span></p>
+                                                    {/* <p>Term: <span style={{fontSize:"100%", fontWeight:"bolder", marginRight:"20%"}} className="float-right">{ this.state.teacher['first_name']} { this.state.teacher['last_name']    } </span></p> */}
                                                     {/* <p>Teacher: <span style={{fontSize:"100%", fontWeight:"bolder", marginRight:"50%"}} className="float-right">{ this.state.teacher['teacher_count']     } </span> </p> */}
                                                     <p>Classes: <span style={{fontSize:"100%", fontWeight:"bolder", marginRight:"50%"}} className="float-right">{ this.state.teacher['class_count'] } </span> </p>
                                                     <p>Students: <span style={{fontSize:"100%", fontWeight:"bolder", marginRight:"50%"}} className="float-right">{ this.state.teacher['student_count']     } </span> </p>
@@ -98,8 +81,9 @@ export default class AdminTeacherInfo extends Component{
                     </Col>
                     <Col lg={3} md={3} sm={3}>
                     <div style={{margin:"10px"}}>
-                    <Link to={{pathname: editInfo}}><Button style={{marginBottom:"4px", width:"70%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Edit teacher info</Button></Link>
-                    <Link to={{pathname: assignClass}}><Button style={{marginBottom:"4px", width:"70%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-envelope-o"></i>Assign classes</Button></Link>
+                    <Link to={{pathname: `${this.state.teacherid}/accinfo`}}><Button style={{marginBottom:"4px", width:"70%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>My account</Button></Link>
+                    <Link to={{pathname: `${this.state.teacherid}/emailstudents`}}><Button style={{marginBottom:"4px", width:"70%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-envelope-o"></i>Email Students</Button></Link>
+                    <Link to={{pathname: `${this.state.teacherid}/emailparents`}}><Button style={{marginBottom:"4px", width:"70%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-envelope-o"></i>Email Parents</Button></Link>
                     </div>
                     </Col>
                 </Row>
@@ -113,19 +97,16 @@ export default class AdminTeacherInfo extends Component{
                                 pagination
                                 tableStyle={{height:"150px"}}
                                 >
-                                <TableHeaderColumn width='100' dataField="class_name" isKey={true}>Class Name</TableHeaderColumn>
-                                <TableHeaderColumn width='100' dataField='student_count'>Students</TableHeaderColumn>
+                                <TableHeaderColumn width='100' dataFormat={this.classFormat} dataField="class_name" isKey={true}>Class Name</TableHeaderColumn>
                                 <TableHeaderColumn width='100' dataField="updated">Updated</TableHeaderColumn>
+                                <TableHeaderColumn width='100' dataField='student_count'>Students</TableHeaderColumn>
                         </BootstrapTable>
                         </CardBody>
                     </Card>
                 </Col>
                 </Row>
-                
-             </div>
+            </div>
             </div>
         );
     }
 }
-
-    

@@ -29,19 +29,11 @@ import './header.css';
 
 
 
-const isStudent = pathname => {
-  const matchProfile = matchPath(pathname, {
-    path: `/student`,
-  });
-  return (matchProfile && matchProfile.params) || {};
-};
-
-
-class HeaderCommon extends Component{
+class HeaderCareer extends Component{
 
     constructor(props) {
         super(props);
-        
+      
         this.state = {
           toggleactive: false,
           defaultValue: 1,
@@ -80,25 +72,25 @@ class HeaderCommon extends Component{
                     <ul className="nav navbar-nav ml-auto col-lg-12 col-12">
                     {/* <Row className="col-lg-12 col-12" md={12} lg={12} sm={12}> */}
                     <div className=""></div>
-                   
-                        <Col className={this.props.id === '4'?'active':''} style={{textAlign:"center"}} sm={2} md={2} lg={2}>
-                          <Link to={{pathname:"/aboutus"}}><p >About Us</p></Link>
+                    
+                        <Col style={{textAlign:"center"}} sm={2} md={2} lg={2}>
+                          <p>About Us</p>
                         </Col>
-                    <Col className={this.props.id === '0'?'active':''} style={{textAlign:"center"}} sm={2} md={2} lg={1}>
-                          <Link to={{pathname:"/"}}><p >Home</p></Link>
+                    <Col style={{textAlign:"center"}} sm={2} md={2} lg={1}>
+                          <p>Home</p>
                         </Col>
                         
                         <Col  style={{textAlign:"right"}} sm={2} md={2} lg={2}>
-                          <Link><p >TEACHERS</p></Link>
+                          <p>TEACHERS</p>
                         </Col>
-                        <Col   sm={2} md={2} lg={2}>
+                        <Link className={`${this.state.student_id != ""? 'active' : ''}`} to={{pathname:  `/student/${this.state.user_id}`}}><Col sm={2} md={2} lg={2}>
                           <p >STUDENTS</p>
+                        </Col></Link>
+                        <Col  sm={2} md={2} lg={2}>
+                          <Link to={{pathname:"parent/signup"}}><p>PARENTS</p></Link>
                         </Col>
-                        <Col className={this.props.id === '1'?'active':''} sm={2} md={2} lg={2}>
-                          <Link to={{pathname:"parent/signup"}}><p >PARENTS</p></Link>
-                        </Col>
-                        <Col className={this.props.id === '2'?'active':''} sm={2} md={2} lg={2}>
-                          <Link to={{pathname:"/careers"}}><p >CAREERS</p></Link>
+                        <Col className="active" sm={2} md={2} lg={2}>
+                          <p className="active">CAREERS</p>
                         </Col>
                         {/* <Col sm={2}>
                           <a href="#" >New registered user  </a>
@@ -114,5 +106,5 @@ class HeaderCommon extends Component{
         );
     }
 }
-export default HeaderCommon;
+export default HeaderCareer;
 

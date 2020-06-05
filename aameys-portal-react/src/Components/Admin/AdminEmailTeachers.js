@@ -56,6 +56,13 @@ export default class AdminEmailTeachers extends Component {
             })
             console.log(this.state.selected)
         }
+        else{
+            sel.pop(row)
+            this.setState({
+                selected: sel
+            })
+            console.log(this.state.selected)
+        }
     }
 
     onChange(e) {

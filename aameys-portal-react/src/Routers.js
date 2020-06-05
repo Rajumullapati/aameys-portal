@@ -40,6 +40,18 @@ import ParentMailTeaher from './Components/Parent/ParentMailTeacher';
 import ParentEditInfo from './Components/Parent/ParentEditInfo';
 import AdminClassAddClass from './Components/Admin/AdminClasses/AdminClassAddClass';
 import Career from './Components/Common/Career';
+import CareerApply from './Components/Common/careerapply';
+import AboutUs  from './Components/Common/AboutUs';
+import TeacherHome from './Components/Teacher/TeacherHome';
+import TeacherClass from './Components/Teacher/TeacherClass';
+import TeacherClassStudent from './Components/Teacher/TeacherClassStudent';
+import TeacherClassStudentInfo from './Components/Teacher/TeacherClassStudentInfo';
+import TeacherClassAttendance from './Components/Teacher/TeacherClassAttendance';
+import TeacherClassGrade from './Components/Teacher/TeacherClassGrade';
+import TeacherEmailStudents from './Components/Teacher/TeacherEmailStudents';
+import TeacherEmailParent from './Components/Teacher/TeacherEmailParents';
+import TeacherInfo from './Components/Teacher/TeacherInfo';
+
 
 
 const Routers = () => {
@@ -90,8 +102,24 @@ const Routers = () => {
 						<Route exact path="/admin/:aid/emailparent" component={AdminEmailParent} />
 						<Route exact path="/admin/:aid/editinfo" component={AdminEditInfo} />
 
+						<Route exact path="/teacher/:id" component={TeacherHome} />
+						<Route exact path="/teacher/:id/class/:cid" component={TeacherClass} />
+						<Route exact path="/teacher/:id/class/:cid/students" component={TeacherClassStudent} />
+						<Route exact path="/teacher/:id/class/:cid/students/:sid" component={TeacherClassStudentInfo} />
+						<Route exact path="/teacher/:id/class/:cid/attendance" component={TeacherClassAttendance} />
+						<Route exact path="/teacher/:id/class/:cid/grading" component={TeacherClassGrade} />
+						<Route exact path="/teacher/:id/emailstudents" component={TeacherEmailStudents} />
+						<Route exact path="/teacher/:id/emailparents" component={TeacherEmailParent} />
+						<Route exact path="/teacher/:id/accinfo" component={TeacherInfo} />
+						
+
+
 
 						<Route exact path="/careers" component={Career} />
+						<Route exact path="/careers/careerapply" component={CareerApply} />
+						
+						
+						<Route exact path="/aboutus" component={AboutUs} />
 
 						
 					</Switch>

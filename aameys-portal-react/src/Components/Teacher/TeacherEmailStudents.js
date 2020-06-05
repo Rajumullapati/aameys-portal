@@ -12,13 +12,14 @@ const teacher = [
         mail:"abc@gmail.com"
     }
 ]
-export default class AdminEmailStudent extends Component {
+export default class TeacherEmailStudent extends Component {
     constructor(props){
         super(props);
         this.state = {
             teachers:[],
             selected: [],
             fmail:"abc@ameys.com",
+            teacher_id: this.props.match.params.id,
             sub:"",
             message:"",
             pfile:""
@@ -29,15 +30,25 @@ export default class AdminEmailStudent extends Component {
     }
 
     componentDidMount(){
-        axios.get('http://localhost:5000/students')
+
+        console.log(this.props)
+        axios.get('http://localhost:5000/teachersbyid?id='+this.state.teacher_id)
+        .then(res => {
+            console.log(res)
+            this.setState({fmail:res.data[0]['email']})
+        })
+        .catch(err => console.log(err))
+        axios.get('http://localhost:5000/studentsbyteacherId?id='+this.state.teacher_id)
         .then(
             res =>
             {
+                console.log(res)
                 this.setState({
                     teachers: res.data
                 })
             }
         )
+        .catch(err=> console.log(err))
     }
 
     
@@ -48,13 +59,6 @@ export default class AdminEmailStudent extends Component {
         console.log(sel);
         if(isSelect){
             sel.push(row)
-            this.setState({
-                selected: sel
-            })
-            console.log(this.state.selected)
-        }
-        else{
-            sel.pop(row)
             this.setState({
                 selected: sel
             })
@@ -87,8 +91,8 @@ export default class AdminEmailStudent extends Component {
           
                     <Col style={{margin:"10px"}} sm={6} lg={4} >
                         <Breadcrumb className="float-left float-sm-left">
-                        <BreadcrumbItem><a href="#">Administrator</a></BreadcrumbItem>
-                        <BreadcrumbItem actice>Email Student</BreadcrumbItem>
+                        <BreadcrumbItem><a href="#">Teacher</a></BreadcrumbItem>
+                        <BreadcrumbItem active>Email Student</BreadcrumbItem>
                         </Breadcrumb>
                     </Col>
                 </Row>

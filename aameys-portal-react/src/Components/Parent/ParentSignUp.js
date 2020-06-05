@@ -5,6 +5,7 @@ import DatePicker from 'react-datepicker';
 import axios from 'axios';
 import HeaderCommon from '../Common/HeaderCommon';
 
+
 export default class ParentSignUp extends Component {
     constructor(props){
         super(props);
@@ -107,7 +108,7 @@ export default class ParentSignUp extends Component {
     render(){
         return(
             <div>
-            <HeaderCommon />
+            <HeaderCommon id="1" />
             <div style={{backgroundColor:"orange",height:"500px", opacity:"0.65", padding:"10px"}}> 
                 <Card style={{margin:"30px"}} >
               <CardBody >
