@@ -124,7 +124,7 @@ def getgrades():
 def getStudentGradesById():
     id = request.args['id']
     con = connDB()
-    sqlstr = """select s.term, c.class_name, g.one, g.two, g.three, g.four, g.five, g.six, g.seven, g.eight, g.nine, g.ten, g.msg, (g.one+g.two+g.three+g.four+g.five+g.six+g.seven+g.eight+g.nine+g.ten)/10 as per from ((student s 
+    sqlstr = """select c.term, c.class_name, g.one, g.two, g.three, g.four, g.five, g.six, g.seven, g.eight, g.nine, g.ten, g.msg, (g.one+g.two+g.three+g.four+g.five+g.six+g.seven+g.eight+g.nine+g.ten)/10 as per from ((student s 
 inner join class c on s.class_id = c.class_id) inner join grades g on g.student_id = s.student_id) where s.student_id = """+id
     data = pandas.read_sql(sqlstr,con).to_json(orient='records')
     con.close()
