@@ -11,6 +11,10 @@ select * from class
 
 select c.class_name, t.first_name, t.last_name, s.student_id from class c left join teacher t on c.teacher_id = t.teacher_id left join student s on c.class_id = s.class_id where c.class_id = 10001
 
+select * from teacher
+
+
+select p.* from parent p left join student s on p.parent_id = s.parent_id left join class c on s.class_id = c.class_id left join teacher t on c.teacher_id = t.teacher_id where t.teacher_id = 10001
 
 select s.* from student s left join class c on s.class_id = c.class_id left join teacher t on c.teacher_id = t.teacher_id where t.teacher_id = 10001
 

@@ -345,10 +345,11 @@ def getTeachers():
 
 @app.route('/parentSignUp', methods=['POST'])
 def parentsignup():
+    print('poij')
     con = connDB()
     cursor = con.cursor()
     sqlstring = 'insert into parent values (\''+request.json['fname']+'\',\''+request.json['lname']+'\',\''+request.json['email']+'\',\'\',\''+request.json['bday']+'\','+request.json['gender']+');'
-    
+    print(sqlstring)
     cursor.execute(sqlstring)
     cursor.commit()
     data = pandas.read_sql('select parent_id,email from parent where first_name = \''+request.json['fname']+'\' and last_name = \''+request.json['lname']+'\' and email = \''+request.json['email']+'\'',con)
@@ -401,6 +402,8 @@ def login():
     con = connDB()
     username = request.args['uname']
     password = request.args['pass']
+    sql = 'select * from users where username = \''+username+'\' and password = \''+password+'\''
+    print(sql)
     data = pandas.read_sql('select * from users where username = \''+username+'\' and password = \''+password+'\'',con).to_json(orient='records')
     return data
 

@@ -38,6 +38,7 @@ insert into admin values('god','last','god@abc.com','');
 
 
 
+
 insert into users values ('klein@baker.com','teacher',0,3,10001)
 insert into users values ('abc@gmail.com','student',0,1,10001)
 insert into users values ('arya@gmail.com','student',0,1,10002)

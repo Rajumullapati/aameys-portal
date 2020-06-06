@@ -48,13 +48,35 @@ export default class ParentSignUp extends Component {
           gender: this.state.gender
         }
 
+        let axiosConfig = {
+          headers: {
+              'Content-Type' : 'application/json; charset=UTF-8',
+              'Accept': 'Token',
+              "Access-Control-Allow-Origin": "*",
+        
+          }
+        };
+
+
+
         console.log(reqbody)
+
+
+        // axios.get('http://localhost:5000/parentSignup?fname='+reqbody['fname']+'&lname = '+reqbody['lname']+'&email = '+reqbody['email']+'&pass ='+reqbody['pass']+'&bday='+reqbody['bday']+'&gender='+reqbody['gender']).
+        // then(res => {
+        //   console.log(res)
+        // })
+        // var request = new XMLHttpRequest();
+        // request.open('POST', 'http://localhost:5000/parentSignUp', true);
+        // request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+        // request.send(reqbody);
+  // .then(response => response.json())
           axios(
             {
               method: 'post',
               url: 'http://localhost:5000/parentSignUp',
               data: reqbody,
-              headers: {'Content-Type': 'application/json' }
+              headers: axiosConfig 
             }
           )
           .then(
@@ -67,9 +89,9 @@ export default class ParentSignUp extends Component {
     }
 
     validate(){
-      console.log('yjm')
-      let flag =true;
-      console.log(this.state)
+      // console.log('yjm')
+       let flag =true;
+      // console.log(this.state)
       // if(flag && this.state.password.length < 6){
       //   flag = false;
       // }
@@ -161,7 +183,7 @@ export default class ParentSignUp extends Component {
                           </label>
                     </div>
                   </div>
-                  <button onClick={this.submit}  className="btn btn-primary">Sign in</button>
+                  <Button onClick={this.submit}  className="btn btn-primary">Sign in</Button>
                 </form>
               </CardBody>
             </Card>
