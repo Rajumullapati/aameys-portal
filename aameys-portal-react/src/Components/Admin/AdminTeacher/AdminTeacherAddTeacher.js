@@ -86,7 +86,7 @@ export default class AdminTeacherAddTeacher extends Component {
         axios(
             {
               method: 'post',
-              url: 'http://localhost:5000/parentSignUp',
+              url: 'http://localhost:5000/addTeacherByAdmin',
               data: body,
               headers: {'Content-Type': 'application/json' }
             }

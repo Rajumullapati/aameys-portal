@@ -342,6 +342,25 @@ def getTeachers():
     return json.dumps(datatosend)
 
 
+@app.route('/addTeacherByAdmin', methods=['POST'])
+def addTeacherByAdmin():
+    con = connDB()
+    cursor = con.cursor()
+    sqlstring = 'insert into teacher values (\''+request.json['tfname']+'\',\''+request.json['tlname']+'\',\''+request.json['tmail']+'\',\'\');'
+    print(sqlstring)
+    cursor.execute(sqlstring)
+    cursor.commit()
+    data = pandas.read_sql('select teacher_id,email from teacher where first_name = \''+request.json['tfname']+'\' and last_name = \''+request.json['tlname']+'\' and email = \''+request.json['tmail']+'\'',con)
+    sqlstr = 'insert into users values (\''+str(data['email'][0])+'\',\''+'\'\''+'\',0,2,\''+str(data['teacher_id'][0])+'\');'
+    print(sqlstr)
+    cursor.execute(sqlstr)
+    cursor.commit()
+    con.close()
+    return 'done'
+
+
+
+
 
 @app.route('/parentSignUp', methods=['POST'])
 def parentsignup():
