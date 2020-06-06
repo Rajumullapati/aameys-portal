@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Row, Col, Card, CardBody, Button, BreadcrumbItem, Breadcrumb } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
-import Header from '../../Common/header';
+import HeaderAdmin from '../../Common/HeaderAdmin'
 import axios from 'axios';
 
 const classdata = [
@@ -58,7 +58,7 @@ export default class AdminClass extends Component {
     render(){
         return(
             <div>
-            <Header />
+            <HeaderAdmin />
                 <div style={{backgroundColor:"orange", marginTop:"150px",height:"500px", opacity:"0.65"}}> 
                 <Row className="page-title">
           

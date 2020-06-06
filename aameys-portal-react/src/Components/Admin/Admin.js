@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Row, Col, Card, CardBody, Button, Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import Header from '../Common/header';
+import HeaderAdmin from '../Common/HeaderAdmin';
 import axios from 'axios';
 
 
@@ -29,7 +29,7 @@ export default class Admin extends Component {
         return(
 
             <div>
-            <Header updateParent={this.updateValue} />
+            <HeaderAdmin updateParent={this.updateValue} />
              <div>   
              <div style={{backgroundColor:"orange", marginTop:"150px",height:"500px", opacity:"0.65"}}> 
              <Row className="page-title">

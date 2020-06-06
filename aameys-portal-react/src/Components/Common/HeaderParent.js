@@ -1,24 +1,3 @@
-// import React,{Component} from 'react';
-// import { Link } from 'react-router-dom';
-
-// export default class Header extends Component
-// {
-//     constructor(props){
-        
-//         super(props);
-//     }
-//     render(){
-//         return(
-//             <nav className="admin-header navbar navbar-default col-lg-12 col-12 p-0 fixed-top d-flex flex-row"> 
-//                 <div className="text-left navbar-brand-wrapper">
-//                     <Link className="navbar-brand brand-logo" to="/"><img src="assets/images/logo-dark.png" alt="" /></Link>
-//                     <Link className="navbar-brand brand-logo-mini" to="/"><img src="assets/images/logo-icon-dark.png"  alt="" /></Link>
-//                 </div>
-//             </nav>
-//         );
-//     }
-// }
-
 
 
 import React,{Component} from 'react';
@@ -27,28 +6,6 @@ import { Row, Col } from 'reactstrap';
 import './header.css';
 
 
-
-
-const isStudent = pathname => {
-  const matchProfile = matchPath(pathname, {
-    path: `/student`,
-  });
-  return (matchProfile && matchProfile.params) || {};
-};
-
-const isParent = pathname => {
-  const matchProfile = matchPath(pathname, {
-    path: `/parent`,
-  });
-  return (matchProfile && matchProfile.params) || {};
-};
-
-const isAdmin = pathname => {
-  const matchProfile = matchPath(pathname, {
-    path: `/admin`,
-  });
-  return (matchProfile && matchProfile.params) || {};
-};
 
 
 

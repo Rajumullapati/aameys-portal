@@ -3,6 +3,8 @@ import { Row, Col, Breadcrumb, BreadcrumbItem, Card, CardBody } from 'reactstrap
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import HeaderParent from '../Common/HeaderParent';
+
 
 const assignment = [{
     "Term":"1",
@@ -47,7 +49,7 @@ export default class ParentGrade extends Component {
     
     render(){
         return(
-            
+            <div><HeaderParent />
         <div style={{backgroundColor:"orange", marginTop:"150px",height:"500px", opacity:"0.65"}}>
             <Row style={{marginBottom:"25px"}}>
                 <Col sm={2} lg={5} md = {5} />
@@ -84,6 +86,7 @@ export default class ParentGrade extends Component {
                     </Card>
                 </Col>
             </Row>
+        </div>
         </div>
         );
     }

@@ -4,6 +4,8 @@ import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import './Datatables.css';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import HeaderStudent from '../Common/HeaderStudent';
+
 
 const attend = [{
     "Term":"1",
@@ -54,7 +56,8 @@ export default class Attendance extends Component {
     render(){
         return(
 
-
+            <div>
+                <HeaderStudent />
             <div style={{backgroundColor:"orange", marginTop:"150px",height:"500px", opacity:"0.65"}}>
             <Row style={{marginBottom:"25px"}}>
                 <Col sm={2} lg={5} md = {5} />
@@ -79,6 +82,8 @@ export default class Attendance extends Component {
                 </Col>
             </Row>
         </div>
+            </div>
+            
 
 
 

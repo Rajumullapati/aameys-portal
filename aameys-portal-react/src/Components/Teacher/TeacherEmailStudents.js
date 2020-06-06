@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Row, Col, Card, CardBody, Button, Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
-import Header from '../Common/header';
+import HeaderTeacher from '../Common/HeaderTeacher';
 import axios from 'axios';
 
 
@@ -84,7 +84,7 @@ export default class TeacherEmailStudent extends Component {
         };
         return(
             <div>
-            <Header />
+            <HeaderTeacher />
 
                 <div style={{backgroundColor:"orange",height:"550px", opacity:"0.65"}}> 
                  <Row className="page-title">

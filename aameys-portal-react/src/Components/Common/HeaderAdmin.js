@@ -1,4 +1,5 @@
 
+
 import React,{Component} from 'react';
 import { Link, matchPath } from 'react-router-dom';
 import { Row, Col } from 'reactstrap';
@@ -7,19 +8,13 @@ import './header.css';
 
 
 
-const isStudent = pathname => {
-  const matchProfile = matchPath(pathname, {
-    path: `/student`,
-  });
-  return (matchProfile && matchProfile.params) || {};
-};
 
 
-class HeaderStudent extends Component{
+class HeaderAdmin extends Component{
 
     constructor(props) {
         super(props);
-        
+      
         this.state = {
           toggleactive: false,
           defaultValue: 1,
@@ -58,25 +53,28 @@ class HeaderStudent extends Component{
                     <ul className="nav navbar-nav ml-auto col-lg-12 col-12">
                     {/* <Row className="col-lg-12 col-12" md={12} lg={12} sm={12}> */}
                     <div className=""></div>
-                   
+                    <Col className="active" style={{textAlign:"center"}} sm={2} md={2} lg={2}>
+                          <Link pathname><p >Admin</p></Link>
+                        </Col>
+                        
+                    <Col style={{textAlign:"center"}} sm={2} md={2} lg={2}>
+                          <Link pathname><p >Home</p></Link>
+                        </Col>
                         <Col style={{textAlign:"center"}} sm={2} md={2} lg={2}>
                           <Link><p >About Us</p></Link>
                         </Col>
-                    <Col style={{textAlign:"center"}} sm={2} md={2} lg={1}>
-                          <Link ><p >Home</p></Link>
-                        </Col>
                         
-                        <Col  style={{textAlign:"right"}} sm={2} md={2} lg={2}>
+                        <Col  style={{textAlign:"right"}} sm={2} md={2} lg={1}>
                           <Link><p >TEACHERS</p></Link>
                         </Col>
-                        <Col className="active"  sm={2} md={2} lg={2}>
+                        <Col ><Col sm={2} md={2} lg={2}>
                           <p >STUDENTS</p>
-                        </Col>
-                        <Col sm={2} md={2} lg={2}>
-                          <Link ><p >PARENTS</p></Link>
+                        </Col></Col>
+                        <Col sm={2} md={2} lg={1}>
+                          <Link><p >PARENTS</p></Link>
                         </Col>
                         <Col  sm={2} md={2} lg={2}>
-                          <Link ><p >CAREERS</p></Link>
+                          <Link><p >CAREERS</p></Link>
                         </Col>
                         {/* <Col sm={2}>
                           <a href="#" >New registered user  </a>
@@ -92,5 +90,5 @@ class HeaderStudent extends Component{
         );
     }
 }
-export default HeaderStudent;
+export default HeaderAdmin;
 

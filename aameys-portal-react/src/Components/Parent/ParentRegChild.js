@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Row, Col, Card, CardBody, Button, Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import HeaderParent from '../Common/HeaderParent';
 import DatePicker from 'react-datepicker';
 
 export default class ParentRegChild extends Component {
@@ -33,6 +34,7 @@ export default class ParentRegChild extends Component {
     render(){
         return(
             <div>
+            <HeaderParent />
             <div style={{backgroundColor:"orange",height:"500px", opacity:"0.65", padding:"10px"}}> 
                 <Card style={{margin:"30px"}} >
               <CardBody >

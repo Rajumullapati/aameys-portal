@@ -5,6 +5,7 @@ import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import './Datatables.css';
 import axios from 'axios';
 import Loading from '../Common/Loading';
+import HeaderStudent from '../Common/HeaderStudent';
 
 
 export default class StudentInfo extends Component {
@@ -24,11 +25,8 @@ export default class StudentInfo extends Component {
     }
 
     logout(){
-        axios.get('http://localhost:5000/updatestudentstatus?status=0&id='+response.data[0]['user_id_all']).then( res =>
-        {
-            // return '<Redirect to='/home' />'
-        }
-        )
+       // axios.get('http://localhost:5000/updatestudentstatus?status=0&id='+response.data[0]['user_id_all']).then( res =>
+       
     }
 
     onChange(e) {
@@ -62,7 +60,7 @@ export default class StudentInfo extends Component {
         return(
             
             <div>
-                
+                <HeaderStudent />
                 
                 <div style={{backgroundColor:"orange",height:"550px",opacity:"0.65"}}> 
                 <Row className="page-title">

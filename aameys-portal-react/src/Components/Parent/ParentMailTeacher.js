@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Row, Col, Card, CardBody, Button, Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
+import HeaderParent from '../Common/HeaderParent';
 
 
 
@@ -46,6 +47,12 @@ export default class ParentMailTeaher extends Component {
             })
             console.log(this.state.selected)
         }
+        else {
+            sel.pop(row)
+            this.setState({
+                selected: sel
+            })
+        }
     }
 
     onChange(e) {
@@ -65,6 +72,7 @@ export default class ParentMailTeaher extends Component {
         };
         return(
             <div>
+            <HeaderParent />
                 <div style={{backgroundColor:"orange",height:"550px", opacity:"0.65"}}> 
                  <Row className="page-title">
           

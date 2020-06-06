@@ -1,25 +1,3 @@
-// import React,{Component} from 'react';
-// import { Link } from 'react-router-dom';
-
-// export default class Header extends Component
-// {
-//     constructor(props){
-        
-//         super(props);
-//     }
-//     render(){
-//         return(
-//             <nav className="admin-header navbar navbar-default col-lg-12 col-12 p-0 fixed-top d-flex flex-row"> 
-//                 <div className="text-left navbar-brand-wrapper">
-//                     <Link className="navbar-brand brand-logo" to="/"><img src="assets/images/logo-dark.png" alt="" /></Link>
-//                     <Link className="navbar-brand brand-logo-mini" to="/"><img src="assets/images/logo-icon-dark.png"  alt="" /></Link>
-//                 </div>
-//             </nav>
-//         );
-//     }
-// }
-
-
 
 import React,{Component} from 'react';
 import { Link, matchPath } from 'react-router-dom';
@@ -37,7 +15,7 @@ const isStudent = pathname => {
 };
 
 
-class HeaderCommon extends Component{
+class HeaderTeacher extends Component{
 
     constructor(props) {
         super(props);
@@ -81,10 +59,10 @@ class HeaderCommon extends Component{
                     {/* <Row className="col-lg-12 col-12" md={12} lg={12} sm={12}> */}
                     <div className=""></div>
                    
-                        <Col className={this.props.id === '4'?'active':''} style={{textAlign:"center"}} sm={2} md={2} lg={2}>
+                        <Col style={{textAlign:"center"}} sm={2} md={2} lg={2}>
                           <Link><p >About Us</p></Link>
                         </Col>
-                    <Col className={this.props.id === '0'?'active':''} style={{textAlign:"center"}} sm={2} md={2} lg={1}>
+                    <Col style={{textAlign:"center"}} sm={2} md={2} lg={1}>
                           <Link ><p >Home</p></Link>
                         </Col>
                         
@@ -94,10 +72,10 @@ class HeaderCommon extends Component{
                         <Col   sm={2} md={2} lg={2}>
                           <p >STUDENTS</p>
                         </Col>
-                        <Col className={this.props.id === '1'?'active':''} sm={2} md={2} lg={2}>
+                        <Col sm={2} md={2} lg={2}>
                           <Link ><p >PARENTS</p></Link>
                         </Col>
-                        <Col className={this.props.id === '2'?'active':''} sm={2} md={2} lg={2}>
+                        <Col  sm={2} md={2} lg={2}>
                           <Link ><p >CAREERS</p></Link>
                         </Col>
                         {/* <Col sm={2}>
@@ -114,5 +92,5 @@ class HeaderCommon extends Component{
         );
     }
 }
-export default HeaderCommon;
+export default HeaderTeacher;
 

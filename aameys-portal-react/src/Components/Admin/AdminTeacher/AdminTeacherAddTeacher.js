@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Row, Col, Card, CardBody, Button, Breadcrumb, BreadcrumbItem } from 'reactstrap';
-import { Link } from 'react-router-dom';
-import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
-import './Datatables.css';
-import Header from '../../Common/header'
+import validators from '../../../validators';
+import HeaderAdmin from '../../Common/HeaderAdmin'
+import axios from 'axios';
+
 
 
 export default class AdminTeacherAddTeacher extends Component {
@@ -18,17 +18,94 @@ export default class AdminTeacherAddTeacher extends Component {
             teacher_mail:"",
             breadcrumb:"Add teacher"
         }
+        this.saveTeacher = this.saveTeacher.bind(this);
+        this.validators = validators;
+        this.updateValidators = this.updateValidators.bind(this);
+
     }
+
+    
+  updateValidators(fieldName, value) {
+    this.validators[fieldName].errors = [];
+    this.validators[fieldName].state = value;
+    this.validators[fieldName].valid = true;
+    this.validators[fieldName].rules.forEach((rule) => {
+      if (rule.test instanceof RegExp) {
+        if (!rule.test.test(value)) {
+          this.validators[fieldName].errors.push(rule.message);
+          this.validators[fieldName].valid = false;
+        }
+      } else if (typeof rule.test === 'function') {
+        if (!rule.test(value)) {
+          this.validators[fieldName].errors.push(rule.message);
+          this.validators[fieldName].valid = false;
+        }
+      }
+    });
+}
 
     onChange(e) {
         this.setState({ [e.target.name]: e.target.value })
+        this.updateValidators([e.target.name], e.target.value);
+    }
+
+    saveTeacher(){
+        let isValid = false;
+        if(this.validators['teacher_mail'].valid  ){
+            isValid = true
+            console.log(this.state)
+            console.log('oiuhgvbn')
+            console.log(this.validators)
+        }
+        else{
+            isValid = false
+            console.log(this.state)
+            console.log('not valda')
+            console.log(this.validators)
+        }
+
+        if(this.validators['teacher_name_first'].valid){
+            isValid = true
+        }
+        else{
+            isValid = false
+        }
+        if(this.validators['teacher_name_last'].valid)
+        {
+            isValid = true
+        }
+        else{
+            isValid = false
+        }
+        if(isValid){
+        let body = {
+            tfname: this.state.teacher_name_first,
+            tlname: this.state.teacher_name_last,
+            tmail: this.state.teacher_mail
+        }
+        axios(
+            {
+              method: 'post',
+              url: 'http://localhost:5000/parentSignUp',
+              data: body,
+              headers: {'Content-Type': 'application/json' }
+            }
+          )
+          .then(
+            res =>  console.log(res)
+          )
+          .catch(
+            err => console.log(err)
+          )
+        console.log(body)
+    }
     }
 
     render(){
         return(
             <div>
                 
-                <Header />
+                <HeaderAdmin />
                 <div style={{backgroundColor:"orange",height:"550px",opacity:"0.65"}}> 
                 <Row className="page-title">
           
@@ -65,7 +142,7 @@ export default class AdminTeacherAddTeacher extends Component {
                     </Col>
                     <Col lg={3} md={3} sm={3}>
                     <div style={{margin:"10px"}}>
-                        <Button style={{marginBottom:"4px", width:"60%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Save</Button>
+                        <Button onClick={this.saveTeacher} style={{marginBottom:"4px", width:"60%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Save</Button>
                     </div>
                     </Col>
                 </Row>

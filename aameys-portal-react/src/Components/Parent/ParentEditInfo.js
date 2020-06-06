@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Row, Col, Card, CardBody, Button, Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
+import HeaderParent from '../Common/HeaderParent';
 
 
 export default class ParentEditInfo extends Component {
@@ -25,7 +26,7 @@ export default class ParentEditInfo extends Component {
         return(
             <div>
                 
-                
+                <HeaderParent />
                 <div style={{backgroundColor:"orange",height:"550px",opacity:"0.65"}}> 
                 <Row className="page-title">
           

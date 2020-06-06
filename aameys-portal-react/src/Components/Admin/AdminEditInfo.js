@@ -3,7 +3,8 @@ import { Row, Col, Card, CardBody, Button, Breadcrumb, BreadcrumbItem } from 're
 import { Link } from 'react-router-dom';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import './Datatables.css';
-import Header from '../Common/header';
+import HeaderAdmin from '../Common/HeaderAdmin';
+
 
 
 export default class AdminEditInfo extends Component {
@@ -26,7 +27,7 @@ export default class AdminEditInfo extends Component {
     render(){
         return(
             <div>
-            <Header />
+            <HeaderAdmin />
                 
                 
                 <div style={{backgroundColor:"orange",height:"550px",opacity:"0.65"}}> 

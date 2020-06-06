@@ -9,10 +9,10 @@ export default class TeacherInfo extends Component {
         super(props);
         this.onChange = this.onChange.bind(this);
         this.state = {
-            teacher_name_first:"teacher 1",
-            teacher_name_last:"k",
-            teacher_mail:"abc@gmail.com",
-            breadcrumb:"teacher 1",
+            teacher_name_first:"",
+            teacher_name_last:"",
+            teacher_mail:"",
+            breadcrumb:"",
             teacher_id: this.props.match.params.id,
         }
     }

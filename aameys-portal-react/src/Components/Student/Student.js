@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Row, Col, Card, CardBody, Button } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import Header from '../Common/header'
+import HeaderStudent from '../Common/HeaderStudent';
+
 
 var mailPath = "";
 var accPath = "";
@@ -31,7 +33,7 @@ export default class Student extends Component {
         return (
 
             <div>
-            <Header />
+            <HeaderStudent />
             <div style={{backgroundColor:"orange", marginTop:"150px",height:"400px", opacity:"0.65"}}>
             <Row style={{marginBottom:"25px"}}>
                 <Col sm={2} lg={5} md = {5} />

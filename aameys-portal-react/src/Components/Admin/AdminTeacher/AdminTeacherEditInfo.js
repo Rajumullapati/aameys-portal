@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import './Datatables.css';
 import axios from 'axios';
-import Header from '../../Common/header';
+import HeaderAdmin from '../../Common/HeaderAdmin'
 
 
 export default class AdminTeacherEditInfo extends Component {
@@ -58,7 +58,7 @@ export default class AdminTeacherEditInfo extends Component {
     render(){
         return(
             <div>
-                <Header />
+                <HeaderAdmin />
                 
                 <div style={{backgroundColor:"orange",height:"550px",opacity:"0.65"}}> 
                 <Row className="page-title">

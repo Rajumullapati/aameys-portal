@@ -3,7 +3,7 @@ import { Row, Col, Card, CardBody, Button, BreadcrumbItem, Breadcrumb} from 'rea
 import { Link } from 'react-router-dom';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import './Datatables.css';
-import Header from '../../Common/header';
+import HeaderAdmin from '../../Common/HeaderAdmin'
 import axios from 'axios';
 
 
@@ -65,7 +65,7 @@ export default class AdminTeacher extends Component {
     render(){
         return(
             <div>
-            <Header />
+            <HeaderAdmin />
 
                 <div style={{backgroundColor:"orange",height:"600px", opacity:"0.65"}}> 
                 
