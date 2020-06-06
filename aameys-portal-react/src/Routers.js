@@ -74,8 +74,8 @@ const Routers = () => {
 						<Route exact path="/parent/dash/:pid/:sid/attendance" component={ParentAttendance} />
 						<Route exact path="/parent/dash/:pid/:sid/schedule" component={ParentSchedule} />
 						<Route exact path="/parent/dash/:pid/regchild" component={ParentRegChild} />
-						<Route exact path="/parent/:pid/mailteacher" component={ParentMailTeaher} />
-						<Route exact path="/parent/:pid/accinfo" component={ParentEditInfo} />
+						<Route exact path="/parent/dash/:pid/mailteacher" component={ParentMailTeaher} />
+						<Route exact path="/parent/dash/:pid/accinfo" component={ParentEditInfo} />
 
 
 						<Route exact path="/admin/:aid/teacher/addteach" component={AdminTeacherAddTeacher} />
