@@ -342,6 +342,17 @@ def getTeachers():
     return json.dumps(datatosend)
 
 
+@app.route('/addClassByAdmin', methods=['POST'])
+def addClassByAdmin():
+    con = connDB()
+    cursor = con.cursor()
+    sqlstring = 'insert into class values (\''+request.json['cname']+'\',GETDATE(),'+request.json['cterm']+',\''+request.json['cschool']+'\',\'\');'
+    print(sqlstring)
+    cursor.execute(sqlstring)
+    cursor.commit()
+    con.close()
+    return 'done'
+
 @app.route('/addTeacherByAdmin', methods=['POST'])
 def addTeacherByAdmin():
     con = connDB()

@@ -107,16 +107,16 @@ export default class ParentRegChild extends Component {
                     </Row>
                     </div>
 
-                    <div id="gender" style={{margin:"10px"}} onChange={this.onChange}>
-                    <label htmlFor="class">Gender</label>
+                    <div id="gender" value="gender" style={{margin:"10px"}} onChange={this.onChange}>
+                    <label htmlFor="gender">Gender</label>
                     <Row>
-                        <input style={{margin:"10px"}} type="radio" value="0" name="class"/>Male 
-                        <input style={{margin:"10px"}} type="radio" value="1" name="class" /> Female
-                        <input style={{margin:"10px"}} type="radio" value="2" name="class" /> Other
+                        <input style={{margin:"10px"}} type="radio" value="0" name="gender"/>Male 
+                        <input style={{margin:"10px"}} type="radio" value="1" name="gender" /> Female
+                        <input style={{margin:"10px"}} type="radio" value="2" name="gender" /> Other
                     </Row>
                     </div>
 
-                    <div id="class" style={{margin:"10px"}} onChange={this.onChange}>
+                    <div id="class" value="class" style={{margin:"10px"}} onChange={this.onChange}>
                     <label htmlFor="class">Class</label>
                     <Row>
                         <input style={{margin:"10px"}} type="radio" value="English" name="class"/>English 

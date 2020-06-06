@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Row, Col, Card, CardBody, Button, Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import HeaderAdmin from '../../Common/HeaderAdmin'
-
+import axios from 'axios';
 
 export default class AdminClassAddClass extends Component {
     constructor(props){
@@ -13,13 +13,38 @@ export default class AdminClassAddClass extends Component {
             breadcrumb: ""
         }
         this.onChange = this.onChange.bind(this);
-
+        this.save = this.save.bind(this);
     }
 
     onChange(e) {
         this.setState({ [e.target.name]: e.target.value })
     }
 
+    save(){
+        
+            let body = {
+                cname: this.state.class,
+                cterm: this.state.term,
+                cschool: this.state.school
+            }
+            
+            axios(
+                {
+                  method: 'post',
+                  url: 'http://localhost:5000/addClassByAdmin',
+                  data: body,
+                  headers: {'Content-Type': 'application/json' }
+                }
+              )
+              .then(
+                res =>  console.log(res)
+              )
+              .catch(
+                err => console.log(err)
+              )
+            console.log(body)
+        
+    }
 
     componentDidMount(){
 
@@ -66,7 +91,7 @@ export default class AdminClassAddClass extends Component {
                     </Col>
                     <Col lg={3} md={3} sm={3}>
                     <div style={{margin:"10px"}}>
-                        <Button style={{marginBottom:"4px", width:"60%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Save</Button>
+                        <Button onClick={this.save} style={{marginBottom:"4px", width:"60%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Save</Button>
                     </div>
                     </Col>
                 </Row>
@@ -94,7 +119,7 @@ export default class AdminClassAddClass extends Component {
                         </Row>
                         <Row className="form-group">
                         <Col lg={2} md={2} sm={2} style={{marginRight:"0px"}}>
-                            <label htmlFor="school" className="col-sm-2 col-form-label"><span style={{color:"black", fontSize:"100%", marginRight:"3px"}}>AAMEYS</span></label>
+                            <label htmlFor="school" className="col-sm-2 col-form-label"><span style={{color:"black", fontSize:"100%", marginRight:"3px"}}>School</span></label>
                             </Col>
                             <Col lg={10} md={10} sm={10} >
                                 <input type="text" onChange={this.onChange} className="form-control" id="school" placeholder="School" onChange={this.onChange} name="school" value={this.state.school} />
