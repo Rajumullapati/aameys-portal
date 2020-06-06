@@ -20,8 +20,8 @@ export default class ParentDash extends Component {
 
     }
     componentDidMount(){
-        mailPath = "mailteacher";
-        accPath = "accinfo";
+        mailPath = this.state.parent_id+"/mailteacher";
+        accPath = this.state.parent_id+"/accinfo";
         axios.get('http://localhost:5000/getstudentbyparentid?id='+this.state.parent_id)
         .then(response => {
             console.log(response)

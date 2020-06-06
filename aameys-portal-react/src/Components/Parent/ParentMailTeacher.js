@@ -78,8 +78,8 @@ export default class ParentMailTeaher extends Component {
           
                     <Col style={{margin:"10px"}} sm={6} lg={4} >
                         <Breadcrumb className="float-left float-sm-left">
-                        <BreadcrumbItem><a href="#">Administrator</a></BreadcrumbItem>
-                        <BreadcrumbItem actice>Email Parent</BreadcrumbItem>
+                        <BreadcrumbItem>Teacher</BreadcrumbItem>
+                        <BreadcrumbItem active>Email Parent</BreadcrumbItem>
                         </Breadcrumb>
                     </Col>
                 </Row>
