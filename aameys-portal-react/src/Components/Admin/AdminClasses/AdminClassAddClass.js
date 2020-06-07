@@ -31,7 +31,7 @@ export default class AdminClassAddClass extends Component {
     }
 
     save(){
-        
+            this.toggle()
             let body = {
                 cname: this.state.class,
                 cterm: this.state.term,

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Row, Col, Card, CardBody, Button, Breadcrumb, BreadcrumbItem } from 'reactstrap';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import './Datatables.css';
 import axios from 'axios';
@@ -22,11 +22,30 @@ export default class StudentInfo extends Component {
             student_img:"assets/images/profile-avatar.jpg",
             breadcrumb:""
         }
+        this.renderRedirect = this.renderRedirect.bind(this);
+        this.logout = this.logout.bind(this);
     }
+    renderRedirect() {
+        if (this.state.redirect) {
+          return <Redirect to={this.state.redirectTo} />
+        }
+      }
 
     logout(){
-       // axios.get('http://localhost:5000/updatestudentstatus?status=0&id='+response.data[0]['user_id_all']).then( res =>
-       
+        console.log(this.state)
+        console.log(this.props)
+        
+        axios.get('http://localhost:5000/updatestudentstatus?id='+this.state.student_id+"&status="+0).
+        then(res =>{
+            if(res.status < 300){
+                // this.props.history=[]
+                this.props.history.index = -1
+                this.props.history.entries = []
+                this.setState({
+                    redirect: true
+                })
+            }
+        })
     }
 
     onChange(e) {
@@ -103,7 +122,7 @@ export default class StudentInfo extends Component {
                         <Button onClick={this.logout} style={{marginBottom:"4px", width:"60%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Sign out</Button>
                         <Button style={{marginBottom:"4px", width:"60%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Delete Account</Button>
                         <Button style={{marginBottom:"4px", width:"60%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Return</Button>
-
+                        {this.renderRedirect()}
                     </div>
                     </Col>
                 </Row>

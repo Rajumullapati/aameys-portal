@@ -88,6 +88,7 @@ export default class AdminTeacherAddTeacher extends Component {
             isValid = false
         }
         if(isValid){
+            this.toggle()
         let body = {
             tfname: this.state.teacher_name_first,
             tlname: this.state.teacher_name_last,

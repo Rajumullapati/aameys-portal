@@ -91,8 +91,8 @@ def getStudentAttendanceById():
     con.close()
     return data.to_json(orient='records')
 
-@app.route('/attendanceByDate')
-def getAttendanceByDate():
+@app.route('/attendanceByDateandClass')
+def attendanceByDateandClass():
     date = request.args['date']
     con = connDB()
     sql = """select a.student_id, a.dateattendance, a.absence, s.gender, CONVERT(int,ROUND(DATEDIFF(hour,s.birthday,GETDATE())/8766.0,0)) AS Age from attendance a left join student s on a.student_id = s.student_id where dateattendance = \'"""+date+"\'"
@@ -184,7 +184,7 @@ def getTeacherDataById():
     for index, row in data3.iterrows():
         if row[1] is not None and not math.isnan(row[1]):
             cs =cs +1
-        if index >0  and prev is not None and row[0] != prev:
+        if index >0  and prev != -1 and row[0] != prev:
             classtosend = classtosend + [{'class_name':prevrow[0], 'student_count':cs,'updated':str(prevrow[2]),'class_id':str(prevrow[4])}]
             tcs = tcs + cs
             cc = cc+1
@@ -234,10 +234,13 @@ def getClass():
     for index, row in data.iterrows():
         if row[3] is not None and not math.isnan(row[3]):
             cs = cs+1
-        if index > 0 and prev is not None and row[0] != prev:
-            datatosend = datatosend + [{'class_name': row[0], 'first_name':row[1], 'last_name':row[2], 'class_id':row[4],'student_count':cs}]
+            print (row)
+            print(cs)
+        if index > 0 and prev != -1 and row[0] != prev:
+            datatosend = datatosend + [{'class_name': prevrow[0], 'first_name':prevrow[1], 'last_name':prevrow[2], 'class_id':prevrow[4],'student_count':cs}]
             cs = 0
-        
+        prev = row[0]
+        prevrow = row
     con.close()
     return json.dumps(datatosend)
 
@@ -267,7 +270,7 @@ def getallteachers():
     for index, row in data.iterrows():
         lang = lang+[{row[5]}]
         print(lang)
-        if index >0  and prev is not None and row[0] != prev:
+        if index >0  and prev != -1 and row[0] != prev:
             datatosend = datatosend+[{'teacher_id':prevrow[0],'first_name':prevrow[1],'last_name':prevrow[2],'email':prevrow[3],'img_add':prevrow[4]}]
             lang = []
         prev = row[0]
@@ -328,7 +331,7 @@ def getTeachers():
             # print(row[6])
             cs = cs+1
         # print (cc, cs)
-        if index >0  and prev is not None and row[0] != prev:
+        if index >0  and prev != -1 and row[0] != prev:
             datatosend = datatosend + [{'teacher_id':prevrow[0], 'first_name':prevrow[1], 'last_name':prevrow[2],'email':prevrow[3], 'img_add':prevrow[4],'class_num':cc, 'student_num':cs
             }]
             cc =0
@@ -429,15 +432,45 @@ def updatestudentstatus():
     id = request.args['id']
     status = request.args['status']
     con = connDB()
-    sqlstring = "update users set user_login_status = "+status+" where user_id_all = "+id+" and user_role=1"
+    sqlstring = "update users set user_login_status = "+status+" where user_id_all = "+id+" and user_role=2"
     print(sqlstring)
     cursor = con.cursor()
     cursor.execute(sqlstring)
     cursor.commit()
     con.close()
+    return 'success'
+
 
 @app.route('/updateparentstatus')
 def updateparentstatus():
+    id = request.args['id']
+    status = request.args['status']
+    con = connDB()
+    sqlstring = "update users set user_login_status = "+status+" where user_id_all = "+id+" and user_role=2"
+    cursor = con.cursor()
+    cursor.execute(sqlstring)
+    cursor.commit()
+    con.close()
+    return 'success'
+
+
+@app.route('/updateadminstatus')
+def updateadminstatus():
+    id = request.args['id']
+    status = request.args['status']
+    con = connDB()
+    sqlstring = "update users set user_login_status = "+status+" where user_id_all = "+id+" and user_role=2"
+    print(sqlstring)
+    cursor = con.cursor()
+    cursor.execute(sqlstring)
+    cursor.commit()
+    con.close()
+    return 'success'
+    return 'success'
+
+
+@app.route('/updateteacherstatus')
+def updateteacherstatus():
     id = request.args['id']
     status = request.args['status']
     con = connDB()

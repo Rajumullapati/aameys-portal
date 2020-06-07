@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Row, Col, Card, CardBody, Modal, ModalHeader, ModalBody, ModalFooter, Button, Breadcrumb, BreadcrumbItem } from 'reactstrap';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import HeaderParent from '../Common/HeaderParent';
 import DatePicker from 'react-datepicker';
 import axios from 'axios';
@@ -23,15 +23,21 @@ export default class ParentRegChild extends Component {
             gender:"",
             simpleDate:"",
             classes:[],
-            modal:false
+            modal: "",
+            redirect:false
 
         }
         this.handleChange = this.handleChange.bind(this);
         this.onChange = this.onChange.bind(this);
         this.toggle = this.toggle.bind(this);
         this.save = this.save.bind(this);
+        this.renderRedirect = this.renderRedirect.bind(this);
     }
-
+    renderRedirect() {
+      if (this.state.redirect) {
+        return <Redirect to={this.state.redirectTo} />
+      }
+    }
     handleChange(date) {
       console.log(this.state.simpleDate)
         this.setState({
@@ -47,7 +53,8 @@ export default class ParentRegChild extends Component {
 
     save(){
       // console.log()
-        
+      this.toggle()
+      this.setState({modal: true})
       let reqbody = {
         fname:this.state.fname,
         sname:this.state.sname,
@@ -62,6 +69,7 @@ export default class ParentRegChild extends Component {
 
       }
 
+      console.log(this.state)
 
       console.log(reqbody)
       let axiosConfig = {
@@ -82,27 +90,65 @@ export default class ParentRegChild extends Component {
         }
       )
       .then(
-        res =>  console.log(res)
+        res => { 
+          console.log(res)
+          this.setState({
+            fname:"",
+            sname:"",
+            email:"",
+            phone:"",
+            grade:"",
+            class:"",
+            password:"",
+            bday:"",
+            term:"",
+            gender:"",
+            simpleDate:"",
+            modal: false,
+            redirect:true
+          })
+        }
       )
       .catch(
-        err => console.log(err)
+        err => {
+          console.log(err)
+          this.setState({
+            fname:"",
+            sname:"",
+            email:"",
+            phone:"",
+            grade:"",
+            class:"",
+            password:"",
+            bday:"",
+            term:"",
+            gender:"",
+            simpleDate:"",
+            modal: false,
+            redirect:false
+          })
+        }
       )
     }
 
     toggle(){
+      console.log(this.state)
       this.setState(
         {
           modal: !this.state.modal
         }
       )
+      console.log(this.state)
     }
 
     componentDidMount(){
 
       axios.get('http://localhost:5000/class')
-      .then(res => this.setState({
+      .then(res => {
+        console.log(res)
+        this.setState({
         classes: res.data
-      }))
+      })})
       .catch(err => console.log(err))
     }
 
@@ -214,7 +260,7 @@ export default class ParentRegChild extends Component {
                   </div>
                   <Button onClick={this.save}  className="btn btn-primary">Register</Button>
                   <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                      <ModalHeader toggle={this.toggle}>Modal title
+                      <ModalHeader toggle={this.toggle}>Request
                     </ModalHeader>
                       <ModalBody>
                           <p>Please wait. Your request is getting processed.</p>
@@ -223,6 +269,7 @@ export default class ParentRegChild extends Component {
                           <Button color="primary" onClick={this.toggle}>OK</Button>
                       </ModalFooter>
                   </Modal>
+                  {this.renderRedirect()}
                 </form>
               </CardBody>
             </Card>

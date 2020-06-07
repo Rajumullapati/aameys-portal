@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Row, Col, Card, CardBody, Button, Breadcrumb, BreadcrumbItem } from 'reactstrap';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import './Datatables.css';
 import HeaderAdmin from '../Common/HeaderAdmin';
-
+import axios from 'axios'
 
 
 export default class AdminEditInfo extends Component {
@@ -12,19 +12,47 @@ export default class AdminEditInfo extends Component {
         super(props);
         this.onChange = this.onChange.bind(this);
         this.state = {
-            admin_id:"",
+            admin_id:this.props.match.params.aid,
             admin_name_first:"teacher 1",
             admin_name_last:"k",
             admin_mail:"abc@gmail.com",
-            breadcrumb:"teacher 1"
+            breadcrumb:"teacher 1",
+            redirect:false
         }
+        this.renderRedirect = this.renderRedirect.bind(this);
+        this.logout = this.logout.bind(this);
     }
 
     onChange(e) {
         this.setState({ [e.target.name]: e.target.value })
     }
 
+    renderRedirect() {
+        if (this.state.redirect) {
+          return <Redirect to={this.state.redirectTo} />
+        }
+      }
+
+    logout(){
+        console.log(this.state)
+        console.log(this.props)
+        
+        axios.get('http://localhost:5000/updateadminstatus?id='+this.state.admin_id+"&status="+0).
+        then(res =>{
+            if(res.status < 300){
+                // this.props.history=[]
+                this.props.history.index = -1
+                this.props.history.entries = []
+                this.setState({
+                    redirect: true
+                })
+            }
+        })
+    }
+
     render(){
+        console.log(this.props)
+
         return(
             <div>
             <HeaderAdmin />
@@ -68,8 +96,8 @@ export default class AdminEditInfo extends Component {
                         <Button style={{marginBottom:"4px", width:"60%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Save Changes</Button>
                         <Button style={{marginBottom:"4px", width:"60%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Change Email</Button>
                         <Button style={{marginBottom:"4px", width:"60%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Change password</Button>
-                        <Button style={{marginBottom:"4px", width:"60%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Sign out</Button>
-
+                        <Button onClick={this.logout} style={{marginBottom:"4px", width:"60%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Sign out</Button>
+                        {this.renderRedirect()}
                     </div>
                     </Col>
                 </Row>

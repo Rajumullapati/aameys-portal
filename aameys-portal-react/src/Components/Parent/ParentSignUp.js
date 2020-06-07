@@ -45,6 +45,8 @@ export default class ParentSignUp extends Component {
         }
       )
     }
+
+    
     submit(){
       this.toggle()
       if(this.validate()){

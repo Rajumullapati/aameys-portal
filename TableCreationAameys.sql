@@ -51,9 +51,10 @@ create table student (
 
 create table attendance (
 	student_id int,
+	class_id int,
 	dateattendance date,
 	absence int  ---1 present 0 absent
-)
+);
 
 create table schedule(
 	student_id int PRIMARY KEY,
