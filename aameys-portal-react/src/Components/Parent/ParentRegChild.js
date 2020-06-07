@@ -3,33 +3,98 @@ import { Row, Col, Card, CardBody, Button, Breadcrumb, BreadcrumbItem } from 're
 import { Link } from 'react-router-dom';
 import HeaderParent from '../Common/HeaderParent';
 import DatePicker from 'react-datepicker';
+import axios from 'axios';
+
 
 export default class ParentRegChild extends Component {
     constructor(props){
         super(props);
         this.state={
             fname:"",
+            parent_id:this.props.match.params.pid,
             sname:"",
             email:"",
+            phone:"",
+            grade:"",
+            class:"",
             password:"",
             bday:"",
             term:"",
             gender:"",
-            simpleDate:  new Date()
+            simpleDate:"",
+            classes:[]
+
         }
         this.handleChange = this.handleChange.bind(this);
         this.onChange = this.onChange.bind(this);
+        this.save = this.save.bind(this);
     }
 
     handleChange(date) {
+      console.log(this.state.simpleDate)
         this.setState({
             simpleDate: date
 
         });
+        console.log(this.state.simpleDate)
     }
+
     onChange(e) {
         this.setState({ [e.target.name]: e.target.value })
     }
+
+    save(){
+      // console.log()
+        
+      let reqbody = {
+        fname:this.state.fname,
+        sname:this.state.sname,
+        email:this.state.email,
+        term:this.state.term,
+        phone:this.state.phone,
+        grade:this.state.grade,
+        class:this.state.class,
+        gender:this.state.gender,
+        parent_id:this.state.parent_id,
+        simpleDate:this.state.simpleDate
+      }
+
+
+      console.log(reqbody)
+      let axiosConfig = {
+        headers: {
+            'Content-Type' : 'application/json; charset=UTF-8',
+            'Accept': 'Token',
+            "Access-Control-Allow-Origin": "*",
+      
+        }
+      };
+
+      axios(
+        {
+          method: 'post',
+          url: 'http://localhost:5000/regStudent',
+          data: reqbody,
+          headers: axiosConfig 
+        }
+      )
+      .then(
+        res =>  console.log(res)
+      )
+      .catch(
+        err => console.log(err)
+      )
+    }
+
+    componentDidMount(){
+
+      axios.get('http://localhost:5000/class')
+      .then(res => this.setState({
+        classes: res.data
+      }))
+      .catch(err => console.log(err))
+    }
+
 
     render(){
         return(
@@ -42,28 +107,28 @@ export default class ParentRegChild extends Component {
                   <div className="form-row">
                     <Col>
                     <label htmlFor="fname">Child's First Name</label>
-                      <input type="text" id="fname" onChange={this.onChange} className="form-control" placeholder="First name" />
+                      <input type="text" id="fname" name="fname" onChange={this.onChange} className="form-control" placeholder="First name" />
                     </Col>
                     <Col>
                     <label htmlFor="fname">Child's Last Name</label>
-                      <input type="text" id="lname" onChange={this.onChange} className="form-control" placeholder="Last Name" />
+                      <input type="text" id="lname" name="sname" onChange={this.onChange} className="form-control" placeholder="Last Name" />
                     </Col>
                   </div>
                   <div className="form-row">
                     <div className="form-group col-md-6">
                       <label htmlFor="inputEmail4">Email</label>
-                      <input type="email" className="form-control" id="email" placeholder="Email" />
+                      <input type="email" className="form-control" onChange={this.onChange} id="email" name="email" placeholder="Email" />
                     </div>
                     <div className="form-group col-md-6">
                       <label htmlFor="inputPassword4">Mobile Number</label>
-                      <input type="text" className="form-control" id="phone" placeholder="Mobile Number" />
+                      <input type="text" className="form-control" onChange={this.onChange} id="phone" name="phone" placeholder="Mobile Number" />
                     </div>
                   </div>
 
                   <div className="form-row">
                   <div className="form-group col-md-6">
                       <label htmlFor="term">Term</label>
-                      <input type="text" className="form-control" id="term" placeholder="Term" />
+                      <input type="text" name="term" onChange={this.onChange} className="form-control" id="term" placeholder="Term" />
                     </div>
                     <Col lg={4} sm={4} md={4} >
                     <div className="form-group col-md-6">
@@ -80,10 +145,21 @@ export default class ParentRegChild extends Component {
                     </Col>
                   </div>
 
+                  <div id="gender" value="gender" name="gender" style={{margin:"10px"}} onChange={this.onChange}>
+                    <label htmlFor="gender">Gender</label>
+                    <Row>
+                        <input style={{margin:"10px"}} type="radio" value="0" name="gender"/>Male 
+                        <input style={{margin:"10px"}} type="radio" value="1" name="gender" /> Female
+                        <input style={{margin:"10px"}} type="radio" value="2" name="gender" /> Other
+                    </Row>
+                    </div>
+
+
+
                   <Col lg={4} md={4} sm={4} />
                     
                     <Col lg={4} md={4} sm={4} />
-                    <div  style={{margin:"10px"}} id="grade" onChange={this.onChange}>
+                    <div  style={{margin:"10px"}} name="grade" id="grade" onChange={this.onChange}>
                     <label htmlFor="grade">Grade</label>
                     <Row>
                         <input style={{margin:"10px"}} type="radio" value="0" name="grade"/>Kindergarten 
@@ -107,33 +183,12 @@ export default class ParentRegChild extends Component {
                     </Row>
                     </div>
 
-                    <div id="gender" value="gender" style={{margin:"10px"}} onChange={this.onChange}>
-                    <label htmlFor="gender">Gender</label>
-                    <Row>
-                        <input style={{margin:"10px"}} type="radio" value="0" name="gender"/>Male 
-                        <input style={{margin:"10px"}} type="radio" value="1" name="gender" /> Female
-                        <input style={{margin:"10px"}} type="radio" value="2" name="gender" /> Other
-                    </Row>
-                    </div>
+            
 
-                    <div id="class" value="class" style={{margin:"10px"}} onChange={this.onChange}>
+                    <div id="class" value="class" style={{margin:"10px"}} name="class" onChange={this.onChange}>
                     <label htmlFor="class">Class</label>
                     <Row>
-                        <input style={{margin:"10px"}} type="radio" value="English" name="class"/>English 
-                        <input style={{margin:"10px"}} type="radio" value="Maths" name="class" /> Maths
-                        <input style={{margin:"10px"}} type="radio" value="Science" name="class" /> Science
-                    
-                        <input style={{margin:"10px"}} type="radio" value="History" name="class"/>History 
-                        <input style={{margin:"10px"}} type="radio" value="Geography" name="class" /> Geography
-                        <input style={{margin:"10px"}} type="radio" value="Civics" name="class" /> Civics
-                    
-                        <input style={{margin:"10px"}} type="radio" value="Design" name="class"/>Design 
-                        <input style={{margin:"10px"}} type="radio" value="Digital" name="class" />Digital
-                    </Row>
-                    <Row>
-                        <input style={{margin:"10px"}} type="radio" value="Economics" name="class" /> Economics
-                        <input style={{margin:"10px"}} type="radio" value="Health" name="class"/>Health
-                        <input style={{margin:"10px"}} type="radio" value="Arts" name="class" /> Arts
+                    { this.state.classes.map((value, index) => (<div><input style={{margin:"10px"}} type="radio" value={value['class_id']} name="class"/>{value['class_name']}</div> )) }
                     </Row>
                     </div>
 
@@ -146,7 +201,7 @@ export default class ParentRegChild extends Component {
                       </label>
                     </div>
                   </div>
-                  <button type="submit" className="btn btn-primary">Register</button>
+                  <Button onClick={this.save}  className="btn btn-primary">Register</Button>
                 </form>
               </CardBody>
             </Card>

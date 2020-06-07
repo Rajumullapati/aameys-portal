@@ -56,6 +56,9 @@ export default class AdminClassAssignStudent extends Component {
     }
 
     studentFormatter(cell, row){
+        if(row['first_name'] == null){
+            return "None"
+        }
         return row['first_name']+' '+row['last_name']
     }
 

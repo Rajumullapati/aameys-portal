@@ -241,6 +241,8 @@ def getClass():
     con.close()
     return json.dumps(datatosend)
 
+
+
 @app.route('/teachersbystudentid')
 def getTeachersforStudentsById():
     id = request.args['id']
@@ -300,6 +302,9 @@ def adminparent():
     data = pandas.read_sql(sql,con)
     return data.to_json(orient='records')
 
+
+
+
 @app.route('/teachers')
 def getTeachers():
     con = connDB()
@@ -353,6 +358,25 @@ def addClassByAdmin():
     con.close()
     return 'done'
 
+@app.route('/regStudent', methods=['POST'])
+def regStudent():
+    con = connDB()
+    cursor = con.cursor()
+    sqlstring = 'insert into student values (\''+request.json['fname']+'\',\''+request.json['sname']+'\',\''+request.json['email']+'\','+request.json['gender']+',\''+request.json['simpleDate']+'\',\''+request.json['phone']+'\','+request.json['grade']+','+request.json['class']+',\'\','+request.json['parent_id']+');'
+    print(sqlstring)
+    cursor.execute(sqlstring)
+    # cursor.commit()
+    data = pandas.read_sql('select student_id from student where first_name = \''+request.json['fname']+'\' and last_name = \''+request.json['sname']+'\' and email = \''+request.json['email']+'\'',con)
+    student_id = data['student_id'][0]
+    sqlstr = """insert into users values ('"""+request.json['email']+"""','student', 0, 1,"""+str(student_id)+""");"""
+    print(sqlstr)
+    cursor.execute(sqlstr)
+    cursor.commit()
+    con.close()
+    return 'done'
+
+
+
 @app.route('/addTeacherByAdmin', methods=['POST'])
 def addTeacherByAdmin():
     con = connDB()
@@ -360,9 +384,8 @@ def addTeacherByAdmin():
     sqlstring = 'insert into teacher values (\''+request.json['tfname']+'\',\''+request.json['tlname']+'\',\''+request.json['tmail']+'\',\'\');'
     print(sqlstring)
     cursor.execute(sqlstring)
-    cursor.commit()
     data = pandas.read_sql('select teacher_id,email from teacher where first_name = \''+request.json['tfname']+'\' and last_name = \''+request.json['tlname']+'\' and email = \''+request.json['tmail']+'\'',con)
-    sqlstr = 'insert into users values (\''+str(data['email'][0])+'\',\''+'\'\''+'\',0,2,\''+str(data['teacher_id'][0])+'\');'
+    sqlstr = 'insert into users values (\''+str(data['email'][0])+'\',\'teacher\',0,2,'+str(data['teacher_id'][0])+');'
     print(sqlstr)
     cursor.execute(sqlstr)
     cursor.commit()
@@ -381,7 +404,6 @@ def parentsignup():
     sqlstring = 'insert into parent values (\''+request.json['fname']+'\',\''+request.json['lname']+'\',\''+request.json['email']+'\',\'\',\''+request.json['bday']+'\','+request.json['gender']+');'
     print(sqlstring)
     cursor.execute(sqlstring)
-    cursor.commit()
     data = pandas.read_sql('select parent_id,email from parent where first_name = \''+request.json['fname']+'\' and last_name = \''+request.json['lname']+'\' and email = \''+request.json['email']+'\'',con)
     sqlstr = 'insert into users values (\''+str(data['email'][0])+'\',\''+str(request.json['pass'])+'\',0,2,\''+str(data['parent_id'][0])+'\');'
     print(sqlstr)

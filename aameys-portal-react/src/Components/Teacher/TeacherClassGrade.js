@@ -49,7 +49,10 @@ export default class TeacherClassAttendance extends Component {
 
     
     studentFormatter(cell, row){
-        return row['first_name']+" "+row['last_name']
+        if(row['first_name'] == null){
+            return "None"
+        }
+        return row['first_name']+' '+row['last_name']
     }
 
 

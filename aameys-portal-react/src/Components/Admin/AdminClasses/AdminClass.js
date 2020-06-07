@@ -44,7 +44,10 @@ export default class AdminClass extends Component {
     }
 
     nameFormatter(cell,row){
-        return row['first_name']==null?"None":row['first_name']+' '+row['last_name']==null?"":row['last_name']
+        if(row['first_name'] == null){
+            return "None"
+        }
+        return row['first_name']+' '+row['last_name']
     }
 
     classFormatter(cell,row){
