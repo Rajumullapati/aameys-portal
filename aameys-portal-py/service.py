@@ -13,7 +13,6 @@ CORS(app)
 def hello():
     con = connDB()
     data = pandas.read_sql('select * from sys.tables', con)
-    print(data)
     con.close()
     return "Hello World!"
 
@@ -77,37 +76,48 @@ def getStudentById():
 
 @app.route('/attendancebysid')
 def getStudentAttendanceById():
-    print('bvbnm')
     id = request.args['id']
     con = connDB()
 
     data = pandas.read_sql('select top(5) * from attendance where student_id = '+id+' order by dateattendance',con)
-    print(data)
+
     data.index = data['dateattendance']
     data = data.drop(['dateattendance','student_id'], axis=1)
-    #print
     data = data.T
-    print(data)
     con.close()
     return data.to_json(orient='records')
 
 @app.route('/attendanceByDateandClass')
 def attendanceByDateandClass():
     date = request.args['date']
+    class_id = request.args['class']
     con = connDB()
-    sql = """select a.student_id, a.dateattendance, a.absence, s.gender, CONVERT(int,ROUND(DATEDIFF(hour,s.birthday,GETDATE())/8766.0,0)) AS Age from attendance a left join student s on a.student_id = s.student_id where dateattendance = \'"""+date+"\'"
+    sql = """select a.student_id, a.dateattendance, a.absence, s.gender, CONVERT(int,ROUND(DATEDIFF(hour,s.birthday,GETDATE())/8766.0,0)) AS Age, s.first_name, s.last_name from attendance a left join student s on a.student_id = s.student_id where dateattendance = \'"""+date+"\' and s.class_id = "+class_id
     print(sql)
     data = pandas.read_sql(sql,con).to_json(orient='records')
     con.close()
     return data
 
+@app.route('/downloadattendanceByClassDate')
+def downloadattendanceByClassDate():
+    date = request.args['date']
+    class_id = request.args['class']
+    con = connDB()
+    sql = """select a.student_id, a.dateattendance, a.absence, s.gender, CONVERT(int,ROUND(DATEDIFF(hour,s.birthday,GETDATE())/8766.0,0)) AS Age, c.class_id from class c left join student s on c.class_id = s.class_id left join attendance a on a.student_id = s.student_id where dateattendance = \'"""+date+"\' and c.class_id = "+class_id
+    data = pandas.read_sql(sql,con)
+    con.close()
+    resp = make_response(data.to_csv())
+    resp.headers["Content-Disposition"] = "attachment; filename=export.csv"
+    resp.headers["Content-Type"] = "text/csv"
+    return resp
+
+
 @app.route('/attendanceByClassDate')
 def getAttendanceClassByDate():
     date = request.args['date']
-    class_id = request.args['class_id']
+    class_id = request.args['class']
     con = connDB()
     sql = """select a.student_id, a.dateattendance, a.absence, s.gender, CONVERT(int,ROUND(DATEDIFF(hour,s.birthday,GETDATE())/8766.0,0)) AS Age, c.class_id from class c left join student s on c.class_id = s.class_id left join attendance a on a.student_id = s.student_id where dateattendance = \'"""+date+"\' and c.class_id = "+class_id
-    print(sql)
     data = pandas.read_sql(sql,con).to_json(orient='records')
     con.close()
     return data
@@ -117,7 +127,6 @@ def getAttendanceClassByDate():
 def getStudemtDetailsAllIncAge():
     con = connDB()
     sql = """select s.student_id, s.first_name, s.last_name, s.gender, CONVERT(int,ROUND(DATEDIFF(hour,s.birthday,GETDATE())/8766.0,0)) AS Age from  student s """
-    print(sql)
     data = pandas.read_sql(sql, con)
     con.close()
     return data.to_json(orient='records')
@@ -227,7 +236,6 @@ def removeclassestoteacher():
     cursor = con.cursor()
     for item in sel:
         sql = """update class set teacher_id = '' where class_id = """+str(item['class_id'])
-        print(sql)
         cursor.execute(sql)
     cursor.commit()
     return "done"
@@ -237,11 +245,8 @@ def addclassestoteacher():
     con = connDB()
     sel = request.json['sel']
     cursor = con.cursor()
-    print(sel)
-    print(request.json)
     for item in sel:
         sql = """update class set teacher_id = """+str(request.json['teacher_id'])+""" where class_id = """+str(item['class_id'])
-        print(sql)
         cursor.execute(sql)
     cursor.commit()
     return "done"
@@ -343,7 +348,6 @@ def getallteachers():
     lang = []
     for index, row in data.iterrows():
         lang = lang+[{row[5]}]
-        print(lang)
         if index >0  and prev != -1 and row[0] != prev:
             datatosend = datatosend+[{'teacher_id':prevrow[0],'first_name':prevrow[1],'last_name':prevrow[2],'email':prevrow[3],'img_add':prevrow[4]}]
             lang = []
@@ -366,7 +370,6 @@ def parentsbyteacherid():
     con = connDB()
     id = request.args['id']
     sql = """select p.* from parent p left join student s on p.parent_id = s.parent_id left join class c on s.class_id = c.class_id left join teacher t on c.teacher_id = t.teacher_id where t.teacher_id = """+id
-    print(sql)
     data = pandas.read_sql(sql,con)
     con.close()
     return data.to_json(orient='records')
@@ -389,16 +392,12 @@ def getTeachers():
     
     data = pandas.read_sql(sql,con)
     count  = data['teacher_id'].nunique()
-    print(count)
-    # data.map(row => print(row))
     datatosend = [];
     prevrow = []
     prev= -1
     cc = 0
     cs = 0
     for index, row in data.iterrows():
-        # print(row)
-        # print(index)
         if row[5] is not None and not math.isnan(row[5]) :
             cc = cc+1
         if row[6] is not None and not math.isnan(row[6]):
@@ -413,10 +412,8 @@ def getTeachers():
         prev = row[0]
         prevrow = row
         if len(data.index)-1 == index:
-            print('ohhbjn')
             datatosend = datatosend + [{'teacher_id':prevrow[0], 'first_name':prevrow[1], 'last_name':prevrow[2],'email':prevrow[3], 'img_add':prevrow[4],'class_num':cc, 'student_num':cs
             }]
-    print(datatosend)
 
 
     # pandas.createDataFrame()
@@ -429,7 +426,6 @@ def addClassByAdmin():
     con = connDB()
     cursor = con.cursor()
     sqlstring = 'insert into class values (\''+request.json['cname']+'\',GETDATE(),'+request.json['cterm']+',\''+request.json['cschool']+'\',\'\');'
-    print(sqlstring)
     cursor.execute(sqlstring)
     cursor.commit()
     con.close()
@@ -440,13 +436,11 @@ def regStudent():
     con = connDB()
     cursor = con.cursor()
     sqlstring = 'insert into student values (\''+request.json['fname']+'\',\''+request.json['sname']+'\',\''+request.json['email']+'\','+request.json['gender']+',\''+request.json['simpleDate']+'\',\''+request.json['phone']+'\','+request.json['grade']+','+request.json['class']+',\'\','+request.json['parent_id']+');'
-    print(sqlstring)
     cursor.execute(sqlstring)
     # cursor.commit()
     data = pandas.read_sql('select student_id from student where first_name = \''+request.json['fname']+'\' and last_name = \''+request.json['sname']+'\' and email = \''+request.json['email']+'\'',con)
     student_id = data['student_id'][0]
     sqlstr = """insert into users values ('"""+request.json['email']+"""','student', 0, 1,"""+str(student_id)+""");"""
-    print(sqlstr)
     cursor.execute(sqlstr)
     cursor.commit()
     con.close()
@@ -459,11 +453,9 @@ def addTeacherByAdmin():
     con = connDB()
     cursor = con.cursor()
     sqlstring = 'insert into teacher values (\''+request.json['tfname']+'\',\''+request.json['tlname']+'\',\''+request.json['tmail']+'\',\'\');'
-    print(sqlstring)
     cursor.execute(sqlstring)
     data = pandas.read_sql('select teacher_id,email from teacher where first_name = \''+request.json['tfname']+'\' and last_name = \''+request.json['tlname']+'\' and email = \''+request.json['tmail']+'\'',con)
     sqlstr = 'insert into users values (\''+str(data['email'][0])+'\',\'teacher\',0,2,'+str(data['teacher_id'][0])+');'
-    print(sqlstr)
     cursor.execute(sqlstr)
     cursor.commit()
     con.close()
@@ -475,15 +467,12 @@ def addTeacherByAdmin():
 
 @app.route('/parentSignUp', methods=['POST'])
 def parentsignup():
-    print('poij')
     con = connDB()
     cursor = con.cursor()
     sqlstring = 'insert into parent values (\''+request.json['fname']+'\',\''+request.json['lname']+'\',\''+request.json['email']+'\',\'\',\''+request.json['bday']+'\','+request.json['gender']+');'
-    print(sqlstring)
     cursor.execute(sqlstring)
     data = pandas.read_sql('select parent_id,email from parent where first_name = \''+request.json['fname']+'\' and last_name = \''+request.json['lname']+'\' and email = \''+request.json['email']+'\'',con)
     sqlstr = 'insert into users values (\''+str(data['email'][0])+'\',\''+str(request.json['pass'])+'\',0,2,\''+str(data['parent_id'][0])+'\');'
-    print(sqlstr)
     cursor.execute(sqlstr)
     cursor.commit()
     con.close()
@@ -507,7 +496,6 @@ def updatestudentstatus():
     status = request.args['status']
     con = connDB()
     sqlstring = "update users set user_login_status = "+status+" where user_id_all = "+id+" and user_role=2"
-    print(sqlstring)
     cursor = con.cursor()
     cursor.execute(sqlstring)
     cursor.commit()
@@ -534,7 +522,6 @@ def updateadminstatus():
     status = request.args['status']
     con = connDB()
     sqlstring = "update users set user_login_status = "+status+" where user_id_all = "+id+" and user_role=2"
-    print(sqlstring)
     cursor = con.cursor()
     cursor.execute(sqlstring)
     cursor.commit()
@@ -562,7 +549,6 @@ def login():
     username = request.args['uname']
     password = request.args['pass']
     sql = 'select * from users where username = \''+username+'\' and password = \''+password+'\''
-    print(sql)
     data = pandas.read_sql('select * from users where username = \''+username+'\' and password = \''+password+'\'',con).to_json(orient='records')
     return data
 

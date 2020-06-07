@@ -95,11 +95,7 @@ export default class AdminStudent extends Component{
                         </CardBody>
                     </div>
                 </Col>  
-                <Col lg={3} md={3} sm={3}>
-                <div style={{margin:"10px"}}>
-                    <Link to={{pathname:"student/addstudent"}}><Button style={{marginBottom:"4px", width:"70%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Add Student</Button></Link>
-                </div>
-                </Col>
+               
             </Row>
             <Row style={{height:"200px"}}>
                 <Col xl={12} className="mb-30">

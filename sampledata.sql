@@ -7,7 +7,24 @@ select * from student
 select * from users
 update users set user_login_status = 0 where user_role=1 and user_id_all=10002
 
+select c.class_name,  t.first_name, t.last_name, s.student_id, c.class_id from class c left join teacher t on c.teacher_id = t.teacher_id left join student s on c.class_id = s.class_id where t.teacher_id is null or t.teacher_id = '';
+
+select a.student_id, a.dateattendance, a.absence, s.gender, CONVERT(int,ROUND(DATEDIFF(hour,s.birthday,GETDATE())/8766.0,0)) AS Age, s.first_name, s.last_name from attendance a left join student s on a.student_id = s.student_id where dateattendance = '2020-05-01' and s.class_id = 10001
+
+select * from attendance
+
 select * from class
+
+update class set teacher_id = '' where class_id = 10005
+
+
+
+--drop table users
+
+select * from parent
+select * from users
+
+select * from users where username = 'abc@hmail.com' and password = '1234567'
 
 select c.class_name, t.first_name, t.last_name, s.student_id from class c left join teacher t on c.teacher_id = t.teacher_id left join student s on c.class_id = s.class_id where c.class_id = 10001
 
@@ -54,7 +71,8 @@ select c.class_name, t.first_name, t.last_name, s.student_id from class c left j
 
 select class_name from class where teacher_id=10001
 
-
+select * from student
+select * from users
 
 select c.class_name, s.student_id, c.updated from class c left join student s on c.class_id = s.class_id where c.teacher_id = 10001
 

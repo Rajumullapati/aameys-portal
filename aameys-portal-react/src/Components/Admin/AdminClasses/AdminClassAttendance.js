@@ -18,6 +18,8 @@ const attend = [
 
     }
 ];
+
+var fileDownload = require('js-file-download'); 
 export default class AdminClassAttendance extends Component {
     constructor(props){
         super(props);
@@ -38,21 +40,21 @@ export default class AdminClassAttendance extends Component {
         }
         this.getattendance = this.getattendance.bind(this);
         this.genderFormatter = this.genderFormatter.bind(this);
-        
+        this.download = this.download.bind(this);
     }
 
     notesFormatter(cell,row){
 
     }
     buttonFormatter(cell, row){
-        if(cell==="1")
+        if(cell =="1")
         return '<i class="fa fa-check" aria-hidden="true"></i>';
         else
         return '<i class="fa fa-times"></i>';
       }
     studentFormatter(cell,row){
         
-        return '<a href="#/admin/teacher/'+'info'+'"><div className="user-dp"><img class="img-fluid rounded-circle" src="assets/images/profile-avatar.jpg" style="margin: 10px; text-align: center; height: 50px;"></img>'+cell+'</div></a>'
+        return '<a href="#/admin/teacher/'+'info'+'"><div className="user-dp"><img class="img-fluid rounded-circle" src="assets/images/profile-avatar.jpg" style="margin: 10px; text-align: center; height: 50px;"></img>'+row['first_name']+' '+row['last_name']+'</div></a>'
       }
     
     handleChange(date) {
@@ -92,8 +94,6 @@ export default class AdminClassAttendance extends Component {
             })
         } )
         .catch(err => console.log(err))
-        
-        
     }
 
     genderFormatter(cell, row){
@@ -103,6 +103,16 @@ export default class AdminClassAttendance extends Component {
         else {
             return 'Female'
         }
+    }
+
+    download(){
+        let date = this.state.simpleDate
+        let datestr = date.getFullYear()+'-'+(date.getMonth()<10?'0'+date.getMonth():date.getMonth())+'-'+(date.getDate()<10?'0'+date.getDate():date.getDate()); 
+        console.log(datestr)
+        axios.get('http://localhost:5000/downloadattendanceByClassDate?date='+datestr+'&class='+this.state.class_id)
+        .then(res => {
+            fileDownload(res.data,'report.csv')
+        })
     }
 
     render(){
@@ -157,7 +167,7 @@ export default class AdminClassAttendance extends Component {
                     </Col>
                     <Col lg={3} md={3} sm={3}>
                     <div style={{margin:"10px"}}>
-                        <Button style={{marginBottom:"4px", width:"70%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Download attendance data</Button>
+                        <Button onClick={this.download} style={{marginBottom:"4px", width:"70%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Download attendance data</Button>
                     </div>
                     </Col>
                 </Row>
@@ -184,11 +194,11 @@ export default class AdminClassAttendance extends Component {
                                 pagination
                                 tableStyle={{height:"150px"}}
                                 >
-                                <TableHeaderColumn width='100' dataField="student" isKey={true} dataFormat={this.studentFormatter}>Student's Name</TableHeaderColumn>
+                                <TableHeaderColumn width='100' dataField="first_name" isKey={true} dataFormat={this.studentFormatter}>Student's Name</TableHeaderColumn>
                                 <TableHeaderColumn width='100' dataField='gender' dataFormat={this.genderFormatter}>Gender</TableHeaderColumn>
-                                <TableHeaderColumn width='100' dataField='age'>Age</TableHeaderColumn>
-                                <TableHeaderColumn width='100' dataField='studentid'>Student ID</TableHeaderColumn>
-                                <TableHeaderColumn width='100' dataField="status" dataFormat={this.buttonFormatter}>Status</TableHeaderColumn>
+                                <TableHeaderColumn width='100' dataField='Age'>Age</TableHeaderColumn>
+                                <TableHeaderColumn width='100' dataField='student_id'>Student ID</TableHeaderColumn>
+                                <TableHeaderColumn width='100' dataField="absence" dataFormat={this.buttonFormatter}>Status</TableHeaderColumn>
                                 <TableHeaderColumn width='100' dataField="notes">Notes</TableHeaderColumn>
 
                         </BootstrapTable>
