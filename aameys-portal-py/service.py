@@ -365,6 +365,16 @@ def studentsbyteacherId():
     con.close()
     return data.to_json(orient='records')
 
+
+@app.route('/studentsbyclassId')
+def studentsbyclassId():
+    con = connDB()
+    id = request.args['id']
+    sql = """select s.*, CONVERT(int,ROUND(DATEDIFF(hour,s.birthday,GETDATE())/8766.0,0)) AS Age from student s left join class c on s.class_id = c.class_id where c.class_id = """+id
+    data = pandas.read_sql(sql,con)
+    con.close()
+    return data.to_json(orient='records')
+
 @app.route('/parentsbyteacherid')
 def parentsbyteacherid():
     con = connDB()
@@ -527,6 +537,21 @@ def updateadminstatus():
     cursor.commit()
     con.close()
     return 'success'
+
+
+
+@app.route('/postattendance', methods=['POST'])
+def postattendance():
+    con = connDB()
+    student_id = request.json['student_id']
+    class_id = request.json['class_id']
+    date = request.json['date']
+    status = request.json['absence']
+    sql = """insert into attendance values ("""+str(student_id)+""","""+str(class_id)+""",\'"""+str(date)+"""\',"""+str(status)+""");"""
+    cursor = con.cursor()
+    cursor.execute(sql)
+    cursor.commit()
+    con.close()
     return 'success'
 
 
@@ -535,11 +560,12 @@ def updateteacherstatus():
     id = request.args['id']
     status = request.args['status']
     con = connDB()
-    sqlstring = "update users set user_login_status = "+status+" and user_id_all = "+id+" where user_role=2"
+    sqlstring = "update users set user_login_status = "+status+" where user_id_all = "+id+" and user_role=2"
     cursor = con.cursor()
     cursor.execute(sqlstring)
     cursor.commit()
     con.close()
+    return 'success'
 
 
 

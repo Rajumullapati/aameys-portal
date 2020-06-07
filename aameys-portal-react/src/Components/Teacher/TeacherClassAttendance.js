@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Card, CardBody, Button, Breadcrumb, BreadcrumbItem } from 'reactstrap';
+import { Row, Col, Card, Modal, ModalHeader, ModalFooter, ModalBody, CardBody, Button, Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import HeaderTeacher from '../Common/HeaderTeacher';
@@ -14,6 +14,7 @@ export default class TeacherClassAttendance extends Component {
         this.state = {
             teachers : [],
             students:[],
+            selected:[],
             teacher_id: this.props.match.params.id,
             class_id:this.props.match.params.cid,
             class:{"class_name":"","term":""},
@@ -24,39 +25,195 @@ export default class TeacherClassAttendance extends Component {
             first_name:"",
             last_name:"",
             student_count:"",
+            studentcopy:[],
             term:"",
             getdate:"",
-            attendancetoupdate:[]
+            attendancetoupdate:[],
+            modal:false
         }
 
+        this.arr_diff = this.arr_diff.bind(this);
         this.getattendance = this.getattendance.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.studentFormatter = this.studentFormatter.bind(this);
         this.buttonFormatter = this.buttonFormatter.bind(this);
         this.notesFormatter = this.notesFormatter.bind(this);
         this.genderFormat = this.genderFormat.bind(this);
-        
+        this.toggle = this.toggle.bind(this);
+        this.onSelect = this.onSelect.bind(this);
+        this.postattendance = this.postattendance.bind(this);
     }
 
     componentDidMount(){
         axios.get('http://localhost:5000/getclassbyid?id='+this.state.class_id)
         .then(res => {
+            console.log(res)
             this.setState({class: res.data[0]})
         })
         .catch(err => console.log(err))
 
+        axios.get('http://localhost:5000/studentsbyclassId?id='+this.state.class_id)
+        .then(res => {
+            console.log(res)
+            this.setState({
+                students:res.data,
+                studentcopy: res.data
+            })
+        })
         
     }
 
 
+    postattendance(){
+
+        let data = this.state.selected
+        let total = this.state.studentcopy
+        let absent = total.filter(x => !data.includes(x));
+        console.log(absent)
+        console.log(data)
+        
+        // console.log(data)
+        this.toggle()
+
+        data.map((value, index) => {
+            console.log(value)
+            let body = {
+                student_id: value['student_id'],
+                class_id: value['class_id'],
+                date: this.state.simpleDate,
+                absence: 1
+            }
+            console.log(body)
+            axios(
+                    {
+                      method: 'post',
+                      url: 'http://localhost:5000/postattendance',
+                      data: body,
+                      headers: {'Content-Type': 'application/json' }
+                    }
+                  )
+                  .then(
+                    res => { console.log(res)
+                        this.setState({
+                            class:"",
+                            term:"",
+                            school:"",
+                            breadcrumb: ""
+                        })
+                    }
+                  )
+                  .catch(
+                    err => {console.log(err)
+                        this.setState({
+                            class:"",
+                            term:"",
+                            school:"",
+                            breadcrumb: "",
+                        })
+                    }
+                  )
+        })
+
+        absent.map((value, index) => {
+            console.log(value)
+            let body = {
+                student_id: value['student_id'],
+                class_id: value['class_id'],
+                date: this.state.simpleDate,
+                absence: 0
+            }
+            console.log(body)
+            axios(
+                    {
+                      method: 'post',
+                      url: 'http://localhost:5000/postattendance',
+                      data: body,
+                      headers: {'Content-Type': 'application/json' }
+                    }
+                  )
+                  .then(
+                    res => { console.log(res)
+                        this.setState({
+                            class:"",
+                            term:"",
+                            school:"",
+                            breadcrumb: ""
+                        })
+                    }
+                  )
+                  .catch(
+                    err => {console.log(err)
+                        this.setState({
+                            class:"",
+                            term:"",
+                            school:"",
+                            breadcrumb: "",
+                        })
+                    }
+                  )
+        })
+
+        // let body = {
+        //     student_id: this.state.student_id,
+        //     class_id: this.state.class_id,
+        //     date: this.state.simpleDate,
+        //     absence: 1
+        // }
+        
+        // axios(
+        //     {
+        //       method: 'post',
+        //       url: 'http://localhost:5000/postattendance',
+        //       data: body,
+        //       headers: {'Content-Type': 'application/json' }
+        //     }
+        //   )
+        //   .then(
+        //     res => { console.log(res)
+        //         this.setState({
+        //             class:"",
+        //             term:"",
+        //             school:"",
+        //             modal:false,
+        //             breadcrumb: ""
+        //         })
+        //     }
+        //   )
+        //   .catch(
+        //     err => {console.log(err)
+        //         this.setState({
+        //             class:"",
+        //             term:"",
+        //             school:"",
+        //             breadcrumb: "",
+        //             modal:false
+        //         })
+        //     }
+        //   )
+        // console.log(body)
+    }
+
     notesFormatter(cell,row){
 
     }
+
+    toggle(){
+        this.setState(
+          {
+            modal: !this.state.modal
+          }
+        )
+      }
+
+
     buttonFormatter(cell, row){
-        if(cell==="1")
-        return '<i class="fa fa-check" aria-hidden="true"></i>';
-        else
-        return '<i class="fa fa-times"></i>';
+
+        
+        // return ''
+        // if(cell==="1")
+        // return '<i class="fa fa-check" aria-hidden="true"></i>';
+        // else
+        // return '<i class="fa fa-times"></i>';
       }
     studentFormatter(cell,row){
         
@@ -72,8 +229,62 @@ export default class TeacherClassAttendance extends Component {
         console.log(this.state.simpleDate+" jhgbjnm")
         console.log(this.state.simpleDate.getDate()+"-"+this.state.simpleDate.getMonth()+"-"+this.state.simpleDate.getFullYear())
 
-        this.getattendance(date)
+        // this.getattendance(date)
     }
+
+    arr_diff (a1, a2) {
+
+        var a = [], diff = [];
+    
+        for (var i = 0; i < a1.length; i++) {
+            a[a1[i]] = true;
+        }
+    
+        for (var i = 0; i < a2.length; i++) {
+            if (a[a2[i]]) {
+                delete a[a2[i]];
+            } else {
+                a[a2[i]] = true;
+            }
+        }
+    
+        for (var k in a) {
+            diff.push(k);
+        }
+        
+        console.log(diff)
+        return diff;
+    }
+
+    
+    onSelect(row, isSelect, rowIndex, e){
+        
+        console.log(this.state.selected)
+        let sel = this.state.selected;
+        // let unsel = this.state.studentcopy
+        console.log(sel);
+        if(isSelect){
+            sel.push(row)
+            // unsel.pop(row)
+            this.setState({
+                selected: sel,
+                // studentcopy: unsel
+            })
+            console.log(this.state.selected)
+            console.log(this.state.studentcopy)
+        }
+        else{
+            sel.pop(row)
+            // unsel.push(row)  
+            this.setState({
+                selected: sel,
+                // studentcopy:unsel
+            })
+            console.log(this.state.studentcopy)
+            console.log(this.state.selected)
+        }
+    }
+
 
     genderFormat(cell, row){
         if(cell == '0'){
@@ -102,6 +313,12 @@ export default class TeacherClassAttendance extends Component {
 
 
     render(){
+        const selectRowProp = {
+            mode: 'checkbox',
+            clickToSelect: true,
+            onSelect: this.onSelect,
+            className: this.selectedRowClass
+        };
         return(
             <div>
                 <div>
@@ -151,8 +368,19 @@ export default class TeacherClassAttendance extends Component {
                     </Col>
                     <Col lg={3} md={3} sm={3}>
                     <div style={{margin:"10px"}}>
-                    <Button style={{marginBottom:"4px", width:"70%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Save Changes</Button>
-                        <Button style={{marginBottom:"4px", width:"70%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Mark All Present</Button>
+                    <Button onClick={this.postattendance} style={{marginBottom:"4px", width:"70%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Save Changes</Button>
+                        {/* <Button style={{marginBottom:"4px", width:"70%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Mark All Present</Button> */}
+                        <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+                            <ModalHeader toggle={this.toggle}>Modal title
+                            </ModalHeader>
+                            <ModalBody>
+                                <p>Please wait. Your request is getting processed.</p>
+                            </ModalBody>
+                            <ModalFooter>
+                                <Button color="primary" onClick={this.toggle}>OK</Button>
+                                
+                            </ModalFooter>
+                        </Modal>
                     </div>
                     </Col>
                 </Row>
@@ -176,15 +404,15 @@ export default class TeacherClassAttendance extends Component {
                     <Card style={{margin: "10px"}}>
                         <CardBody>
                         <BootstrapTable
-                                data={this.state.attendance}
+                                data={this.state.students}
+                                selectRow={selectRowProp}
                                 pagination
                                 tableStyle={{height:"150px"}}
                                 >
-                                <TableHeaderColumn width='100' dataField="student" isKey={true} dataFormat={this.studentFormatter}>Student's Name</TableHeaderColumn>
-                                <TableHeaderColumn width='100' dataField='gender' dataFormat={this.genderFormatter}>Gender</TableHeaderColumn>
-                                <TableHeaderColumn width='100' dataField='age'>Age</TableHeaderColumn>
-                                <TableHeaderColumn width='100' dataField='studentid'>Student ID</TableHeaderColumn>
-                                <TableHeaderColumn width='100' dataField="status" dataFormat={this.buttonFormatter}>Status</TableHeaderColumn>
+                                <TableHeaderColumn width='100' dataField="first_name" isKey={true} dataFormat={this.studentFormatter}>Student's Name</TableHeaderColumn>
+                                <TableHeaderColumn width='100' dataField='gender' dataFormat={this.genderFormat}>Gender</TableHeaderColumn>
+                                <TableHeaderColumn width='100' dataField='Age'>Age</TableHeaderColumn>
+                                <TableHeaderColumn width='100' dataField='student_id'>Student ID</TableHeaderColumn>
                                 <TableHeaderColumn width='100' dataField="notes">Notes</TableHeaderColumn>
 
                         </BootstrapTable>
