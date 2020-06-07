@@ -107,6 +107,8 @@ export default class AdminClass extends Component {
                     <Col lg={3} md={3} sm={3}>
                     <div style={{margin:"10px"}}>
                         <Link to ={{pathname: "class/addclass"}}><Button style={{marginBottom:"4px", width:"70%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Add Class</Button></Link>
+                    
+                        {/* <Link to ={{pathname: "class/removeclass"}}><Button style={{marginBottom:"4px", width:"70%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Remove Class</Button></Link> */}
                     </div>
                     </Col>
                 </Row>

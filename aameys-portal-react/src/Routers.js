@@ -51,7 +51,7 @@ import TeacherClassGrade from './Components/Teacher/TeacherClassGrade';
 import TeacherEmailStudents from './Components/Teacher/TeacherEmailStudents';
 import TeacherEmailParent from './Components/Teacher/TeacherEmailParents';
 import TeacherInfo from './Components/Teacher/TeacherInfo';
-
+import AdminTeacherRemoveClasses from './Components/Admin/AdminTeacher/AdminTeacherRemoveClasses';
 
 
 const Routers = () => {
@@ -84,6 +84,7 @@ const Routers = () => {
 						<Route exact path="/admin/:aid/teacher/:id" component={AdminTeacherInfo} />
 						<Route exact path="/admin/:aid/teacher/:id/editinfo" component={AdminTeacherEditInfo} />
 						<Route exact path="/admin/:aid/teacher/:id/assignclass" component={AdminTeacherAssignClasses} />
+						<Route exact path="/admin/:aid/teacher/:id/removeclass" component={AdminTeacherRemoveClasses} />
 						<Route exact path="/admin/:aid/class" component={AdminClass} />
 						<Route exact path="/admin/:aid/class/addclass" component={AdminClassAddClass} />
 						<Route exact path="/admin/:aid/class/:cid" component={AdminClassInfo} />

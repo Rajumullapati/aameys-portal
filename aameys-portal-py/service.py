@@ -220,7 +220,80 @@ def getClassById():
     return json.dumps(datatosend)#data.to_json(orient='records')
 
 
+@app.route('/removeclassestoteacher', methods=['POST'])
+def removeclassestoteacher():
+    con = connDB()
+    sel = request.json['sel']
+    cursor = con.cursor()
+    for item in sel:
+        sql = """update class set teacher_id = '' where class_id = """+str(item['class_id'])
+        print(sql)
+        cursor.execute(sql)
+    cursor.commit()
+    return "done"
 
+@app.route('/addclassestoteacher', methods=['POST'])
+def addclassestoteacher():
+    con = connDB()
+    sel = request.json['sel']
+    cursor = con.cursor()
+    print(sel)
+    print(request.json)
+    for item in sel:
+        sql = """update class set teacher_id = """+str(request.json['teacher_id'])+""" where class_id = """+str(item['class_id'])
+        print(sql)
+        cursor.execute(sql)
+    cursor.commit()
+    return "done"
+
+@app.route('/getfreeclasses')
+def getfreeclasses():
+    con = connDB()
+    sql = """select c.class_name,  t.first_name, t.last_name, s.student_id, c.class_id from class c left join teacher t on c.teacher_id = t.teacher_id left join student s on c.class_id = s.class_id where t.teacher_id is null or t.teacher_id = \'\'"""
+    data = pandas.read_sql(sql,con)
+    cs = 0
+    prevrow = []
+    datatosend = []
+    prev = -1
+    for index, row in data.iterrows():
+        if row[3] is not None and not math.isnan(row[3]):
+            cs = cs+1
+        if index > 0 and prev != -1 and row[0] != prev:
+            datatosend = datatosend + [{'class_name': prevrow[0], 'first_name':prevrow[1], 'last_name':prevrow[2], 'class_id':prevrow[4],'student_count':cs}]
+            cs = 0
+        prev = row[0]
+        prevrow = row
+        if len(data.index)-1 == index:
+            datatosend = datatosend + [{'class_name': prevrow[0], 'first_name':prevrow[1], 'last_name':prevrow[2], 'class_id':prevrow[4],'student_count':cs}]
+            cs = 0
+    con.close()
+    return json.dumps(datatosend)
+
+
+
+@app.route('/getclassbyteacherid')
+def getclassbyteacherid():
+    con = connDB()
+    id = request.args['id']
+    sql = """select c.class_name,  t.first_name, t.last_name, s.student_id, c.class_id from class c left join teacher t on c.teacher_id = t.teacher_id left join student s on c.class_id = s.class_id where t.teacher_id = """+str(id)
+    data = pandas.read_sql(sql,con)
+    cs = 0
+    prevrow = []
+    datatosend = []
+    prev = -1
+    for index, row in data.iterrows():
+        if row[3] is not None and not math.isnan(row[3]):
+            cs = cs+1
+        if index > 0 and prev != -1 and row[0] != prev:
+            datatosend = datatosend + [{'class_name': prevrow[0], 'first_name':prevrow[1], 'last_name':prevrow[2], 'class_id':prevrow[4],'student_count':cs}]
+            cs = 0
+        prev = row[0]
+        prevrow = row
+        if len(data.index)-1 == index:
+            datatosend = datatosend + [{'class_name': prevrow[0], 'first_name':prevrow[1], 'last_name':prevrow[2], 'class_id':prevrow[4],'student_count':cs}]
+            cs = 0
+    con.close()
+    return json.dumps(datatosend)
 
 @app.route('/class')
 def getClass():
@@ -234,13 +307,14 @@ def getClass():
     for index, row in data.iterrows():
         if row[3] is not None and not math.isnan(row[3]):
             cs = cs+1
-            print (row)
-            print(cs)
         if index > 0 and prev != -1 and row[0] != prev:
             datatosend = datatosend + [{'class_name': prevrow[0], 'first_name':prevrow[1], 'last_name':prevrow[2], 'class_id':prevrow[4],'student_count':cs}]
             cs = 0
         prev = row[0]
         prevrow = row
+        if len(data.index)-1 == index:
+            datatosend = datatosend + [{'class_name': prevrow[0], 'first_name':prevrow[1], 'last_name':prevrow[2], 'class_id':prevrow[4],'student_count':cs}]
+            cs = 0
     con.close()
     return json.dumps(datatosend)
 

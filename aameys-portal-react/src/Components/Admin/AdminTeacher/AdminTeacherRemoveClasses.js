@@ -28,7 +28,7 @@ const teachers = [{
 }]
 
 var selc = [];
-export default class AdminTeacherAssignClasses extends Component {
+export default class AdminTeacherRemoveClasses extends Component {
     constructor(props){
         super(props);
         this.onSelect = this.onSelect.bind(this);
@@ -39,7 +39,7 @@ export default class AdminTeacherAssignClasses extends Component {
             selected: [],
             classes:[]
         }
-        this.assignClasses = this.assignClasses.bind(this);
+        this.removeClasses = this.removeClasses.bind(this);
     }
 
     componentDidMount(){
@@ -52,7 +52,7 @@ export default class AdminTeacherAssignClasses extends Component {
     })
         .catch(err => console.log(err))
         console.log('bnbn');
-        axios.get('http://localhost:5000/getfreeclasses')
+        axios.get('http://localhost:5000/getclassbyteacherid?id='+this.props.match.params.id)
         .then(res => {
             console.log('erfgnm')
                 console.log(res)
@@ -65,7 +65,7 @@ export default class AdminTeacherAssignClasses extends Component {
         })
     }
     
-    assignClasses(){
+    removeClasses(){
 
         let body ={
             sel: this.state.selected,
@@ -76,7 +76,7 @@ export default class AdminTeacherAssignClasses extends Component {
         axios(
             {
               method: 'post',
-              url: 'http://localhost:5000/addclassestoteacher',
+              url: 'http://localhost:5000/removeclassestoteacher',
               data: body,
               headers: {'Content-Type': 'application/json' }
             }
@@ -84,7 +84,6 @@ export default class AdminTeacherAssignClasses extends Component {
           .then(
             res =>  {console.log(res)
             this.setState({
-            teacher_id:"",
             teacher_name_first:"",
             teacher_name_last:"",
             teacher_mail:"",
@@ -95,7 +94,6 @@ export default class AdminTeacherAssignClasses extends Component {
           .catch(
             err => {console.log(err)
                 this.setState({
-                teacher_id:"",
                 teacher_name_first:"",
                 teacher_name_last:"",
                 teacher_mail:"",
@@ -177,18 +175,18 @@ export default class AdminTeacherAssignClasses extends Component {
                                        
                                     </div>
                                 </div>
-                            <Button onClick={this.assignClasses} style={{marginBottom:"4px", marginTop:"20px", width:"100%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Assign selected classes to Teacher</Button>
+                            <Button onClick={this.removeClasses} style={{marginBottom:"4px", marginTop:"20px", width:"100%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Remove selected classes from Teacher</Button>
 
                             </CardBody>
                             
                         </div>
                     </Col>
-                    <Col lg={3} md={3} sm={3}>
+                    {/* <Col lg={3} md={3} sm={3}>
                     <div style={{margin:"10px"}}>
                         <Button style={{marginBottom:"4px", width:"70%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Save changes</Button>
                         <Button style={{marginBottom:"4px", width:"70%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Remove Classes</Button>
                     </div>
-                    </Col>
+                    </Col> */}
                 </Row>
                 <Row style={{height:"200px"}}>
                     <Col xl={12} className="mb-30">

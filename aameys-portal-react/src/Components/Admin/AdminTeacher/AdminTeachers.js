@@ -113,6 +113,7 @@ export default class AdminTeacher extends Component {
                     <Col lg={3} md={3} sm={3}>
                     <div style={{margin:"10px"}}>
                         <Link to={{pathname:"addteach"}}><Button style={{marginBottom:"4px", width:"70%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Add Teacher</Button></Link>
+                        
                     </div>
                     </Col>
                 </Row>

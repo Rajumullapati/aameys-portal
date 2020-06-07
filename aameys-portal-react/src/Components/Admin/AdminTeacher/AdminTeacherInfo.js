@@ -15,6 +15,7 @@ const teachers =[ {
 var columns = [];
 var editInfo = "";
 var assignClass = "";
+var removeclass = "";
 export default class AdminTeacherInfo extends Component{
 
     constructor(props){
@@ -34,7 +35,7 @@ export default class AdminTeacherInfo extends Component{
         // this.setState({teacher: teachers});
         editInfo = this.state.teacher_id+"/editinfo";
         assignClass = this.state.teacher_id+"/assignclass";
-
+        removeclass = this.state.teacher_id+"/removeclass";
         axios.get('http://localhost:5000/teachersbyid?id='+this.state.teacher_id)
         .then(res => {
             console.log(res)
@@ -100,6 +101,8 @@ export default class AdminTeacherInfo extends Component{
                     <div style={{margin:"10px"}}>
                     <Link to={{pathname: editInfo}}><Button style={{marginBottom:"4px", width:"70%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Edit teacher info</Button></Link>
                     <Link to={{pathname: assignClass}}><Button style={{marginBottom:"4px", width:"70%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-envelope-o"></i>Assign classes</Button></Link>
+                    <Link to ={{pathname: removeclass}}><Button style={{marginBottom:"4px", width:"70%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Remove Class</Button></Link>
+                    
                     </div>
                     </Col>
                 </Row>

@@ -171,16 +171,16 @@ export default class AdminTeacherAddTeacher extends Component {
                     <div style={{margin:"10px"}}>
                         <Button onClick={this.saveTeacher} style={{marginBottom:"4px", width:"60%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Save</Button>
                         <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                                    <ModalHeader toggle={this.toggle}>Modal title
-                                 </ModalHeader>
-                                    <ModalBody>
-                                        <p>Please wait. Your request is getting processed.</p>
-                                    </ModalBody>
-                                    <ModalFooter>
-                                        <Button color="primary" onClick={this.toggle}>OK</Button>
-                                        
-                                    </ModalFooter>
-                                </Modal>
+                            <ModalHeader toggle={this.toggle}>Modal title
+                            </ModalHeader>
+                            <ModalBody>
+                                <p>Please wait. Your request is getting processed.</p>
+                            </ModalBody>
+                            <ModalFooter>
+                                <Button color="primary" onClick={this.toggle}>OK</Button>
+                                
+                            </ModalFooter>
+                        </Modal>
                     </div>
                     </Col>
                 </Row>
