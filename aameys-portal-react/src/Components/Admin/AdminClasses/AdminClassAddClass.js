@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Card, CardBody, Button, Breadcrumb, BreadcrumbItem } from 'reactstrap';
+import { Row, Col, Modal, ModalHeader, ModalFooter, ModalBody, Card, CardBody, Button, Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import HeaderAdmin from '../../Common/HeaderAdmin'
 import axios from 'axios';
 
@@ -10,11 +10,21 @@ export default class AdminClassAddClass extends Component {
             class:"",
             term:"",
             school:"",
-            breadcrumb: ""
+            breadcrumb: "",
+            modal:false
         }
         this.onChange = this.onChange.bind(this);
         this.save = this.save.bind(this);
+        this.toggle = this.toggle.bind(this);
     }
+
+    toggle(){
+        this.setState(
+          {
+            modal: !this.state.modal
+          }
+        )
+      }
 
     onChange(e) {
         this.setState({ [e.target.name]: e.target.value })
@@ -37,10 +47,26 @@ export default class AdminClassAddClass extends Component {
                 }
               )
               .then(
-                res =>  console.log(res)
+                res => { console.log(res)
+                    this.setState({
+                        class:"",
+                        term:"",
+                        school:"",
+                        modal:false,
+                        breadcrumb: ""
+                    })
+                }
               )
               .catch(
-                err => console.log(err)
+                err => {console.log(err)
+                    this.setState({
+                        class:"",
+                        term:"",
+                        school:"",
+                        breadcrumb: "",
+                        modal:false
+                    })
+                }
               )
             console.log(body)
         
@@ -92,6 +118,17 @@ export default class AdminClassAddClass extends Component {
                     <Col lg={3} md={3} sm={3}>
                     <div style={{margin:"10px"}}>
                         <Button onClick={this.save} style={{marginBottom:"4px", width:"60%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Save</Button>
+                        <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+                            <ModalHeader toggle={this.toggle}>Modal title
+                            </ModalHeader>
+                            <ModalBody>
+                                <p>Please wait. Your request is getting processed.</p>
+                            </ModalBody>
+                            <ModalFooter>
+                                <Button color="primary" onClick={this.toggle}>OK</Button>
+                                
+                            </ModalFooter>
+                        </Modal>
                     </div>
                     </Col>
                 </Row>

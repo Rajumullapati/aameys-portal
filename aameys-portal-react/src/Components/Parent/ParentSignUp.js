@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Card, CardBody, Button, Breadcrumb, BreadcrumbItem } from 'reactstrap';
+import { Row, Col, Card, Modal, ModalHeader, ModalFooter, ModalBody, CardBody, Button, Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import axios from 'axios';
@@ -16,6 +16,7 @@ export default class ParentSignUp extends Component {
             password:"",
             gender:"",
             gridCheck:"",
+            modal:false,
             simpleDate:  new Date()
         }
         this.handleChange = this.handleChange.bind(this);
@@ -23,6 +24,7 @@ export default class ParentSignUp extends Component {
         this.submit = this.submit.bind(this);
         this.validate = this.validate.bind(this);
         this.onCheckBoxChange = this.onCheckBoxChange.bind(this); 
+        this.toggle = this.toggle.bind(this);
     }
 
 
@@ -36,7 +38,15 @@ export default class ParentSignUp extends Component {
         this.setState({ [e.target.name]: e.target.value })
     }
 
+    toggle(){
+      this.setState(
+        {
+          modal: !this.state.modal
+        }
+      )
+    }
     submit(){
+      this.toggle()
       if(this.validate()){
 
         let reqbody = {
@@ -80,10 +90,32 @@ export default class ParentSignUp extends Component {
             }
           )
           .then(
-            res =>  console.log(res)
+            res =>  {console.log(res)
+              this.setState({
+                fname:"",
+                sname:"",
+                email:"",
+                password:"",
+                gender:"",
+                gridCheck:"",
+                modal:false,
+                simpleDate:  new Date()
+            })
+            }
           )
           .catch(
-            err => console.log(err)
+            err => {console.log(err)
+              this.setState({
+                fname:"",
+                sname:"",
+                email:"",
+                password:"",
+                gender:"",
+                gridCheck:"",
+                modal:false,
+                simpleDate:  new Date()
+            })
+            }
           )
       }
     }
@@ -184,6 +216,16 @@ export default class ParentSignUp extends Component {
                     </div>
                   </div>
                   <Button onClick={this.submit}  className="btn btn-primary">Sign in</Button>
+                  <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+                      <ModalHeader toggle={this.toggle}>Modal title
+                    </ModalHeader>
+                      <ModalBody>
+                          <p>Please wait. Your request is getting processed.</p>
+                      </ModalBody>
+                      <ModalFooter>
+                          <Button color="primary" onClick={this.toggle}>OK</Button>
+                      </ModalFooter>
+                  </Modal>
                 </form>
               </CardBody>
             </Card>

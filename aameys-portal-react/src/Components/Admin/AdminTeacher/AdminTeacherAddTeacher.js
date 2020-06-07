@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Card, CardBody, Button, Breadcrumb, BreadcrumbItem } from 'reactstrap';
+import { Row, Col, Card, CardBody, Modal, ModalHeader, ModalFooter, ModalBody, Button, Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import validators from '../../../validators';
 import HeaderAdmin from '../../Common/HeaderAdmin'
 import axios from 'axios';
@@ -16,15 +16,25 @@ export default class AdminTeacherAddTeacher extends Component {
             teacher_name_first:"",
             teacher_name_last:"",
             teacher_mail:"",
-            breadcrumb:"Add teacher"
+            breadcrumb:"Add teacher",
+            modal: false
         }
         this.saveTeacher = this.saveTeacher.bind(this);
+        this.toggle = this.toggle.bind(this);
         this.validators = validators;
         this.updateValidators = this.updateValidators.bind(this);
 
     }
 
-    
+    toggle(){
+        this.setState(
+          {
+            modal: !this.state.modal
+          }
+        )
+      }
+
+
   updateValidators(fieldName, value) {
     this.validators[fieldName].errors = [];
     this.validators[fieldName].state = value;
@@ -92,10 +102,26 @@ export default class AdminTeacherAddTeacher extends Component {
             }
           )
           .then(
-            res =>  console.log(res)
+            res =>  {console.log(res)
+            this.setState({
+            teacher_id:"",
+            teacher_name_first:"",
+            teacher_name_last:"",
+            teacher_mail:"",
+            breadcrumb:"Add teacher",
+            modal: false
+            })}
           )
           .catch(
-            err => console.log(err)
+            err => {console.log(err)
+                this.setState({
+                teacher_id:"",
+                teacher_name_first:"",
+                teacher_name_last:"",
+                teacher_mail:"",
+                breadcrumb:"Add teacher",
+                modal: false
+                })}
           )
         console.log(body)
     }
@@ -143,6 +169,17 @@ export default class AdminTeacherAddTeacher extends Component {
                     <Col lg={3} md={3} sm={3}>
                     <div style={{margin:"10px"}}>
                         <Button onClick={this.saveTeacher} style={{marginBottom:"4px", width:"60%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Save</Button>
+                        <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+                                    <ModalHeader toggle={this.toggle}>Modal title
+                                 </ModalHeader>
+                                    <ModalBody>
+                                        <p>Please wait. Your request is getting processed.</p>
+                                    </ModalBody>
+                                    <ModalFooter>
+                                        <Button color="primary" onClick={this.toggle}>OK</Button>
+                                        
+                                    </ModalFooter>
+                                </Modal>
                     </div>
                     </Col>
                 </Row>

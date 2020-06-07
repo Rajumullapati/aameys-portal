@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Card, CardBody, Button, Breadcrumb, BreadcrumbItem } from 'reactstrap';
+import { Row, Col, Card, CardBody, Modal, ModalHeader, ModalBody, ModalFooter, Button, Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import HeaderParent from '../Common/HeaderParent';
 import DatePicker from 'react-datepicker';
@@ -22,11 +22,13 @@ export default class ParentRegChild extends Component {
             term:"",
             gender:"",
             simpleDate:"",
-            classes:[]
+            classes:[],
+            modal:false
 
         }
         this.handleChange = this.handleChange.bind(this);
         this.onChange = this.onChange.bind(this);
+        this.toggle = this.toggle.bind(this);
         this.save = this.save.bind(this);
     }
 
@@ -56,7 +58,8 @@ export default class ParentRegChild extends Component {
         class:this.state.class,
         gender:this.state.gender,
         parent_id:this.state.parent_id,
-        simpleDate:this.state.simpleDate
+        simpleDate:this.state.simpleDate,
+
       }
 
 
@@ -83,6 +86,14 @@ export default class ParentRegChild extends Component {
       )
       .catch(
         err => console.log(err)
+      )
+    }
+
+    toggle(){
+      this.setState(
+        {
+          modal: !this.state.modal
+        }
       )
     }
 
@@ -202,6 +213,16 @@ export default class ParentRegChild extends Component {
                     </div>
                   </div>
                   <Button onClick={this.save}  className="btn btn-primary">Register</Button>
+                  <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+                      <ModalHeader toggle={this.toggle}>Modal title
+                    </ModalHeader>
+                      <ModalBody>
+                          <p>Please wait. Your request is getting processed.</p>
+                      </ModalBody>
+                      <ModalFooter>
+                          <Button color="primary" onClick={this.toggle}>OK</Button>
+                      </ModalFooter>
+                  </Modal>
                 </form>
               </CardBody>
             </Card>
