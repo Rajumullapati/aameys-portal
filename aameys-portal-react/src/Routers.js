@@ -10,7 +10,7 @@ import Admin from './Components/Admin/Admin';
 import AdminTeacher from './Components/Admin/AdminTeacher/AdminTeachers';
 import AdminTeacherInfo from './Components/Admin/AdminTeacher/AdminTeacherInfo';
 import AdminTeacherEditInfo from './Components/Admin/AdminTeacher/AdminTeacherEditInfo';
-// import AdminTeacherAddTeacher from './Components/Admin/AdminTeacher/AdminTeacherAddTeacher';
+import AdminTeacherAddTeacher from './Components/Admin/AdminTeacher/AdminTeacherAddTeacher';
 import AdminTeacherAssignClasses from './Components/Admin/AdminTeacher/AdminTeacherAssignClasses';
 import AdminClass from './Components/Admin/AdminClasses/AdminClass';
 import AdminClassInfo from './Components/Admin/AdminClasses/AdminClassInfo';
@@ -20,7 +20,7 @@ import AdminClassAssignStudent from './Components/Admin/AdminClasses/AdminClassA
 import AdminClassAttendance from './Components/Admin/AdminClasses/AdminClassAttendance';
 import AdminClassGrade from './Components/Admin/AdminClasses/AdminClassGrade';
 import AdminStudent from './Components/Admin/AdminStudent/AdminStudent';
-import AdminStudentAddStudent from './Components/Admin/AdminStudent/AdminStudentAddStudent';
+// import AdminStudentAddStudent from './Components/Admin/AdminStudent/AdminStudentAddStudent';
 import AdminStudentEditInfo from './Components/Admin/AdminStudent/AdminStudentEditInfo';
 import AdminStudentAssignClass from './Components/Admin/AdminStudent/AdminStudentAssignClass';
 import AdminSchedule from './Components/Admin/AdminSchedule';
@@ -78,7 +78,7 @@ const Routers = () => {
 						<Route exact path="/parent/dash/:pid/accinfo" component={ParentEditInfo} />
 
 
-						{/* <Route exact path="/admin/:aid/teacher/addteach" component={AdminTeacherAddTeacher} /> */}
+						<Route exact path="/admin/:aid/teacher/addteach" component={AdminTeacherAddTeacher} />
 						<Route exact path="/admin/:aid" component={Admin} />
 						<Route exact path="/admin/:aid/teacher" component={AdminTeacher} />
 						<Route exact path="/admin/:aid/teacher/:id" component={AdminTeacherInfo} />
@@ -94,7 +94,7 @@ const Routers = () => {
 						<Route exact path="/admin/:aid/class/:cid/attendance" component={AdminClassAttendance} />
 						<Route exact path="/admin/:aid/class/:cid/grading" component={AdminClassGrade} />
 						<Route exact path="/admin/:aid/student/" component={AdminStudent} />
-						<Route exact path="/admin/:aid/student/addstudent" component={AdminStudentAddStudent} />
+						{/* <Route exact path="/admin/:aid/student/addstudent" component={AdminStudentAddStudent} /> */}
 						<Route exact path="/admin/:aid/student/:id" component={AdminStudentEditInfo} />
 						<Route exact path="/admin/:aid/student/:id/assignclass" component={AdminStudentAssignClass} />
 						<Route exact path="/admin/:aid/schedule" component={AdminSchedule} />
