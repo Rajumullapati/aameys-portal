@@ -175,7 +175,9 @@ def getStudentGradesById():
 def scheduleById():
     id = request.args['id']
     con = connDB()
-    data = pandas.read_sql('select * from schedule where student_id = '+id,con).to_json(orient='records')
+    sql = 'select * from schedule where class_id in (select class_id from classdetails where student_id = '+id+');'
+    print(sql)
+    data = pandas.read_sql('select * from schedule where class_id in (select * from classdetails where student_id = '+id+');',con).to_json(orient='records')
     con.close()
     return data
 
@@ -196,7 +198,8 @@ def addscheduleByDate():
     sched = request.json['sel']
     date = request.json['date']
     for s in sched:
-        sqlstr = 'insert into schedule values ('+str(s['class_id'])+',\''+'\''+str(sched['class_name'])+'\''+str(date)+'\',\''+str(s['start_time'])+'\',\''+str(s['end_time'])+'\');'
+        sqlstr = 'insert into schedule values ('+str(s['class_id'])+',\''+str(s['class_name'])+'\',\''+str(date)+'\',\''+str(s['start_time'])+'\',\''+str(s['end_time'])+'\');'
+        print(sqlstr)
         cursor.execute(sqlstr)
     con.commit()
     return 'done'
@@ -349,6 +352,26 @@ def getfreeclasses():
     return json.dumps(datatosend)
 
 
+@app.route('/getschedulebyclass')
+def getschedulebyclass():
+    con = connDB()
+    id = request.args['id']
+    sql = 'select * from schedule where class_id ='+id
+    print(sql)
+    df = pandas.read_sql(sql,con)
+    con.close()
+    return df.to_json(orient='records')
+
+@app.route('/classbyid')
+def classbyid():
+    con =connDB()
+    id = request.args['id']
+    sql = """select c.class_id, c.class_name, c.term, c.school from class c where c.class_id  in (select cd.class_id from classdetails cd where cd.student_id =  """+id+')'
+    data = pandas.read_sql(sql,con)
+    
+    con.close()
+    
+    return data.to_json(orient='records')
 
 @app.route('/getclassbyteacherid')
 def getclassbyteacherid():

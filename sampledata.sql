@@ -2,8 +2,34 @@
 select s.student_id, c.class_id, c.class_name, t.teacher_id, t.first_name, t.last_name, t.email, t.img_add from ((student s inner join classdetails cd on s.student_id = cd.student_id left join class c on c.class_id = cd.class_id) inner join teacher t on t.teacher_id = c.teacher_id) where s.student_id = 10001
 
 select a.student_id, a.dateattendance, a.absence, s.gender, CONVERT(int,ROUND(DATEDIFF(hour,s.birthday,GETDATE())/8766.0,0)) AS Age, c.class_id from classdetails cd left join student s on cd.student_id = s.student_id left join attendance a on a.student_id = s.student_id left join class c on c.class_id = cd.class_id where dateattendance = '2020-06-04' and c.class_id = 10001
-----------
+-----
+select c.class_name, c.school, c.term, c.class_id from class c left join classdetails cd on cd.class_id = c.class_id left join student s on cd.student_id = cd.student_id where s.student_id = 10001
+-----
+insert into schedule values (10001,'English','2020-05-31T22:39:36.000Z','1:10','2:00');
 
+select * from schedule where class_id =10001
+
+select * from schedule where class_id in (select class_id from classdetails where student_id = 10001);
+
+select * from classdetails where student_id=10001
+select distinct c.class_id from class c left join classdetails cd on c.class_id =cd.class_id where cd.student_id != 10001
+
+select c.class_id from class c where c.class_id not in (select cd.class_id from classdetails cd where cd.student_id = 10001)
+select * from classdetails
+select * from schedule
+
+select * from schedule where datesched = '2020-05-08'
+
+delete  grades where student_id = 10001 and class_id = 10001
+
+select * from class where class_id = 10001
+
+select top(5) * from attendance where student_id = 10001 order by dateattendance
+select * from grades
+
+select * from parent
+
+select * from student
 select p.* from parent p left join student s on p.parent_id = s.parent_id left join classdetails cd on cd.student_id = s.student_id left join class c on c.class_id = cd.class_id left join teacher t on c.teacher_id = t.teacher_id where t.teacher_id = 10001
 select s.*, CONVERT(int,ROUND(DATEDIFF(hour,s.birthday,GETDATE())/8766.0,0)) AS Age from student s left join classdetails cd on cd.student_id = s.student_id left join class c on c.class_id = cd.class_id where c.class_id = 10001
 

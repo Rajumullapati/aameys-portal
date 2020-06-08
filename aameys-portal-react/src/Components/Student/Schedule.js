@@ -1,109 +1,108 @@
 import React, { Component } from 'react';
 import { Row, Col, Breadcrumb, BreadcrumbItem, Card, CardBody } from 'reactstrap';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
-import './Datatables.css';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import HeaderStudent from '../Common/HeaderStudent';
 
 
 
-const sched = [{
-    "Time":"8:00-9:00",
-    "Monday":"English",
-    "Tuesday":"",
-    "Wednesday":"",
-    "Thursday":"",
-    "Friday":""
-},
-{
-    "Time":"",
-    "Monday":"Mathematics",
-    "Tuesday":"",
-    "Wednesday":"",
-    "Thursday":"",
-    "Friday":""
-},
-{
-    "Time":"",
-    "Monday":"Mathematics",
-    "Tuesday":"",
-    "Wednesday":"",
-    "Thursday":"",
-    "Friday":""
-},
-{
-    "Time":"",
-    "Monday":"Mathematics",
-    "Tuesday":"",
-    "Wednesday":"",
-    "Thursday":"",
-    "Friday":""
-},
-{
-    "Time":"",
-    "Monday":"Mathematics",
-    "Tuesday":"",
-    "Wednesday":"",
-    "Thursday":"",
-    "Friday":""
-},
-{
-    "Time":"",
-    "Monday":"Mathematics",
-    "Tuesday":"",
-    "Wednesday":"",
-    "Thursday":"",
-    "Friday":""
-},
-{
-    "Time":"",
-    "Monday":"Mathematics",
-    "Tuesday":"",
-    "Wednesday":"",
-    "Thursday":"",
-    "Friday":""
-},
-{
-    "Time":"",
-    "Monday":"Mathematics",
-    "Tuesday":"",
-    "Wednesday":"",
-    "Thursday":"",
-    "Friday":""
-},
-{
-    "Time":"",
-    "Monday":"Mathematics",
-    "Tuesday":"",
-    "Wednesday":"",
-    "Thursday":"",
-    "Friday":""
-},
-{
-    "Time":"",
-    "Monday":"Mathematics",
-    "Tuesday":"",
-    "Wednesday":"",
-    "Thursday":"",
-    "Friday":""
-},
-{
-    "Time":"",
-    "Monday":"Mathematics",
-    "Tuesday":"",
-    "Wednesday":"",
-    "Thursday":"",
-    "Friday":""
-},
-{
-    "Time":"",
-    "Monday":"Mathematics",
-    "Tuesday":"",
-    "Wednesday":"",
-    "Thursday":"",
-    "Friday":""
-}];
+// const sched = [{
+//     "Time":"8:00-9:00",
+//     "Monday":"English",
+//     "Tuesday":"",
+//     "Wednesday":"",
+//     "Thursday":"",
+//     "Friday":""
+// },
+// {
+//     "Time":"",
+//     "Monday":"Mathematics",
+//     "Tuesday":"",
+//     "Wednesday":"",
+//     "Thursday":"",
+//     "Friday":""
+// },
+// {
+//     "Time":"",
+//     "Monday":"Mathematics",
+//     "Tuesday":"",
+//     "Wednesday":"",
+//     "Thursday":"",
+//     "Friday":""
+// },
+// {
+//     "Time":"",
+//     "Monday":"Mathematics",
+//     "Tuesday":"",
+//     "Wednesday":"",
+//     "Thursday":"",
+//     "Friday":""
+// },
+// {
+//     "Time":"",
+//     "Monday":"Mathematics",
+//     "Tuesday":"",
+//     "Wednesday":"",
+//     "Thursday":"",
+//     "Friday":""
+// },
+// {
+//     "Time":"",
+//     "Monday":"Mathematics",
+//     "Tuesday":"",
+//     "Wednesday":"",
+//     "Thursday":"",
+//     "Friday":""
+// },
+// {
+//     "Time":"",
+//     "Monday":"Mathematics",
+//     "Tuesday":"",
+//     "Wednesday":"",
+//     "Thursday":"",
+//     "Friday":""
+// },
+// {
+//     "Time":"",
+//     "Monday":"Mathematics",
+//     "Tuesday":"",
+//     "Wednesday":"",
+//     "Thursday":"",
+//     "Friday":""
+// },
+// {
+//     "Time":"",
+//     "Monday":"Mathematics",
+//     "Tuesday":"",
+//     "Wednesday":"",
+//     "Thursday":"",
+//     "Friday":""
+// },
+// {
+//     "Time":"",
+//     "Monday":"Mathematics",
+//     "Tuesday":"",
+//     "Wednesday":"",
+//     "Thursday":"",
+//     "Friday":""
+// },
+// {
+//     "Time":"",
+//     "Monday":"Mathematics",
+//     "Tuesday":"",
+//     "Wednesday":"",
+//     "Thursday":"",
+//     "Friday":""
+// },
+// {
+//     "Time":"",
+//     "Monday":"Mathematics",
+//     "Tuesday":"",
+//     "Wednesday":"",
+//     "Thursday":"",
+//     "Friday":""
+// }];
 
 var columns = [];
 
@@ -120,7 +119,7 @@ export default class Schedule extends Component {
     componentDidMount(){
         axios.get('http://localhost:5000/studentid?id='+this.state.student_id)
         .then(response => {
-            this.setState({student_img: response[0]['student_image']})
+            // this.setState({student_img: response[0]['student_image']})
         })
         .catch(err => console.log(err));
         console.log(columns)
@@ -131,10 +130,7 @@ export default class Schedule extends Component {
                 columns.map((value, index) => (console.log(value)))
             })
         .catch(err => console.log(err))
-        columns = Object.keys(sched[0])
-        this.setState({
-            schedule: sched
-        });
+        
     }
     
     render(){
@@ -157,10 +153,10 @@ export default class Schedule extends Component {
                     <Card style={{margin: "10px"}}>
                         <CardBody>
                         <div>
-                        <BootstrapTable  tableStyle={{height:"280px"}}data={ this.state.schedule } keyField='Term'>
-                            { columns.map((value, index) => 
-                                ( <TableHeaderColumn height='10' width='100' dataField= {value} >{ value }</TableHeaderColumn>)
-                            ) }
+                        <BootstrapTable  tableStyle={{height:"280px"}} data={ this.state.schedule } keyField='Term'>
+                        <TableHeaderColumn height='10' width='100' dataField= 'class_name' >Class Name</TableHeaderColumn>
+                        <TableHeaderColumn height='10' width='100' dataField= 'starttime' >Start Time</TableHeaderColumn>
+                        <TableHeaderColumn height='10' width='100' dataField= 'endtime' >End Time</TableHeaderColumn>
                         </BootstrapTable>
                         </div>
                         </CardBody>

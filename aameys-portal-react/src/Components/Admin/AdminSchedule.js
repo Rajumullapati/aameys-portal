@@ -206,8 +206,8 @@ export default class AdminSchedule extends Component {
                         <div>
                         <BootstrapTable  tableStyle={{height:"280px"}} data={ this.state.schedule } keyField='Term'>
                         <TableHeaderColumn height='10' width='100' dataField= 'class_name' >Class Name</TableHeaderColumn>
-                        <TableHeaderColumn height='10' width='100' dataField= 'start_time' >Class Name</TableHeaderColumn>
-                        <TableHeaderColumn height='10' width='100' dataField= 'end_time' >Class Name</TableHeaderColumn>
+                        <TableHeaderColumn height='10' width='100' dataField= 'starttime' >Start Time</TableHeaderColumn>
+                        <TableHeaderColumn height='10' width='100' dataField= 'endtime' >End Time</TableHeaderColumn>
                         </BootstrapTable>
                         </div>
                         </CardBody>

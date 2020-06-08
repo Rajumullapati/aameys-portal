@@ -42,6 +42,7 @@ import ParentMailTeaher from './Components/Parent/ParentMailTeacher';
 import ParentEditInfo from './Components/Parent/ParentEditInfo';
 import AdminClassAddClass from './Components/Admin/AdminClasses/AdminClassAddClass';
 import Career from './Components/Common/Career';
+import TeacherClassSchedule from './Components/Teacher/TeacherClassSchedule';
 import CareerApply from './Components/Common/careerapply';
 import AboutUs  from './Components/Common/AboutUs';
 import TeacherHome from './Components/Teacher/TeacherHome';
@@ -113,6 +114,7 @@ const Routers = () => {
 						<Route exact path="/teacher/:id/class/:cid/students/:sid" component={TeacherClassStudentInfo} />
 						<Route exact path="/teacher/:id/class/:cid/attendance" component={TeacherClassAttendance} />
 						<Route exact path="/teacher/:id/class/:cid/grading" component={TeacherClassGrade} />
+						<Route exact path="/teacher/:id/class/:cid/schedule" component={TeacherClassSchedule} />
 						<Route exact path="/teacher/:id/emailstudents" component={TeacherEmailStudents} />
 						<Route exact path="/teacher/:id/emailparents" component={TeacherEmailParent} />
 						<Route exact path="/teacher/:id/accinfo" component={TeacherInfo} />
