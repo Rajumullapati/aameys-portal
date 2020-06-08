@@ -76,6 +76,7 @@ def getStudentById():
 
 @app.route('/attendancebysid')
 def getStudentAttendanceById():
+    print('op')
     id = request.args['id']
     con = connDB()
 
@@ -153,12 +154,20 @@ def getgrades():
     con.close()
     return data.to_json(orient='records')
 
+@app.route('/gradesByClassId')
+def gradesByClassId():
+    con = connDB()
+    id = request.args['id']
+    sql = """select s.first_name, s.last_name, g.*, (g.one+g.two+g.three+g.four+g.five+g.six+g.seven+g.eight+g.nine+g.ten)/10 as per from student s left join grades g on g.student_id = s.student_id where g.class_id = """+id
+    data = pandas.read_sql(sql,con)
+    con.close()
+    return data.to_json(orient='records')
+
 @app.route('/gradesbyid')
 def getStudentGradesById():
     id = request.args['id']
     con = connDB()
-    sqlstr = """select c.term, c.class_name, g.one, g.two, g.three, g.four, g.five, g.six, g.seven, g.eight, g.nine, g.ten, g.msg, (g.one+g.two+g.three+g.four+g.five+g.six+g.seven+g.eight+g.nine+g.ten)/10 as per from student s 
-left join classdetails cd on s.student_id = cd.student_id left join grades g on g.student_id = s.student_id left join class c on c.class_id = cd.class_id where s.student_id = """+id
+    sqlstr = """select c.term, c.class_name, g.one, g.two, g.three, g.four, g.five, g.six, g.seven, g.eight, g.nine, g.ten, g.msg, (g.one+g.two+g.three+g.four+g.five+g.six+g.seven+g.eight+g.nine+g.ten)/10 as per from grades g left join class c on g.class_id = c.class_id where student_id = """+id
     data = pandas.read_sql(sqlstr,con).to_json(orient='records')
     con.close()
     return data
@@ -201,7 +210,7 @@ def getTeacherDataById():
         prev = row[0]
         prevrow = row
         if len(data3.index)-1 == index:
-            classtosend = classtosend + [{'class_name':prevrow[0], 'student_count':cs,'updated':str(data3['updated'][0])}]
+            classtosend = classtosend + [{'class_name':prevrow[0], 'student_count':cs,'updated':str(data3['updated'][0]),'class_id':str(prevrow[4])}]
             tcs = tcs + cs
             cc =cc+1
             cs =0
@@ -455,6 +464,8 @@ def regStudent():
     for class_item in classes: 
         sqls = 'insert into classdetails values ('+str(class_item)+','+str(student_id)+');'
         cursor.execute(sqls)
+        sqlgr = 'insert into grades (student_id, class_id) values ('+str(student_id)+','+str(class_item)+');'
+        cursor.execute(sqlgr)
 
     # cursor.commit()
     data = pandas.read_sql('select student_id from student where first_name = \''+request.json['fname']+'\' and last_name = \''+request.json['sname']+'\' and email = \''+request.json['email']+'\'',con)
@@ -465,6 +476,70 @@ def regStudent():
     cursor.commit()
     con.close()
     return 'done'
+
+
+@app.route('/addGradesByTeacherByClass', methods=['POST'])
+def addGradesByTeacherByClass():
+    con= connDB()
+    cursor = con.cursor()
+    selected = request.json['sel']
+    class_id = request.json['class_id']
+    for item in selected:
+        student_id = item['student_id']
+        if item['one'] is None :
+            one ='\'\'' 
+        else :
+            one = item['one']
+        if item['two'] is None :
+            two ='\'\''  
+        else :
+            two = item['two']
+        if item['three'] is None :
+            three ='\'\'' 
+        else :
+            three = item['three']
+        if item['four'] is None :
+            four ='\'\'' 
+        else :
+            four = item['four']
+        if item['five'] is None :
+            five ='\'\''  
+        else :
+            five = item['five']
+        if item['six'] is None :
+            six ='\'\'' 
+        else :
+            six = item['six']
+        if item['seven'] is None :
+            seven ='\'\''  
+        else :
+            seven = item['seven']
+        if item['eight'] is None :
+            eight ='\'\'' 
+        else :
+            eight = item['eight']
+        if item['nine'] is None :
+            nine ='\'\'' 
+        else :
+            nine = item['nine']
+        if item['ten'] is None :
+            ten ='\'\'' 
+        else :
+            ten = item['ten']
+        if item['msg'] is None :
+            msg ='\'\''  
+        else :
+            msg = item['ten']
+       
+        sqlremove = 'delete grades where student_id = '+str(student_id)+' and class_id = '+str(class_id)
+        print(sqlremove)
+        cursor.execute(sqlremove)
+        sqlstr = 'insert into grades values ('+str(student_id)+','+str(class_id)+','+str(one)+','+str(two)+','+str(three)+','+str(four)+','+str(five)+','+str(six)+','+str(seven)+','+str(eight)+','+str(nine)+','+str(ten)+',\''+msg+'\');'
+        print(sqlstr)
+        cursor.execute(sqlstr)
+    cursor.commit()
+    con.close()
+    return "done"
 
 
 

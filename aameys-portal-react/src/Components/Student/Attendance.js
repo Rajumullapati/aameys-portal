@@ -27,26 +27,33 @@ export default class Attendance extends Component {
     constructor(props){
         super(props);
         this.state = {
-            attendance: [],
+            attendance: [{}],
             student_id: this.props.match.params.id,
             student_img:""
         }
+        this.convert = this.convert.bind(this);
+        
         console.log(this.props);
         console.log(this.state)
+    }
+
+    convert(d){
+        console.log('guh',d)
     }
 
     componentDidMount(){
         console.log(attend)
         axios.get('http://localhost:5000/studentid?id='+this.state.student_id)
         .then(response => {
-            this.setState({student_img: response[0]['student_image']})
+           // this.setState({student_img: response[0]['student_image']})
         })
         .catch(err => console.log(err));
         console.log(columns)
-        axios.get('http://localhost:5000/attendanceById?id='+this.state.student_id)
+        axios.get('http://localhost:5000/attendancebysid?id='+this.state.student_id)
         .then(response => {
-                this.setState({attendance: response});
-                columns = Object.keys(response[0])
+                console.log(response)
+                this.setState({attendance: response.data});
+                columns = Object.keys(response.data[0])
                 columns.map((value, index) => (console.log(value)))
             })
         .catch(err => console.log(err))
@@ -74,7 +81,7 @@ export default class Attendance extends Component {
                         <CardBody>
                         <BootstrapTable data={ this.state.attendance } keyField='Term'>
                             { columns.map((value, index) => 
-                                ( <TableHeaderColumn width='100' dataField= {value} >{ value }</TableHeaderColumn>)
+                                ( <TableHeaderColumn width='100' dataField= {value} >{this.convert(value) }</TableHeaderColumn>)
                             ) }
                         </BootstrapTable>
                         </CardBody>

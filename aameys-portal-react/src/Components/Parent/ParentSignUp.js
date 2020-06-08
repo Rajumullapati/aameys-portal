@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Row, Col, Card, Modal, ModalHeader, ModalFooter, ModalBody, CardBody, Button, Breadcrumb, BreadcrumbItem } from 'reactstrap';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import axios from 'axios';
 import HeaderCommon from '../Common/HeaderCommon';
@@ -15,7 +15,8 @@ export default class ParentSignUp extends Component {
             email:"",
             password:"",
             gender:"",
-            gridCheck:"",
+            gridCheck:"",            
+            redirect:false,
             modal:false,
             simpleDate:  new Date()
         }
@@ -25,8 +26,15 @@ export default class ParentSignUp extends Component {
         this.validate = this.validate.bind(this);
         this.onCheckBoxChange = this.onCheckBoxChange.bind(this); 
         this.toggle = this.toggle.bind(this);
+        this.renderRedirect = this.renderRedirect.bind(this);
+;
     }
 
+    renderRedirect() {
+      if (this.state.redirect) {
+        return <Redirect to={this.state.redirectTo} />
+      }
+    }
 
     handleChange(date) {
         this.setState({
@@ -228,6 +236,7 @@ export default class ParentSignUp extends Component {
                           <Button color="primary" onClick={this.toggle}>OK</Button>
                       </ModalFooter>
                   </Modal>
+                  {this.renderRedirect()}
                 </form>
               </CardBody>
             </Card>

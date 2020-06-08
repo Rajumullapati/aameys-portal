@@ -56,18 +56,14 @@ create table attendance (
 );
 
 create table schedule(
-	student_id int PRIMARY KEY,
-	timedate varchar(10),
-	monday varchar(30),
-	tuesday varchar(30),
-	wednesday varchar(30),
-	thursday varchar(30),
-	friday varchar(30)
+	class_id int PRIMARY KEY,
+	starttime varchar(20),
+	endtime varchar(20)
 );
 
 
 create table grades(
-	student_id int PRIMARY KEY,
+	student_id int,
 	class_id int,
 	one int,
 	two int,
@@ -81,6 +77,7 @@ create table grades(
 	ten int,
 	msg varchar(40)
 );
+
 
 create table users(
 	username varchar(20) not null primary key,

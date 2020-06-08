@@ -54,8 +54,9 @@ export default class ParentRegChild extends Component {
      console.log(this.state.selected)
     }
     renderRedirect() {
+      let p = "/parent/dash/"+this.state.parent_id
       if (this.state.redirect) {
-        return <Redirect to={this.state.redirectTo} />
+        return <Redirect to={{pathname:p}} />
       }
     }
     handleChange(date) {

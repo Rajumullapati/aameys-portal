@@ -8,6 +8,8 @@ import DatePicker from 'react-datepicker';
 
 
 
+
+
 export default class TeacherClassAttendance extends Component {
     constructor(props){
         super(props);
@@ -17,16 +19,39 @@ export default class TeacherClassAttendance extends Component {
             teacher_id: this.props.match.params.id,
             class_id:this.props.match.params.cid,
             grade:[],
+            selected: [],
             class_name:"",
             first_name:"",
             last_name:"",
             student_count:"",
             term:"",
             class:{"class_name":"","term":""}
+            
         }
-
+        this.save = this.save.bind(this);
+        this.onAfterSaveCell = this.onAfterSaveCell.bind(this);
         this.studentFormatter = this.studentFormatter.bind(this);
-        
+        this.onBeforeSaveCell = this.onBeforeSaveCell.bind(this);
+    }
+    
+
+    save(){
+
+        if(this.state.selected.length > 0){
+        let body = {
+            sel: this.state.selected,
+            class_id: this.state.class_id
+        }
+        axios(
+            {
+              method: 'post',
+              url: 'http://localhost:5000/addGradesByTeacherByClass',
+              data: body,
+              headers: {'Content-Type': 'application/json' }
+            }
+          )
+          .then(res => console.log(res))
+          .catch(res => console.log(res))}
     }
 
     componentDidMount(){
@@ -36,7 +61,7 @@ export default class TeacherClassAttendance extends Component {
         })
         .catch(err => console.log(err))
 
-        axios.get('http://localhost:5000/grades')
+        axios.get('http://localhost:5000/gradesByClassId?id='+this.state.class_id)
         .then(res => {
             console.log(res)
             this.setState({
@@ -55,9 +80,44 @@ export default class TeacherClassAttendance extends Component {
         return row['first_name']+' '+row['last_name']
     }
 
+    onAfterSaveCell(row,  cellName, cellValue){
+        console.log(row)
+        let sel = this.state.selected;
+        sel.push(row)
+        console.log(sel)
+        this.setState({
+            selected: sel
+        })
+    }
 
-
+    onBeforeSaveCell(row, cellName, cellValue) {
+        console.log(cellName)
+        if(cellName === 'count')
+        {
+            console.log(cellName)
+            return false;
+        }
+        else{
+            let sel = this.state.selected;
+            if(sel.includes(row)){
+                sel.pop(row)
+                this.setState({
+                    selected: sel
+                })
+            }
+            return true;
+        }
+      }
+    
     render(){
+        const cellEditProp = {
+            mode: 'click',
+            blurToSave: true,
+            beforeSaveCell: this.onBeforeSaveCell, 
+            afterSaveCell: this.onAfterSaveCell  // a hook for after saving cell
+          };
+        
+         
         return(
             <div>
                 <div>
@@ -107,7 +167,7 @@ export default class TeacherClassAttendance extends Component {
                     </Col>
                     <Col lg={3} md={3} sm={3}>
                     <div style={{margin:"10px"}}>
-                    <Button style={{marginBottom:"4px", width:"70%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Save Changes</Button>
+                    <Button onClick={this.save} style={{marginBottom:"4px", width:"70%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Save Changes</Button>
                     </div>
                     </Col>
                 </Row>
@@ -120,6 +180,7 @@ export default class TeacherClassAttendance extends Component {
                                 data={this.state.grade}
                                 tableStyle={{height:"150px"}}
                                 pagination
+                                cellEdit={ cellEditProp }
                                 >
                                 <TableHeaderColumn width='100' dataField='first_name' dataFormat={this.studentFormatter} isKey={true}>Name</TableHeaderColumn>
                                 <TableHeaderColumn width='100' dataField='student_id'>Student ID</TableHeaderColumn>
