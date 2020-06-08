@@ -8,6 +8,10 @@ GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[student]') AND type in (N'U'))
 DROP TABLE [dbo].[student]
 GO
+/****** Object:  Table [dbo].[classdetails]    Script Date: 02-06-2020 01:18:39 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[classdetails]') AND type in (N'U'))
+DROP TABLE [dbo].[classdetails]
+GO
 /****** Object:  Table [dbo].[schedule]    Script Date: 02-06-2020 01:18:39 ******/
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[schedule]') AND type in (N'U'))
 DROP TABLE [dbo].[schedule]

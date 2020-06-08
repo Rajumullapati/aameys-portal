@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Row, Col, Card, CardBody, Button } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import Header from '../Common/header'
 import HeaderStudent from '../Common/HeaderStudent';
 
 

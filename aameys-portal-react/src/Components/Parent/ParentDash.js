@@ -24,10 +24,17 @@ export default class ParentDash extends Component {
         accPath = this.state.parent_id+"/accinfo";
         axios.get('http://localhost:5000/getstudentbyparentid?id='+this.state.parent_id)
         .then(response => {
+            console.log(response.data.length)
             console.log(response)
+            if(response.data.length > 0){
             this.setState({
                 students: response.data
-            })
+            })}
+            else{
+            this.setState(
+               { students: [{'student_id': 'NONE'}]}
+            )
+            }
         })
         .catch(err => console.log(err))
         console.log(mailPath)
@@ -57,7 +64,7 @@ export default class ParentDash extends Component {
 
     render(){
         console.log(this.state);
-        console.log(this.props)
+        console.log(this.props);
         return (
             <div>
             <HeaderParent />

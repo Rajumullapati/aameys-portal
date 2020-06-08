@@ -11,6 +11,7 @@ export default class ParentRegChild extends Component {
         super(props);
         this.state={
             fname:"",
+            selected:[],
             parent_id:this.props.match.params.pid,
             sname:"",
             email:"",
@@ -30,8 +31,27 @@ export default class ParentRegChild extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.onChange = this.onChange.bind(this);
         this.toggle = this.toggle.bind(this);
+        this.onCheck = this.onCheck.bind(this)
         this.save = this.save.bind(this);
         this.renderRedirect = this.renderRedirect.bind(this);
+    }
+
+    onCheck(e){
+      console.log(this.state.selected)
+      let sel = this.state.selected;
+      if(sel.includes(e.target.value)){
+        sel.pop(e.target.value)
+        this.setState({
+          selected: sel
+        })
+      }
+      else{
+        sel.push(e.target.value)
+        this.setState({
+          selected: sel
+        })
+      }
+     console.log(this.state.selected)
     }
     renderRedirect() {
       if (this.state.redirect) {
@@ -62,7 +82,7 @@ export default class ParentRegChild extends Component {
         term:this.state.term,
         phone:this.state.phone,
         grade:this.state.grade,
-        class:this.state.class,
+        class:this.state.selected,
         gender:this.state.gender,
         parent_id:this.state.parent_id,
         simpleDate:this.state.simpleDate,
@@ -242,10 +262,10 @@ export default class ParentRegChild extends Component {
 
             
 
-                    <div id="class" value="class" style={{margin:"10px"}} name="class" onChange={this.onChange}>
+                    <div id="class" value="class" style={{margin:"10px"}} name="class" >
                     <label htmlFor="class">Class</label>
                     <Row>
-                    { this.state.classes.map((value, index) => (<div><input style={{margin:"10px"}} type="radio" value={value['class_id']} name="class"/>{value['class_name']}</div> )) }
+                    { this.state.classes.map((value, index) => (<div><input style={{margin:"10px"}} onChange={this.onCheck} type="checkbox" value={value['class_id']} name="class"/>{value['class_name']}</div> )) }
                     </Row>
                     </div>
 

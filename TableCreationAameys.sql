@@ -43,7 +43,6 @@ create table student (
 	birthday date not null,
 	mobile varchar(20) not null,
 	grade int not null ,
-	class_id int not null,
 	img_add varchar(100) not null,
 	parent_id int not null
 );
@@ -91,6 +90,11 @@ create table users(
 	user_id_all int not null
 );
 
+
+create table classdetails(
+	class_id int not null,
+	student_id int not null
+);
 
 create table admin(
 	admin_id int IDENTITY(10001,1) PRIMARY KEY,

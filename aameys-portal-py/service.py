@@ -28,7 +28,7 @@ def getStudents():
 def getAllDetailsByStudentId():
     con = connDB()
     id = request.args['id']
-    sql = """select s.student_id, s.first_name as student_first_name, s.last_name as student_last_name, s.email as student_email, s.gender as student_gender, s.birthday as student_birthday, s.mobile as student_mobile, s.grade, s.class_id,s.img_add as student_img_addr, p.*, c.class_name from student s left join parent p on s.parent_id = p.parent_id left join class c on s.class_id = c.class_id where s.student_id = """+str(id)
+    sql = """select s.student_id, s.first_name as student_first_name, s.last_name as student_last_name, s.email as student_email, s.gender as student_gender, s.birthday as student_birthday, s.mobile as student_mobile, s.grade, c.class_id,s.img_add as student_img_addr, p.*, c.class_name from student s left join parent p on s.parent_id = p.parent_id left join classdetails cd on cd.student_id = s.student_id left join class c on c.class_id = cd.class_id where s.student_id = """+str(id)
     data = pandas.read_sql(sql,con)
 
     con.close()
@@ -62,7 +62,7 @@ def getAdminById():
 def getstudentclassid():
     id = request.args['id']
     con = connDB()
-    sql = """select s.*, c.class_name from student s left join class c on s.class_id = c.class_id where s.student_id="""+id
+    sql = """select s.*, c.class_name from student s left join classdetails cd on s.student_id = cd.student_id left join class c on c.class_id = cd.class_id where s.student_id="""+id
     data = pandas.read_sql(sql,con)
     return data.to_json(orient='records')
 
@@ -92,7 +92,7 @@ def attendanceByDateandClass():
     date = request.args['date']
     class_id = request.args['class']
     con = connDB()
-    sql = """select a.student_id, a.dateattendance, a.absence, s.gender, CONVERT(int,ROUND(DATEDIFF(hour,s.birthday,GETDATE())/8766.0,0)) AS Age, s.first_name, s.last_name from attendance a left join student s on a.student_id = s.student_id where dateattendance = \'"""+date+"\' and s.class_id = "+class_id
+    sql = """select a.student_id, a.dateattendance, a.absence, s.gender, CONVERT(int,ROUND(DATEDIFF(hour,s.birthday,GETDATE())/8766.0,0)) AS Age, c.class_id from classdetails cd left join student s on cd.student_id = s.student_id left join attendance a on a.student_id = s.student_id left join class c on c.class_id = cd.class_id where dateattendance = \'"""+date+"\' and c.class_id = "+class_id
     print(sql)
     data = pandas.read_sql(sql,con).to_json(orient='records')
     con.close()
@@ -103,7 +103,7 @@ def downloadattendanceByClassDate():
     date = request.args['date']
     class_id = request.args['class']
     con = connDB()
-    sql = """select a.student_id, a.dateattendance, a.absence, s.gender, CONVERT(int,ROUND(DATEDIFF(hour,s.birthday,GETDATE())/8766.0,0)) AS Age, c.class_id from class c left join student s on c.class_id = s.class_id left join attendance a on a.student_id = s.student_id where dateattendance = \'"""+date+"\' and c.class_id = "+class_id
+    sql = """select a.student_id, a.dateattendance, a.absence, s.gender, CONVERT(int,ROUND(DATEDIFF(hour,s.birthday,GETDATE())/8766.0,0)) AS Age, c.class_id from classdetails cd left join student s on cd.student_id = s.student_id left join attendance a on a.student_id = s.student_id left join class c on c.class_id = cd.class_id where dateattendance = \'"""+date+"\' and c.class_id = "+class_id
     data = pandas.read_sql(sql,con)
     con.close()
     resp = make_response(data.to_csv())
@@ -117,7 +117,7 @@ def getAttendanceClassByDate():
     date = request.args['date']
     class_id = request.args['class']
     con = connDB()
-    sql = """select a.student_id, a.dateattendance, a.absence, s.gender, CONVERT(int,ROUND(DATEDIFF(hour,s.birthday,GETDATE())/8766.0,0)) AS Age, c.class_id from class c left join student s on c.class_id = s.class_id left join attendance a on a.student_id = s.student_id where dateattendance = \'"""+date+"\' and c.class_id = "+class_id
+    sql = """select a.student_id, a.dateattendance, a.absence, s.gender, CONVERT(int,ROUND(DATEDIFF(hour,s.birthday,GETDATE())/8766.0,0)) AS Age, c.class_id from classdetails cd left join student s on cd.student_id = s.student_id left join attendance a on a.student_id = s.student_id left join class c on c.class_id = cd.class_id where dateattendance = \'"""+date+"\' and c.class_id = "+class_id
     data = pandas.read_sql(sql,con).to_json(orient='records')
     con.close()
     return data
@@ -157,8 +157,8 @@ def getgrades():
 def getStudentGradesById():
     id = request.args['id']
     con = connDB()
-    sqlstr = """select c.term, c.class_name, g.one, g.two, g.three, g.four, g.five, g.six, g.seven, g.eight, g.nine, g.ten, g.msg, (g.one+g.two+g.three+g.four+g.five+g.six+g.seven+g.eight+g.nine+g.ten)/10 as per from ((student s 
-inner join class c on s.class_id = c.class_id) inner join grades g on g.student_id = s.student_id) where s.student_id = """+id
+    sqlstr = """select c.term, c.class_name, g.one, g.two, g.three, g.four, g.five, g.six, g.seven, g.eight, g.nine, g.ten, g.msg, (g.one+g.two+g.three+g.four+g.five+g.six+g.seven+g.eight+g.nine+g.ten)/10 as per from student s 
+left join classdetails cd on s.student_id = cd.student_id left join grades g on g.student_id = s.student_id left join class c on c.class_id = cd.class_id where s.student_id = """+id
     data = pandas.read_sql(sqlstr,con).to_json(orient='records')
     con.close()
     return data
@@ -182,7 +182,7 @@ def getTeacherDataById():
     con = connDB()
 
     data1 = pandas.read_sql('select * from teacher where teacher_id = '+id,con)
-    data3 = pandas.read_sql('select c.class_name, s.student_id, c.updated , c.term, c.class_id from class c left join student s on c.class_id = s.class_id where c.teacher_id ='+id,con)
+    data3 = pandas.read_sql('select c.class_name, s.student_id, c.updated , c.term, c.class_id from class c left join classdetails cd on c.class_id = cd.class_id left join student  s on cd.student_id = s.student_id where c.teacher_id ='+id,con)
    
     classtosend = []
     prevrow = []
@@ -215,7 +215,7 @@ def getTeacherDataById():
 def getClassById():
     con =connDB()
     id = request.args['id']
-    sql = """select c.class_name,  t.first_name, t.last_name, s.student_id, c.school, c.term from class c left join teacher t on c.teacher_id = t.teacher_id left join student s on c.class_id = s.class_id where c.class_id = """+id
+    sql = """select c.class_name,  t.first_name, t.last_name, s.student_id, c.school, c.term from class c left join teacher t on c.teacher_id = t.teacher_id left join classdetails cd on cd.class_id = c.class_id left join student s on cd.student_id = cd.student_id where c.class_id =  """+id
     data = pandas.read_sql(sql,con)
     cs = 0
     prevrow = []
@@ -254,7 +254,7 @@ def addclassestoteacher():
 @app.route('/getfreeclasses')
 def getfreeclasses():
     con = connDB()
-    sql = """select c.class_name,  t.first_name, t.last_name, s.student_id, c.class_id from class c left join teacher t on c.teacher_id = t.teacher_id left join student s on c.class_id = s.class_id where t.teacher_id is null or t.teacher_id = \'\'"""
+    sql = """select c.class_name,  t.first_name, t.last_name, s.student_id, c.class_id from class c left join teacher t on c.teacher_id = t.teacher_id left join classdetails cd on cd.class_id = c.class_id left join student s on cd.student_id = s.student_id where t.teacher_id is null or t.teacher_id = \'\'"""
     data = pandas.read_sql(sql,con)
     cs = 0
     prevrow = []
@@ -280,7 +280,7 @@ def getfreeclasses():
 def getclassbyteacherid():
     con = connDB()
     id = request.args['id']
-    sql = """select c.class_name,  t.first_name, t.last_name, s.student_id, c.class_id from class c left join teacher t on c.teacher_id = t.teacher_id left join student s on c.class_id = s.class_id where t.teacher_id = """+str(id)
+    sql = """select c.class_name,  t.first_name, t.last_name, s.student_id, c.class_id from class c left join teacher t on c.teacher_id = t.teacher_id left join classdetails cd on cd.class_id = c.class_id left join student s on s.student_id = cd.student_id where t.teacher_id = """+str(id)
     data = pandas.read_sql(sql,con)
     cs = 0
     prevrow = []
@@ -303,7 +303,7 @@ def getclassbyteacherid():
 @app.route('/class')
 def getClass():
     con = connDB()
-    sql = """select c.class_name,  t.first_name, t.last_name, s.student_id, c.class_id from class c left join teacher t on c.teacher_id = t.teacher_id left join student s on c.class_id = s.class_id"""
+    sql = """select c.class_name,  t.first_name, t.last_name, s.student_id, c.class_id from class c left join teacher t on c.teacher_id = t.teacher_id left join classdetails cd on cd.class_id = c.class_id left join student s on s.student_id = cd.student_id"""
     data = pandas.read_sql(sql,con)
     cs = 0
     prevrow = []
@@ -330,7 +330,7 @@ def getTeachersforStudentsById():
     id = request.args['id']
     con = connDB()
     sqlstring  = """select s.student_id, c.class_id, c.class_name, t.teacher_id, t.first_name, t.last_name, t.email, t.img_add
-from ((student s inner join class c on s.class_id = c.class_id) inner join 
+from ((student s inner join classdetails cd on s.student_id = cd.student_id left join class c on c.class_id = cd.class_id) inner join 
 teacher t on t.teacher_id = c.teacher_id) where s.student_id = """+id
     data = pandas.read_sql(sqlstring,con).to_json(orient='records')
     con.close()
@@ -360,7 +360,7 @@ def getallteachers():
 def studentsbyteacherId():
     con = connDB()
     id = request.args['id']
-    sql = """select s.* from student s left join class c on s.class_id = c.class_id left join teacher t on c.teacher_id = t.teacher_id where t.teacher_id = """+id
+    sql = """select s.* from student s left join classdetails cd on s.student_id = cd.student_id left join class c on c.class_id = cd.class_id left join teacher t on c.teacher_id = t.teacher_id where t.teacher_id = """+id
     data = pandas.read_sql(sql,con)
     con.close()
     return data.to_json(orient='records')
@@ -370,7 +370,7 @@ def studentsbyteacherId():
 def studentsbyclassId():
     con = connDB()
     id = request.args['id']
-    sql = """select s.*, CONVERT(int,ROUND(DATEDIFF(hour,s.birthday,GETDATE())/8766.0,0)) AS Age from student s left join class c on s.class_id = c.class_id where c.class_id = """+id
+    sql = """select s.*, CONVERT(int,ROUND(DATEDIFF(hour,s.birthday,GETDATE())/8766.0,0)) AS Age from student s left join classdetails cd on cd.student_id = s.student_id left join class c on c.class_id = cd.class_id where c.class_id = """+id
     data = pandas.read_sql(sql,con)
     con.close()
     return data.to_json(orient='records')
@@ -379,7 +379,7 @@ def studentsbyclassId():
 def parentsbyteacherid():
     con = connDB()
     id = request.args['id']
-    sql = """select p.* from parent p left join student s on p.parent_id = s.parent_id left join class c on s.class_id = c.class_id left join teacher t on c.teacher_id = t.teacher_id where t.teacher_id = """+id
+    sql = """select p.* from parent p left join student s on p.parent_id = s.parent_id left join classdetails cd on cd.student_id = s.student_id left join class c on c.class_id = cd.class_id left join teacher t on c.teacher_id = t.teacher_id where t.teacher_id = """+id
     data = pandas.read_sql(sql,con)
     con.close()
     return data.to_json(orient='records')
@@ -398,7 +398,7 @@ def adminparent():
 @app.route('/teachers')
 def getTeachers():
     con = connDB()
-    sql = """select t.teacher_id, t.first_name, t.last_name, t.email, t.img_add, c.class_id, s.student_id from teacher t left join class c on t.teacher_id = c.teacher_id left join student s on c.class_id = s.class_id order by t.teacher_id"""
+    sql = """select t.teacher_id, t.first_name, t.last_name, t.email, t.img_add, c.class_id, s.student_id from teacher t left join class c on t.teacher_id = c.teacher_id left join classdetails cd on cd.class_id = c.class_id left join student s on cd.student_id = s.student_id order by t.teacher_id"""
     
     data = pandas.read_sql(sql,con)
     count  = data['teacher_id'].nunique()
@@ -445,12 +445,22 @@ def addClassByAdmin():
 def regStudent():
     con = connDB()
     cursor = con.cursor()
-    sqlstring = 'insert into student values (\''+request.json['fname']+'\',\''+request.json['sname']+'\',\''+request.json['email']+'\','+request.json['gender']+',\''+request.json['simpleDate']+'\',\''+request.json['phone']+'\','+request.json['grade']+','+request.json['class']+',\'\','+request.json['parent_id']+');'
+    classes = request.json['class']
+    sqlstring = 'insert into student values (\''+request.json['fname']+'\',\''+request.json['sname']+'\',\''+request.json['email']+'\','+request.json['gender']+',\''+request.json['simpleDate']+'\',\''+request.json['phone']+'\','+request.json['grade']+',\'\','+request.json['parent_id']+');'
+    print(sqlstring)
     cursor.execute(sqlstring)
+    data = pandas.read_sql('select student_id from student where first_name = \''+request.json['fname']+'\' and last_name = \''+request.json['sname']+'\' and email = \''+request.json['email']+'\'',con)
+    student_id = data['student_id'][0]
+    
+    for class_item in classes: 
+        sqls = 'insert into classdetails values ('+str(class_item)+','+str(student_id)+');'
+        cursor.execute(sqls)
+
     # cursor.commit()
     data = pandas.read_sql('select student_id from student where first_name = \''+request.json['fname']+'\' and last_name = \''+request.json['sname']+'\' and email = \''+request.json['email']+'\'',con)
     student_id = data['student_id'][0]
     sqlstr = """insert into users values ('"""+request.json['email']+"""','student', 0, 1,"""+str(student_id)+""");"""
+    print(sqlstr)
     cursor.execute(sqlstr)
     cursor.commit()
     con.close()
@@ -465,7 +475,7 @@ def addTeacherByAdmin():
     sqlstring = 'insert into teacher values (\''+request.json['tfname']+'\',\''+request.json['tlname']+'\',\''+request.json['tmail']+'\',\'\');'
     cursor.execute(sqlstring)
     data = pandas.read_sql('select teacher_id,email from teacher where first_name = \''+request.json['tfname']+'\' and last_name = \''+request.json['tlname']+'\' and email = \''+request.json['tmail']+'\'',con)
-    sqlstr = 'insert into users values (\''+str(data['email'][0])+'\',\'teacher\',0,2,'+str(data['teacher_id'][0])+');'
+    sqlstr = 'insert into users values (\''+str(data['email'][0])+'\',\'teacher\',0,3,'+str(data['teacher_id'][0])+');'
     cursor.execute(sqlstr)
     cursor.commit()
     con.close()
@@ -495,7 +505,8 @@ def parentsignup():
 @app.route('/getstudentbyparentid')
 def getstudentsbyparent():
     con = connDB()
-    data = pandas.read_sql('select s.student_id from student s inner join parent p on s.parent_id = p.parent_id',con).to_json(orient='records')
+    id = request.args['id']
+    data = pandas.read_sql('select s.student_id from student s inner join parent p on s.parent_id = p.parent_id where p.parent_id = '+id,con).to_json(orient='records')
     con.close()
     return data
 
