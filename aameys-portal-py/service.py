@@ -82,9 +82,7 @@ def getStudentAttendanceById():
 
     data = pandas.read_sql('select top(5) * from attendance where student_id = '+id+' order by dateattendance',con)
 
-    data.index = data['dateattendance']
-    data = data.drop(['dateattendance','student_id'], axis=1)
-    data = data.T
+    data = data.drop(['student_id'], axis=1)
     con.close()
     return data.to_json(orient='records')
 
@@ -181,6 +179,73 @@ def scheduleById():
     con.close()
     return data
 
+@app.route('/getschedulebydate')
+def getschedulebydate():
+        id = request.args['date']
+        con = connDB()
+        s = 'select * from schedule where datesched = \''+id+'\''
+        print(s)
+        data = pandas.read_sql('select * from schedule where datesched = \''+id+'\'',con).to_json(orient='records')
+        con.close()
+        return data
+
+@app.route('/addscheduleByDate', methods=['POST'])
+def addscheduleByDate():
+    con = connDB()
+    cursor = con.cursor()
+    sched = request.json['sel']
+    date = request.json['date']
+    for s in sched:
+        sqlstr = 'insert into schedule values ('+str(s['class_id'])+',\''+'\''+str(sched['class_name'])+'\''+str(date)+'\',\''+str(s['start_time'])+'\',\''+str(s['end_time'])+'\');'
+        cursor.execute(sqlstr)
+    con.commit()
+    return 'done'
+
+@app.route('/classnotbyid')
+def classnotbyid():
+    con =connDB()
+    id = request.args['id']
+    sql = """select c.class_id, c.class_name, c.term, c.school from class c where c.class_id not in (select cd.class_id from classdetails cd where cd.student_id =  """+id+')'
+    data = pandas.read_sql(sql,con)
+    
+    con.close()
+    
+    return data.to_json(orient='records')
+
+
+@app.route('/addclasstostudent', methods=['POST'])
+def addclasstostudent():
+    con = connDB()
+    cursor = con.cursor()
+    student_id = request.json['student_id']
+    sel = request.json['sel']
+    
+    for s in sel:
+        sqls = 'insert into classdetails values ('+str(s['class_id'])+','+str(student_id)+');'
+        cursor.execute(sqls)
+        sqlgr = 'insert into grades (student_id, class_id) values ('+str(student_id)+','+str(s['class_id'])+');'
+        cursor.execute(sqlgr)
+    cursor.commit()
+    con.close()
+    return 'done'
+
+
+@app.route('/removeclasstostudent', methods=['POST'])
+def removeclasstostudent():
+    con = connDB()
+    cursor = con.cursor()
+    student_id = request.json['student_id']
+    sel = request.json['sel']
+    
+    for s in sel:
+        sqls = 'delete classdetails where class_id ='+str(s['class_id'])+'and student_id ='+str(student_id)
+        cursor.execute(sqls)
+        sqlgr = 'delete  grades  where student_id = '+str(student_id)+' and class_id '+ str(s['class_id']) #values ('+str(student_id)+','+str(sel['class_id'])+');'
+        cursor.execute(sqlgr)
+
+    cursor.commit()
+    con.close()
+    return 'done'
 
 
 

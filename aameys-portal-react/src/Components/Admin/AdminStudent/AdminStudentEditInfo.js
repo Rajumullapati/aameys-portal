@@ -111,6 +111,7 @@ export default class AdminStudentAddStudent extends Component {
                         <Button onClick={this.save} style={{marginBottom:"4px", width:"130%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Save Changes</Button>
                         <Button style={{marginBottom:"4px", width:"130%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Save Changes and edit next</Button>
                         <Button style={{marginBottom:"4px", width:"130%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Donot save and edit next</Button>
+                        <Link to={{pathname:`${this.state.student_id}/removeclass`}}><Button style={{marginBottom:"4px", width:"130%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Remove classes</Button></Link>
                         <Link to={{pathname:`${this.state.student_id}/assignclass`}}><Button style={{marginBottom:"4px", width:"130%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Assign classes</Button></Link>
 
                     </div>

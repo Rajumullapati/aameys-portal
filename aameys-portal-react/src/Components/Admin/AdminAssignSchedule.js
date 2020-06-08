@@ -177,13 +177,12 @@ export default class AdminScheduleAssign extends Component {
         if(this.state.selected.length > 0){
         let body = {
             sel: this.state.selected,
-            class_id: this.state.class_id,
             date: this.state.simpleDate
         }
         axios(
             {
               method: 'post',
-              url: 'http://localhost:5000/addGradesByTeacherByClass',
+              url: 'http://localhost:5000/addscheduleByDate',
               data: body,
               headers: {'Content-Type': 'application/json' }
             }

@@ -7,6 +7,7 @@ import Grade from "./Components/Student/Grade";
 import Attendance from './Components/Student/Attendance';
 import Schedule from './Components/Student/Schedule';
 import Admin from './Components/Admin/Admin';
+import AdminStudentRemoveClass from './Components/Admin/AdminStudent/AdminStudentRemoveClasses';
 import AdminTeacher from './Components/Admin/AdminTeacher/AdminTeachers';
 import AdminTeacherInfo from './Components/Admin/AdminTeacher/AdminTeacherInfo';
 import AdminTeacherEditInfo from './Components/Admin/AdminTeacher/AdminTeacherEditInfo';
@@ -85,7 +86,8 @@ const Routers = () => {
 						<Route exact path="/admin/:aid/teacher/:id" component={AdminTeacherInfo} />
 						<Route exact path="/admin/:aid/teacher/:id/editinfo" component={AdminTeacherEditInfo} />
 						<Route exact path="/admin/:aid/teacher/:id/assignclass" component={AdminTeacherAssignClasses} />
-						<Route exact path="/admin/:aid/teacher/:id/removeclass" component={AdminTeacherRemoveClasses} />
+						<Route exact path="/admin/:aid/student/:id/removeclass" component={AdminStudentRemoveClass} />
+						{/* <Route exact path="/admin/:aid/teacher/:id/removeclass" component={AdminStudentRemoveClass} /> */}
 						<Route exact path="/admin/:aid/class" component={AdminClass} />
 						<Route exact path="/admin/:aid/class/addclass" component={AdminClassAddClass} />
 						<Route exact path="/admin/:aid/class/:cid" component={AdminClassInfo} />

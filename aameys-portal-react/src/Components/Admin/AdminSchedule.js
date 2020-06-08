@@ -117,6 +117,7 @@ export default class AdminSchedule extends Component {
             student:[],
             student_id:this.props.match.params.id
         }
+        this.getsched = this.getsched.bind(this);
         this.handleChange = this.handleChange.bind(this);   
     }
 
@@ -124,13 +125,44 @@ export default class AdminSchedule extends Component {
     handleChange(date) {
         this.setState({
             simpleDate: date
-
         });
+        this.getsched(date)
+
+    }
+
+    getsched(date){
+        let datestr = date.getFullYear()+'-'+(date.getMonth()<10?'0'+date.getMonth():date.getMonth())+'-'+(date.getDate()<10?'0'+date.getDate():date.getDate()); 
+
+        axios.get('http://localhost:5000/getschedulebydate?date='+datestr)
+        .then(
+            res => {
+                console.log(res)
+                this.setState(
+                    {
+                        schedule: res.data
+                    }
+                )
+            }
+        )
+        .catch(err => console.log(err))
     }
 
     componentDidMount(){
+        let date = this.state.simpleDate;
+        let datestr = date.getFullYear()+'-'+(date.getMonth()<10?'0'+date.getMonth():date.getMonth())+'-'+(date.getDate()<10?'0'+date.getDate():date.getDate()); 
 
-        
+        axios.get('http://localhost:5000/getschedulebydate?date='+datestr)
+        .then(
+            res => {
+                console.log(res)
+                this.setState(
+                    {
+                        schedule: res.data
+                    }
+                )
+            }
+        )
+        .catch(err => console.log(err))
 
     }
 

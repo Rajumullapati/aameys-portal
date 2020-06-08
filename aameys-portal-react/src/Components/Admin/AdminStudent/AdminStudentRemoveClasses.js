@@ -27,7 +27,7 @@ const teachers = [{
     "class":"sda",
     "Students":"3"
 }]
-export default class AdminStudentAssignClass extends Component{
+export default class AdminStudentRemoveClass extends Component{
     constructor(props){
         super(props);
         this.state={
@@ -74,7 +74,7 @@ export default class AdminStudentAssignClass extends Component{
         })
         .catch(err => console.log(err))
 
-        axios.get('http://localhost:5000/classnotbyid?id='+this.state.student_id)
+        axios.get('http://localhost:5000/classbyid?id='+this.state.student_id)
         .then(res => {
             console.log(res)
             this.setState({classes: res.data})
@@ -91,7 +91,7 @@ export default class AdminStudentAssignClass extends Component{
             axios(
                 {
                   method: 'post',
-                  url: 'http://localhost:5000/addclasstostudent',
+                  url: 'http://localhost:5000/removeclasstostudent',
                   data: body,
                   headers: {'Content-Type': 'application/json' }
                 }
