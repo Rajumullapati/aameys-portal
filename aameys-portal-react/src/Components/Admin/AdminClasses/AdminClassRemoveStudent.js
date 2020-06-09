@@ -10,7 +10,7 @@ const student = [{
 "student": "Student 1"
 }]
 
-export default class AdminClassAssignStudent extends Component {
+export default class AdminClassRemoveStudent extends Component {
     constructor(props){
         super(props);
         this.onSelect = this.onSelect.bind(this);
@@ -21,41 +21,8 @@ export default class AdminClassAssignStudent extends Component {
             selected:[],
             classdetails:[{'term':'','first_name':'','last_name':'','class_name':'','student_count':''}]
         }
-        this.assignStudents = this.assignStudents.bind(this)
         this.studentFormatter = this.studentFormatter.bind(this);
     }
-
-    assignStudents(){
-        let body ={
-            sel: this.state.selected,
-            class: this.props.match.params.cid
-        }
-        console.log(this.props.match.params)
-        console.log(body)
-        axios(
-            {
-              method: 'post',
-              url: 'http://localhost:5000/addstudenttoclass',
-              data: body,
-              headers: {'Content-Type': 'application/json' }
-            }
-          )
-          .then(
-            res =>  {console.log(res)
-            this.setState({
-            
-            modal: false
-            })}
-          )
-          .catch(
-            err => {console.log(err)
-                this.setState({
-                
-                modal: false
-                })}
-          )
-    }
-
 
     componentDidMount(){
         axios.get('http://localhost:5000/adminById?id='+this.state.admin_id)
@@ -72,7 +39,7 @@ export default class AdminClassAssignStudent extends Component {
             })
         })
 
-        axios.get('http://localhost:5000/studentnotinclass?id='+this.state.class)
+        axios.get('http://localhost:5000/studentsbyclassId')
         .then(res =>{
             console.log(res)
             this.setState({
@@ -158,10 +125,16 @@ export default class AdminClassAssignStudent extends Component {
                                         
                                     </div>
                                 </div>
-                            <Button onClick={this.assignStudents} style={{marginBottom:"4px", marginTop:"20px", width:"100%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Assign selected students to class</Button>
-
                             </CardBody>
-                            
+                            <Row>
+                            <Col lg={4} md={4} sm={4}>
+                            <Button style={{marginBottom:"4px",marginLeft:"20px", width:"150%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Assign Students to class</Button>
+                            </Col>  
+                            <Col lg={2} md={2} sm={2}></Col>
+                            <Col lg={4} md={4} sm={4}>
+                            <Button style={{marginBottom:"4px",marginLeft:"", width:"150%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Remove Students from class</Button>
+                            </Col>
+                            </Row>
                         </div>
                     </Col>
                     <Col lg={3} md={3} sm={3}>

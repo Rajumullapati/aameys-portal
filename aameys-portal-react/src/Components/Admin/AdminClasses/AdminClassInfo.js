@@ -83,6 +83,7 @@ export default class AdminClassInfo extends Component {
                         <Link to={{pathname:`${this.state.class_id}/editinfo`}}><Button style={{marginBottom:"4px", width:"70%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Edit class info</Button></Link>
                         {/* <Link to={{pathname:`${this.state.class_id}/assignteacher`}}><Button style={{marginBottom:"4px", width:"70%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-envelope-o"></i>Assign Teachers</Button></Link> */}
                         <Link to={{pathname:`${this.state.class_id}/assignstudent`}}><Button style={{marginBottom:"4px", width:"70%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-envelope-o"></i>Assign Students</Button></Link>
+                        {/* <Link to={{pathname:`${this.state.class_id}/removestudent`}}><Button style={{marginBottom:"4px", width:"70%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-envelope-o"></i>Remove Students</Button></Link> */}
                     </div>
                     {/* to={{pathname: `aassignclass`}}  to={{pathname: `aassignclass`}} */}
                     </Col>

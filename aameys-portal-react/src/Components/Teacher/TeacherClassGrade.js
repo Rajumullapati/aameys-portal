@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Card, CardBody, Button, Breadcrumb, BreadcrumbItem } from 'reactstrap';
+import { Row, Col, Card, CardBody,Modal, ModalHeader, ModalFooter, ModalBody, Button, Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import HeaderTeacher from '../Common/HeaderTeacher';
@@ -22,6 +22,7 @@ export default class TeacherClassAttendance extends Component {
             selected: [],
             class_name:"",
             first_name:"",
+            modal:false,
             last_name:"",
             student_count:"",
             term:"",
@@ -29,6 +30,7 @@ export default class TeacherClassAttendance extends Component {
             
         }
         this.save = this.save.bind(this);
+        this.toggle = this.toggle.bind(this);
         this.onAfterSaveCell = this.onAfterSaveCell.bind(this);
         this.studentFormatter = this.studentFormatter.bind(this);
         this.onBeforeSaveCell = this.onBeforeSaveCell.bind(this);
@@ -38,10 +40,12 @@ export default class TeacherClassAttendance extends Component {
     save(){
 
         if(this.state.selected.length > 0){
+            this.toggle()
         let body = {
             sel: this.state.selected,
             class_id: this.state.class_id
         }
+        console.log(body)
         axios(
             {
               method: 'post',
@@ -50,25 +54,53 @@ export default class TeacherClassAttendance extends Component {
               headers: {'Content-Type': 'application/json' }
             }
           )
-          .then(res => console.log(res))
-          .catch(res => console.log(res))}
+          .then(res => {console.log(res)
+            this.toggle()
+            })
+          .catch(res => {console.log(res)
+            this.toggle()
+        })}
     }
 
+    toggle(){
+        this.setState(
+          {
+            modal: !this.state.modal
+          }
+        )
+      }
+
+
     componentDidMount(){
-        axios.get('http://localhost:5000/getclassbyid?id='+this.state.class_id)
-        .then(res => {
-            this.setState({class: res.data[0]})
-        })
-        .catch(err => console.log(err))
+
+        // axios.get('http://localhost:5000/gradesByClassId?id='+this.state.class_id)
+        // .then(res => {
+        //     console.log('rda')
+        //     console.log(res)
+        //     this.setState({
+        //         grade: res.data
+        //     })
+        // })
+        // .catch(err => {console.log(err)
+        //             console.log('rtghjm')
+        // })
 
         axios.get('http://localhost:5000/gradesByClassId?id='+this.state.class_id)
         .then(res => {
             console.log(res)
-            this.setState({
-                grade: res.data
-            })
+            this.setState({grade: res.data})
         })
         .catch(err => console.log(err))
+
+        axios.get('http://localhost:5000/getclassbyid?id='+this.state.class_id)
+        .then(res => {
+            console.log(res)
+            this.setState({class: res.data[0]})
+        })
+        .catch(err => console.log(err))
+
+        console.log('ko')
+        
     }
 
 
@@ -168,6 +200,17 @@ export default class TeacherClassAttendance extends Component {
                     <Col lg={3} md={3} sm={3}>
                     <div style={{margin:"10px"}}>
                     <Button onClick={this.save} style={{marginBottom:"4px", width:"70%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Save Changes</Button>
+                    <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+                            <ModalHeader toggle={this.toggle}>Modal title
+                            </ModalHeader>
+                            <ModalBody>
+                                <p>Please wait. Your request is getting processed.</p>
+                            </ModalBody>
+                            <ModalFooter>
+                                <Button color="primary" onClick={this.toggle}>OK</Button>
+                                
+                            </ModalFooter>
+                        </Modal>
                     </div>
                     </Col>
                 </Row>

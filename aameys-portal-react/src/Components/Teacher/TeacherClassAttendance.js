@@ -17,10 +17,9 @@ export default class TeacherClassAttendance extends Component {
             selected:[],
             teacher_id: this.props.match.params.id,
             class_id:this.props.match.params.cid,
-            class:{"class_name":"","term":""},
+            class:[{"class_name":"","term":""}],
             simpleDate:  new Date(),
             attendance: [],
-            class_id:this.props.match.params.cid,
             class_name:"",
             first_name:"",
             last_name:"",
@@ -32,7 +31,7 @@ export default class TeacherClassAttendance extends Component {
             modal:false
         }
 
-        this.arr_diff = this.arr_diff.bind(this);
+
         this.getattendance = this.getattendance.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.studentFormatter = this.studentFormatter.bind(this);
@@ -79,11 +78,11 @@ export default class TeacherClassAttendance extends Component {
             console.log(value)
             let body = {
                 student_id: value['student_id'],
-                class_id: value['class_id'],
+                class_id: this.state.class_id,
                 date: this.state.simpleDate,
                 absence: 1
             }
-            console.log(body)
+            console.log(body, 'dat')
             axios(
                     {
                       method: 'post',
@@ -94,22 +93,16 @@ export default class TeacherClassAttendance extends Component {
                   )
                   .then(
                     res => { console.log(res)
-                        this.setState({
-                            class:"",
-                            term:"",
-                            school:"",
-                            breadcrumb: ""
-                        })
+                        this.setState(
+                            {modal: false}
+                        )
                     }
                   )
                   .catch(
                     err => {console.log(err)
-                        this.setState({
-                            class:"",
-                            term:"",
-                            school:"",
-                            breadcrumb: "",
-                        })
+                        this.setState(
+                            {modal: false}
+                        )
                     }
                   )
         })
@@ -118,11 +111,11 @@ export default class TeacherClassAttendance extends Component {
             console.log(value)
             let body = {
                 student_id: value['student_id'],
-                class_id: value['class_id'],
+                class_id: this.state.class_id,
                 date: this.state.simpleDate,
                 absence: 0
             }
-            console.log(body)
+            console.log(body, 'pe')
             axios(
                     {
                       method: 'post',
@@ -133,22 +126,16 @@ export default class TeacherClassAttendance extends Component {
                   )
                   .then(
                     res => { console.log(res)
-                        this.setState({
-                            class:"",
-                            term:"",
-                            school:"",
-                            breadcrumb: ""
-                        })
+                    this.setState(
+                        {modal: false}
+                    )
                     }
                   )
                   .catch(
                     err => {console.log(err)
-                        this.setState({
-                            class:"",
-                            term:"",
-                            school:"",
-                            breadcrumb: "",
-                        })
+                        this.setState(
+                            {modal: false}
+                        )
                     }
                   )
         })
@@ -232,29 +219,29 @@ export default class TeacherClassAttendance extends Component {
         // this.getattendance(date)
     }
 
-    arr_diff (a1, a2) {
+    // arr_diff (a1, a2) {
 
-        var a = [], diff = [];
+    //     var a = [], diff = [];
     
-        for (var i = 0; i < a1.length; i++) {
-            a[a1[i]] = true;
-        }
+    //     for (var i = 0; i < a1.length; i++) {
+    //         a[a1[i]] = true;
+    //     }
     
-        for (var i = 0; i < a2.length; i++) {
-            if (a[a2[i]]) {
-                delete a[a2[i]];
-            } else {
-                a[a2[i]] = true;
-            }
-        }
+    //     for (var i = 0; i < a2.length; i++) {
+    //         if (a[a2[i]]) {
+    //             delete a[a2[i]];
+    //         } else {
+    //             a[a2[i]] = true;
+    //         }
+    //     }
     
-        for (var k in a) {
-            diff.push(k);
-        }
+    //     for (var k in a) {
+    //         diff.push(k);
+    //     }
         
-        console.log(diff)
-        return diff;
-    }
+    //     console.log(diff)
+    //     return diff;
+    // }
 
     
     onSelect(row, isSelect, rowIndex, e){
@@ -280,7 +267,7 @@ export default class TeacherClassAttendance extends Component {
                 selected: sel,
                 // studentcopy:unsel
             })
-            console.log(this.state.studentcopy)
+            // console.log(this.state.studentcopy)
             console.log(this.state.selected)
         }
     }

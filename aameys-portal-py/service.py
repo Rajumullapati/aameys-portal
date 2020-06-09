@@ -205,6 +205,17 @@ def addscheduleByDate():
     con.commit()
     return 'done'
 
+
+@app.route('/studentnotinclass')
+def studentnotinclass():
+    con =connDB()
+    id = request.args['id']
+    sql = """select s.* from student s where s.student_id not in (select cd.student_id from classdetails cd where cd.class_id =  """+id+')'
+    data = pandas.read_sql(sql,con)
+    con.close()
+    
+    return data.to_json(orient='records')
+
 @app.route('/classnotbyid')
 def classnotbyid():
     con =connDB()
@@ -216,6 +227,23 @@ def classnotbyid():
     
     return data.to_json(orient='records')
 
+
+@app.route('/addstudenttoclass',methods=['POST'])
+def addstudenttoclass():
+    con = connDB()
+    cursor = con.cursor()
+    class_id = request.json['class']
+    sel = request.json['sel']
+    
+    for s in sel:
+        sqls = 'insert into classdetails values ('+str(s['student_id'])+','+str(class_id)+');'
+        print(sqls)
+        cursor.execute(sqls)
+        sqlgr = 'insert into grades (student_id, class_id) values ('+str(class_id)+','+str(s['student_id'])+');'
+        cursor.execute(sqlgr)
+    cursor.commit()
+    con.close()
+    return 'done'
 
 @app.route('/addclasstostudent', methods=['POST'])
 def addclasstostudent():
@@ -232,6 +260,8 @@ def addclasstostudent():
     cursor.commit()
     con.close()
     return 'done'
+
+
 
 
 @app.route('/removeclasstostudent', methods=['POST'])
@@ -295,7 +325,7 @@ def getTeacherDataById():
 def getClassById():
     con =connDB()
     id = request.args['id']
-    sql = """select c.class_name,  t.first_name, t.last_name, s.student_id, c.school, c.term from class c left join teacher t on c.teacher_id = t.teacher_id left join classdetails cd on cd.class_id = c.class_id left join student s on cd.student_id = cd.student_id where c.class_id =  """+id
+    sql = """select c.class_name,  t.first_name, t.last_name, s.student_id, c.school, c.term, c.class_id from class c left join teacher t on c.teacher_id = t.teacher_id left join classdetails cd on cd.class_id = c.class_id left join student s on cd.student_id = cd.student_id where c.class_id =  """+id
     data = pandas.read_sql(sql,con)
     cs = 0
     prevrow = []
@@ -470,10 +500,12 @@ def studentsbyteacherId():
 def studentsbyclassId():
     con = connDB()
     id = request.args['id']
-    sql = """select s.*, CONVERT(int,ROUND(DATEDIFF(hour,s.birthday,GETDATE())/8766.0,0)) AS Age from student s left join classdetails cd on cd.student_id = s.student_id left join class c on c.class_id = cd.class_id where c.class_id = """+id
+    sql = """select s.*, CONVERT(int,ROUND(DATEDIFF(hour,s.birthday,GETDATE())/8766.0,0)) AS Age from student s where s.student_id  in (select student_id from classdetails where class_id = """+id+""")"""
     data = pandas.read_sql(sql,con)
     con.close()
     return data.to_json(orient='records')
+
+
 
 @app.route('/parentsbyteacherid')
 def parentsbyteacherid():
@@ -619,13 +651,18 @@ def addGradesByTeacherByClass():
             ten = item['ten']
         if item['msg'] is None :
             msg ='\'\''  
+            print('a')
         else :
-            msg = item['ten']
+            msg = '\''+item['msg']+'\''
+            print('b')
+        print(msg)
+        print(item['msg'])
+        
        
         sqlremove = 'delete grades where student_id = '+str(student_id)+' and class_id = '+str(class_id)
         print(sqlremove)
         cursor.execute(sqlremove)
-        sqlstr = 'insert into grades values ('+str(student_id)+','+str(class_id)+','+str(one)+','+str(two)+','+str(three)+','+str(four)+','+str(five)+','+str(six)+','+str(seven)+','+str(eight)+','+str(nine)+','+str(ten)+',\''+msg+'\');'
+        sqlstr = 'insert into grades values ('+str(student_id)+','+str(class_id)+','+str(one)+','+str(two)+','+str(three)+','+str(four)+','+str(five)+','+str(six)+','+str(seven)+','+str(eight)+','+str(nine)+','+str(ten)+','+msg+');'
         print(sqlstr)
         cursor.execute(sqlstr)
     cursor.commit()
@@ -720,6 +757,7 @@ def updateadminstatus():
 @app.route('/postattendance', methods=['POST'])
 def postattendance():
     con = connDB()
+    print(request.json)
     student_id = request.json['student_id']
     class_id = request.json['class_id']
     date = request.json['date']
