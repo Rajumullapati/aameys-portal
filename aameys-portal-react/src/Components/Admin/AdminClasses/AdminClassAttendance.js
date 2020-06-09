@@ -97,7 +97,7 @@ export default class AdminClassAttendance extends Component {
     }
 
     genderFormatter(cell, row){
-        if (cell === '1'){
+        if (cell == "1"){
             return 'Male'
         }
         else {

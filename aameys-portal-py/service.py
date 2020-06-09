@@ -79,8 +79,9 @@ def getStudentAttendanceById():
     print('op')
     id = request.args['id']
     con = connDB()
-
-    data = pandas.read_sql('select top(5) * from attendance where student_id = '+id+' order by dateattendance',con)
+    sql = 'select a.*, c.class_name from attendance a left join class c on a.class_id = c.class_id  where student_id = '+id+' order by dateattendance'
+    print(sql)
+    data = pandas.read_sql('select a.*, c.class_name from attendance a left join class c on a.class_id = c.class_id  where student_id = '+id+' order by dateattendance',con)
 
     data = data.drop(['student_id'], axis=1)
     con.close()
@@ -91,7 +92,7 @@ def attendanceByDateandClass():
     date = request.args['date']
     class_id = request.args['class']
     con = connDB()
-    sql = """select a.student_id, a.dateattendance, a.absence, s.gender, CONVERT(int,ROUND(DATEDIFF(hour,s.birthday,GETDATE())/8766.0,0)) AS Age, c.class_id from classdetails cd left join student s on cd.student_id = s.student_id left join attendance a on a.student_id = s.student_id left join class c on c.class_id = cd.class_id where dateattendance = \'"""+date+"\' and c.class_id = "+class_id
+    sql = """select a.student_id, a.dateattendance, a.absence, s.gender, CONVERT(int,ROUND(DATEDIFF(hour,s.birthday,GETDATE())/8766.0,0)) AS Age, c.class_id, s.first_name, s.last_name from classdetails cd left join student s on cd.student_id = s.student_id left join attendance a on a.student_id = s.student_id left join class c on c.class_id = cd.class_id where dateattendance = \'"""+date+"\' and c.class_id = "+class_id
     print(sql)
     data = pandas.read_sql(sql,con).to_json(orient='records')
     con.close()
@@ -177,7 +178,7 @@ def scheduleById():
     con = connDB()
     sql = 'select * from schedule where class_id in (select class_id from classdetails where student_id = '+id+');'
     print(sql)
-    data = pandas.read_sql('select * from schedule where class_id in (select * from classdetails where student_id = '+id+');',con).to_json(orient='records')
+    data = pandas.read_sql('select * from schedule where class_id in (select class_id from classdetails where student_id = '+id+');',con).to_json(orient='records')
     con.close()
     return data
 
@@ -241,9 +242,11 @@ def removeclasstostudent():
     sel = request.json['sel']
     
     for s in sel:
-        sqls = 'delete classdetails where class_id ='+str(s['class_id'])+'and student_id ='+str(student_id)
+        sqls = 'delete classdetails where class_id = '+str(s['class_id'])+' and student_id ='+str(student_id)
+        print(sqls)
         cursor.execute(sqls)
-        sqlgr = 'delete  grades  where student_id = '+str(student_id)+' and class_id '+ str(s['class_id']) #values ('+str(student_id)+','+str(sel['class_id'])+');'
+        sqlgr = 'delete  grades  where student_id = '+str(student_id)+' and class_id = '+ str(s['class_id']) #values ('+str(student_id)+','+str(sel['class_id'])+');'
+        print(sqlgr)
         cursor.execute(sqlgr)
 
     cursor.commit()

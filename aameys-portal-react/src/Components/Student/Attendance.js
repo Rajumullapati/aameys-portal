@@ -27,19 +27,40 @@ export default class Attendance extends Component {
     constructor(props){
         super(props);
         this.state = {
-            attendance: [{}],
+            attendance: [{'class_name':"",
+        'dateattedance':"",
+    'absence':""}],
             student_id: this.props.match.params.id,
             student_img:""
         }
         this.convert = this.convert.bind(this);
+        this.buttonFormatter = this.buttonFormatter.bind(this);
         
         console.log(this.props);
         console.log(this.state)
     }
 
-    convert(d){
-        console.log('guh',d)
+    convert(value){
+        console.log('ojknbj')
+        console.log(value)
+        let date = new Date(value);
+        let year = date.getFullYear();
+        let month = date.getMonth();
+        let day = date.getDate();
+        console.log(date)
+        let full_date = day+"-"+month+"-"+year;
+        console.log(full_date)
+        return full_date; 
     }
+
+    buttonFormatter(cell, row){
+
+        
+        if(cell=="1")
+        return '<i class="fa fa-check" aria-hidden="true"></i>';
+        else
+        return '<i class="fa fa-times"></i>';
+      }
 
     componentDidMount(){
         console.log(attend)
@@ -79,11 +100,20 @@ export default class Attendance extends Component {
                 <Col xl={12} className="mb-30">
                     <Card style={{margin: "10px"}}>
                         <CardBody>
-                        <BootstrapTable data={ this.state.attendance } keyField='Term'>
+                        <BootstrapTable  tableStyle={{height:"280px"}} data={ this.state.attendance } keyField='dateattendance'>
+                        <TableHeaderColumn height='10' width='100' dataField= 'class_name' >Class Name</TableHeaderColumn>
+                        <TableHeaderColumn height='10' width='100' dataField= 'dateattendance' dataFormat={this.convert}   >Start Time</TableHeaderColumn>
+                        <TableHeaderColumn height='10' width='100' dataField= 'absence' dataFormat={this.buttonFormatter} >End Time</TableHeaderColumn>
+                        </BootstrapTable>
+                        {/* <BootstrapTable data={ this.state.attendance } keyField='dateattedance'>
+                        <TableHeaderColumn width='100' dataField= 'class_name'  >Class Name</TableHeaderColumn>)
+                        <TableHeaderColumn width='100' dataField= 'dateattedance'>Date</TableHeaderColumn>)
+                        <TableHeaderColumn width='100' dataField= 'absence' >Status</TableHeaderColumn>)
+
                             { columns.map((value, index) => 
                                 ( <TableHeaderColumn width='100' dataField= {value} >{this.convert(value) }</TableHeaderColumn>)
                             ) }
-                        </BootstrapTable>
+                        </BootstrapTable> */}
                         </CardBody>
                     </Card>
                 </Col>

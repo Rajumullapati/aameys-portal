@@ -118,7 +118,7 @@ export default class AdminStudentRemoveClass extends Component{
                     <BreadcrumbItem>Administrator</BreadcrumbItem>
                     <BreadcrumbItem>Students</BreadcrumbItem>
                     <BreadcrumbItem >{this.state.student_name}</BreadcrumbItem>
-                    <BreadcrumbItem actice>Assign class</BreadcrumbItem>
+                    <BreadcrumbItem active>Remove class</BreadcrumbItem>
                     </Breadcrumb>
                 </Col>
             </Row>
@@ -150,7 +150,7 @@ export default class AdminStudentRemoveClass extends Component{
                                     
                                 </div>
                             </div>
-                            <Button onClick={this.assignClasses} style={{marginBottom:"4px", marginTop:"20px", width:"100%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Assign selected classes to student</Button>
+                            <Button onClick={this.assignClasses} style={{marginBottom:"4px", marginTop:"20px", width:"100%", textAlign: "left", backgroundColor:"grey"}} type="button" className="btn btn-sm"><i style={{marginRight:"10px"}} className="fa fa-id-card-o"></i>Remove selected classes to student</Button>
 
                         </CardBody>
                         

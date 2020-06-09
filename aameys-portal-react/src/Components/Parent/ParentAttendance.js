@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import HeaderParent from '../Common/HeaderParent';
 
+
 const attend = [{
     "Term":"1",
     "01-01-20":"X",
@@ -20,60 +21,75 @@ const attend = [{
     "#":"10",
     "%":"100%"
 }];
-// var columns = [];
-export default class ParentAttendance extends Component {
+var columns = [];
+export default class Attendance extends Component {
     constructor(props){
         super(props);
         this.state = {
-            attendance: [],
+            attendance: [{'class_name':"",
+                          'dateattedance':"",
+                          'absence':""}],
             student_id: this.props.match.params.sid,
-            term:"",
-            columns:[]
+            student_img:""
         }
-
         this.convert = this.convert.bind(this);
-    }
-
-    componentDidMount(){
-        axios.get('http://localhost:5000/studentid?id='+this.state.student_id)
-        .then(response => {
-            console.log(response)
-            this.setState({student_img: response.data[0]['student_image'], term:response.data[0]['term']})
-        })
-        axios.get('http://localhost:5000/attendancebyid?id='+this.state.student_id)
-        .then(response => {
-            console.log(response)
-            response.data[0]['term'] = this.state.term;
-            this.setState({attendance: response.data})
-            this.setState({columns: Object.keys(response.data[0])})
-            // columns = this.state.columns;
-            this.state.columns.map((value, index) => 
-                                console.log(value)
-                            )
-        })
+        this.buttonFormatter = this.buttonFormatter.bind(this);
         
+        console.log(this.props);
+        console.log(this.state)
     }
 
     convert(value){
         console.log('ojknbj')
         console.log(value)
-        let date = new Date(value*1000);
+        let date = new Date(value);
         let year = date.getFullYear();
         let month = date.getMonth();
         let day = date.getDate();
+        console.log(date)
         let full_date = day+"-"+month+"-"+year;
+        console.log(full_date)
         return full_date; 
+    }
+
+    buttonFormatter(cell, row){
+
+        
+        if(cell=="1")
+        return '<i class="fa fa-check" aria-hidden="true"></i>';
+        else
+        return '<i class="fa fa-times"></i>';
+      }
+
+    componentDidMount(){
+        console.log(attend)
+        axios.get('http://localhost:5000/studentid?id='+this.state.student_id)
+        .then(response => {
+           // this.setState({student_img: response[0]['student_image']})
+        })
+        .catch(err => console.log(err));
+        console.log(columns)
+        axios.get('http://localhost:5000/attendancebysid?id='+this.state.student_id)
+        .then(response => {
+                console.log(response)
+                this.setState({attendance: response.data});
+                columns = Object.keys(response.data[0])
+                columns.map((value, index) => (console.log(value)))
+            })
+        .catch(err => console.log(err))
+        
     }
 
     render(){
         return(
 
-            <div><HeaderParent />
+            <div>
+                <HeaderParent />
             <div style={{backgroundColor:"orange", marginTop:"150px",height:"500px", opacity:"0.65"}}>
             <Row style={{marginBottom:"25px"}}>
                 <Col sm={2} lg={5} md = {5} />
                 <Col sm={4} lg={1} md = {2}>
-                    <Link to={{pathname:  `/parent/dash`}}>
+                    <Link to={{pathname:  `/student/${this.state.student_id}`}}>
                         <Row style={{height:"10px", alignSelf:"center", marginBottom:"100px", marginLeft:"1px"}} className="user-dp"><img style={{height:"100px",  marginTop:"3px"}} className="img-fluid rounded-circle" src="assets/images/profile-avatar.jpg" /></Row>
                         <Row style={{textAlign:"center", fontSize: "15px", fontWeight:"bold", color:"black"}} className="bold">Student ID {this.state.student_id}</Row>
                     </Link>
@@ -83,25 +99,28 @@ export default class ParentAttendance extends Component {
                 <Col xl={12} className="mb-30">
                     <Card style={{margin: "10px"}}>
                         <CardBody>
-                        <BootstrapTable data={ this.state.attendance } keyField='term'>
-                        <TableHeaderColumn width='100' dataField= 'term' >Term</TableHeaderColumn>
-                        <TableHeaderColumn width='100' dataField= "1591142400000" >1591142400000</TableHeaderColumn>
-                        <TableHeaderColumn width='100' dataField= "1591228800000" >1591228800000</TableHeaderColumn>
-                        <TableHeaderColumn width='100' dataField= "1591315200000" >1591315200000</TableHeaderColumn>
-                        
-                            { this.state.columns.map((value, index) => 
-                                { 
-                                    console.log('pimi')
-                                    return(<TableHeaderColumn width='100' dataField= {value} >{ this.convert(value) }</TableHeaderColumn>)
-                                }
-                            ) }
+                        <BootstrapTable  tableStyle={{height:"280px"}} data={ this.state.attendance } keyField='dateattendance'>
+                        <TableHeaderColumn height='10' width='100' dataField= 'class_name' >Class Name</TableHeaderColumn>
+                        <TableHeaderColumn height='10' width='100' dataField= 'dateattendance' dataFormat={this.convert}   >Start Time</TableHeaderColumn>
+                        <TableHeaderColumn height='10' width='100' dataField= 'absence' dataFormat={this.buttonFormatter} >End Time</TableHeaderColumn>
                         </BootstrapTable>
+                        {/* <BootstrapTable data={ this.state.attendance } keyField='dateattedance'>
+                        <TableHeaderColumn width='100' dataField= 'class_name'  >Class Name</TableHeaderColumn>)
+                        <TableHeaderColumn width='100' dataField= 'dateattedance'>Date</TableHeaderColumn>)
+                        <TableHeaderColumn width='100' dataField= 'absence' >Status</TableHeaderColumn>)
+
+                            { columns.map((value, index) => 
+                                ( <TableHeaderColumn width='100' dataField= {value} >{this.convert(value) }</TableHeaderColumn>)
+                            ) }
+                        </BootstrapTable> */}
                         </CardBody>
                     </Card>
                 </Col>
             </Row>
         </div>
-</div>
+            </div>
+            
+
 
 
 
