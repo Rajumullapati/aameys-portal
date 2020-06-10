@@ -236,10 +236,10 @@ def addstudenttoclass():
     sel = request.json['sel']
     
     for s in sel:
-        sqls = 'insert into classdetails values ('+str(s['student_id'])+','+str(class_id)+');'
+        sqls = 'insert into classdetails values ('+str(class_id)+','+str(s['student_id'])+');'
         print(sqls)
         cursor.execute(sqls)
-        sqlgr = 'insert into grades (student_id, class_id) values ('+str(class_id)+','+str(s['student_id'])+');'
+        sqlgr = 'insert into grades (student_id, class_id) values ('+str(s['student_id'])+','+str(class_id)+');'
         cursor.execute(sqlgr)
     cursor.commit()
     con.close()
@@ -696,6 +696,7 @@ def parentsignup():
     cursor.execute(sqlstring)
     data = pandas.read_sql('select parent_id,email from parent where first_name = \''+request.json['fname']+'\' and last_name = \''+request.json['lname']+'\' and email = \''+request.json['email']+'\'',con)
     sqlstr = 'insert into users values (\''+str(data['email'][0])+'\',\''+str(request.json['pass'])+'\',0,2,\''+str(data['parent_id'][0])+'\');'
+    print(sqlstr)
     cursor.execute(sqlstr)
     cursor.commit()
     con.close()

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Row, Col, Modal, ModalHeader, ModalFooter, ModalBody, Card, CardBody, Button, Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import HeaderAdmin from '../../Common/HeaderAdmin'
 import axios from 'axios';
+import { Link, Redirect } from 'react-router-dom';
+
 
 export default class AdminClassAddClass extends Component {
     constructor(props){
@@ -11,7 +13,8 @@ export default class AdminClassAddClass extends Component {
             term:"",
             school:"",
             breadcrumb: "",
-            modal:false
+            modal:false,
+            redirect:false
         }
         this.onChange = this.onChange.bind(this);
         this.save = this.save.bind(this);
@@ -53,7 +56,8 @@ export default class AdminClassAddClass extends Component {
                         term:"",
                         school:"",
                         modal:false,
-                        breadcrumb: ""
+                        breadcrumb: "",
+                        redirect: true
                     })
                 }
               )
@@ -75,6 +79,12 @@ export default class AdminClassAddClass extends Component {
     componentDidMount(){
 
     }
+
+    renderRedirect() {
+        if (this.state.redirect) {
+          return <Redirect to={{pathname: "class" }} />
+        }
+      }
 
     render(){
         return(
