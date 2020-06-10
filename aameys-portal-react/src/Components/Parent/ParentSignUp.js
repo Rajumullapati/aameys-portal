@@ -108,6 +108,7 @@ export default class ParentSignUp extends Component {
                 password:"",
                 gender:"",
                 gridCheck:"",
+                redirect: true,
                 modal:false,
                 simpleDate:  new Date()
             })

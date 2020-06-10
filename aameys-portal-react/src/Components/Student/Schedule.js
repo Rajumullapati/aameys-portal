@@ -114,6 +114,22 @@ export default class Schedule extends Component {
             schedule: [],
             student_img:""
         };
+
+        this.convert = this.convert.bind(this);
+
+    }
+
+    convert(value){
+        console.log('ojknbj')
+        console.log(value)
+        let date = new Date(value);
+        let year = date.getFullYear();
+        let month = date.getMonth();
+        let day = date.getDate();
+        console.log(date)
+        let full_date = day+"-"+month+"-"+year;
+        console.log(full_date)
+        return full_date; 
     }
 
     componentDidMount(){
@@ -155,6 +171,7 @@ export default class Schedule extends Component {
                         <div>
                         <BootstrapTable  tableStyle={{height:"280px"}} data={ this.state.schedule } keyField='Term'>
                         <TableHeaderColumn height='10' width='100' dataField= 'class_name' >Class Name</TableHeaderColumn>
+                        <TableHeaderColumn height='10' width='100' dataFormat={this.convert} dataField= 'datesched' >Date</TableHeaderColumn>
                         <TableHeaderColumn height='10' width='100' dataField= 'starttime' >Start Time</TableHeaderColumn>
                         <TableHeaderColumn height='10' width='100' dataField= 'endtime' >End Time</TableHeaderColumn>
                         </BootstrapTable>
