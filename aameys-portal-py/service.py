@@ -586,8 +586,10 @@ def regStudent():
     
     for class_item in classes: 
         sqls = 'insert into classdetails values ('+str(class_item)+','+str(student_id)+');'
+        # print(sqls)
         cursor.execute(sqls)
         sqlgr = 'insert into grades (student_id, class_id) values ('+str(student_id)+','+str(class_item)+');'
+        # print(sqlgr)
         cursor.execute(sqlgr)
 
     # cursor.commit()

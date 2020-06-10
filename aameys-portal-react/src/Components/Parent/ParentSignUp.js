@@ -226,7 +226,7 @@ export default class ParentSignUp extends Component {
                           </label>
                     </div>
                   </div>
-                  <Button onClick={this.submit}  className="btn btn-primary">Sign in</Button>
+                  <Button onClick={this.submit}  className="btn btn-primary">Sign Up</Button>
                   <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                       <ModalHeader toggle={this.toggle}>Modal title
                     </ModalHeader>
