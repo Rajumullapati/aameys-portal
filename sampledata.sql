@@ -9,6 +9,20 @@ insert into schedule values (10001,'English','2020-05-31T22:39:36.000Z','1:10','
 
 select * from schedule where class_id =10001
 
+select s.*, CONVERT(int,ROUND(DATEDIFF(hour,s.birthday,GETDATE())/8766.0,0)) AS Age, c.term, c.class_name from student s left join classdetails cd on cd.student_id = s.student_id left join class c on c.class_id = cd.class_id where c.class_id = 10001
+
+
+select s.* from student s where s.student_id  in (select cd.student_id from classdetails cd where cd.class_id =  10002)
+select s.* from student s where s.student_id  in (select student_id from classdetails where class_id = 10001)
+
+select * from classdetails
+
+
+select a.*, c.class_name from attendance a left join class c on a.class_id = c.class_id  where student_id = 10001 order by dateattendance
+
+select top(5) a.*, c.class_name  from attendance a left join class c on a.class_id = c.class_id where student_id = 10001 order by dateattendance
+
+
 select * from schedule where class_id in (select class_id from classdetails where student_id = 10001);
 
 select * from classdetails where student_id=10001

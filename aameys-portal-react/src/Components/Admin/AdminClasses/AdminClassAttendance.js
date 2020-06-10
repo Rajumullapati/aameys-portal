@@ -70,7 +70,7 @@ export default class AdminClassAttendance extends Component {
 
         console.log(this.state.simpleDate.getDate()+"-"+this.state.simpleDate.getMonth()+"-"+this.state.simpleDate.getFullYear())
         
-        let datestr = date.getFullYear()+'-'+(date.getMonth()<10?'0'+date.getMonth():date.getMonth())+'-'+(date.getDate()<10?'0'+date.getDate():date.getDate()); 
+        let datestr = date.getFullYear()+'-'+((date.getMonth()+1)<10?'0'+(date.getMonth()+1):(date.getMonth()+1))+'-'+(date.getDate()<10?'0'+date.getDate():date.getDate()); 
         axios.get('http://localhost:5000/attendanceByDateandClass?date='+datestr+'&class='+this.state.class_id)
         .then(res => {
             console.log(res)

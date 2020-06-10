@@ -108,7 +108,7 @@ export default class AdminStudent extends Component{
                             tableStyle={{height:"150px"}}
                             >
                             <TableHeaderColumn width='100' dataField="first_name" isKey={true} dataFormat={this.studentFormatter}>Student</TableHeaderColumn>
-                            <TableHeaderColumn width='100' dataField='class_name'>Class</TableHeaderColumn>
+                            {/* <TableHeaderColumn width='100' dataField='class_name'>Class</TableHeaderColumn> */}
                             <TableHeaderColumn width='100' dataField="Remove" dataFormat={this.buttonFormatter}>Remove</TableHeaderColumn>
                     </BootstrapTable>
                     </CardBody>

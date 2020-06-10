@@ -57,7 +57,7 @@ create table attendance (
 
 create table schedule(
 	class_id int,
-	class_name varchar,
+	class_name varchar(30),
 	datesched date,
 	starttime varchar(20),
 	endtime varchar(20)

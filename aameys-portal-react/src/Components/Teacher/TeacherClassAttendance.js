@@ -284,7 +284,7 @@ export default class TeacherClassAttendance extends Component {
     getattendance(date){
 
         console.log('ghjk,')
-        let datestr = date.getFullYear()+'-'+(date.getMonth()<10?'0'+date.getMonth():date.getMonth())+'-'+(date.getDate()<10?'0'+date.getDate():date.getDate()); 
+        let datestr = date.getFullYear()+'-'+((date.getMonth()+1)<10?'0'+(date.getMonth()+1):(date.getMonth()+1))+'-'+(date.getDate()<10?'0'+date.getDate():date.getDate()); 
         console.log(datestr)
         console.log(this.state.simpleDate.getDate()+"-"+this.state.simpleDate.getMonth()+"-"+this.state.simpleDate.getFullYear())
         axios.get('http://localhost:5000/attendanceByClassDate?date='+datestr+'&class_id='+this.state.class_id)

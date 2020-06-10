@@ -239,8 +239,8 @@ export default class AdminScheduleAssign extends Component {
                         <BootstrapTable  tableStyle={{height:"280px"}} data={ this.state.data } keyField='Term' cellEdit={ cellEditProp }>
                             <TableHeaderColumn height='10' width='100' dataField= 'class_name' >Class Name</TableHeaderColumn>
                             <TableHeaderColumn height='10' width='100' dataField= 'first_name' dataFormat={this.nameformater} >Teacher Name</TableHeaderColumn>
-                            <TableHeaderColumn height='10' width='100' dataField= 'start_time' dataFormat={this.startTime} >Class Name</TableHeaderColumn>
-                            <TableHeaderColumn height='10' width='100' dataField= 'end_time' dataFormat={this.endTime} >Class Name</TableHeaderColumn>
+                            <TableHeaderColumn height='10' width='100' dataField= 'start_time' dataFormat={this.startTime} >Start Time</TableHeaderColumn>
+                            <TableHeaderColumn height='10' width='100' dataField= 'end_time' dataFormat={this.endTime} >End Time</TableHeaderColumn>
                         </BootstrapTable>
                         </div>
                         </CardBody>

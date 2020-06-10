@@ -131,8 +131,11 @@ export default class AdminSchedule extends Component {
     }
 
     getsched(date){
-        let datestr = date.getFullYear()+'-'+(date.getMonth()<10?'0'+date.getMonth():date.getMonth())+'-'+(date.getDate()<10?'0'+date.getDate():date.getDate()); 
 
+        let zero = '0'
+        console.log(date.getMonth())
+        let datestr = date.getFullYear()+'-'+((date.getMonth()+1)<10?zero.concat((date.getMonth()+1)):(date.getMonth()+1))+'-'+(date.getDate()<10?zero.concat(date.getDate()):date.getDate()); 
+        console.log(datestr)
         axios.get('http://localhost:5000/getschedulebydate?date='+datestr)
         .then(
             res => {
